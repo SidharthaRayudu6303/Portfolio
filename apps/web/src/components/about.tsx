@@ -17,6 +17,8 @@ import {
 import {
   DISPLAY_NAME,
   FULL_LEGAL_NAME,
+  PROFESSIONAL_TITLE,
+  PROFILE_PHOTO_URL,
   ABOUT_TEXT,
   CAREER_OBJECTIVE,
   CURRENTLY_LOOKING_FOR,
@@ -144,9 +146,30 @@ export function About() {
             </div>
           </div>
 
-          {/* Right Column: Pillars of Expertise */}
-          <div className="lg:col-span-5 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-1">
-            {pillars.map((pillar) => {
+          {/* Right Column: Profile Photo Card & Pillars of Expertise */}
+          <div className="lg:col-span-5 space-y-4">
+            {/* Authentic Profile Headshot Card */}
+            <div className="rounded-2xl border border-cyan-500/30 bg-neutral-900/60 p-5 backdrop-blur-sm flex items-center gap-4">
+              <div className="relative h-20 w-20 flex-shrink-0 overflow-hidden rounded-2xl border-2 border-cyan-400/50 shadow-[0_0_20px_rgba(0,240,255,0.2)]">
+                <img
+                  src={PROFILE_PHOTO_URL}
+                  alt={FULL_LEGAL_NAME}
+                  className="h-full w-full object-cover"
+                />
+              </div>
+              <div className="min-w-0">
+                <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/30 px-2.5 py-0.5 text-[11px] font-mono font-medium text-emerald-400">
+                  <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                  <span>Available for Hire</span>
+                </span>
+                <h3 className="mt-1 text-base font-bold text-white truncate">{FULL_LEGAL_NAME}</h3>
+                <p className="text-xs text-neutral-400 truncate">{PROFESSIONAL_TITLE}</p>
+                <p className="mt-1 text-[11px] font-mono text-cyan-400">Chennai, TN • Kakinada, AP</p>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-1">
+              {pillars.map((pillar) => {
               const Icon = pillar.icon;
               return (
                 <div
@@ -170,6 +193,7 @@ export function About() {
           </div>
         </div>
       </div>
-    </section>
+    </div>
+  </section>
   );
 }

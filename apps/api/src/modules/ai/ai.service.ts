@@ -149,13 +149,16 @@ export class AiService implements OnModuleInit {
     if (
       q.includes('internship') ||
       q.includes('unstop') ||
+      q.includes('robohatch') ||
       q.includes('employment') ||
       /\b(work\s+experience|job\s+experience|job\s+history|past\s+roles?|career\s+history)\b/i.test(q) ||
       (q.includes('experience') && !q.includes('nasa') && !q.includes('rocket')) ||
       (q.includes('where') && q.includes('work'))
     ) {
-      const exp = verifiedPortfolioData.experience[0];
-      return `**Professional Experience**:\n• **Company**: ${exp.company}\n• **Role**: ${exp.role} (${exp.type})\n• **Responsibilities**: ${exp.responsibilities}\n• **Technologies**: ${exp.technologies.join(', ')}`;
+      const expList = verifiedPortfolioData.experience
+        .map((exp) => `• **${exp.company}** — ${exp.role} (${exp.type})\n  ${exp.responsibilities}\n  *Technologies*: ${exp.technologies.join(', ')}`)
+        .join('\n\n');
+      return `**Professional Experience**:\n\n${expList}`;
     }
 
     // 8. Hackathons & Competitions

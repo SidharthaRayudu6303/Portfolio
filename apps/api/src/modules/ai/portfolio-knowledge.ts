@@ -199,7 +199,7 @@ export const verifiedPortfolioData: PortfolioData = {
     department: 'Computer Science and Engineering',
     startYear: 2023,
     expectedGraduation: 2027,
-    cgpa: '8.4 / 10',
+    cgpa: '8.37 / 10',
     coursework: [
       'Data Structures and Algorithms',
       'Object-Oriented Programming',
@@ -214,10 +214,19 @@ export const verifiedPortfolioData: PortfolioData = {
   },
   experience: [
     {
+      company: 'Robohatch',
+      role: 'Software Developer Intern',
+      type: 'Internship (Jan 2026 – May 2026)',
+      responsibilities:
+        'Developed and maintained 20+ responsive web pages for a production e-commerce platform using React.js and Tailwind CSS. Implemented core workflows (catalogue, custom design upload, cart, checkout) and integrated REST APIs.',
+      technologies: ['React.js', 'Tailwind CSS', 'REST APIs', 'Postman', 'GitHub'],
+    },
+    {
       company: 'Unstop Events',
       role: 'React JS Developer Intern',
-      type: 'Part-time Internship',
-      responsibilities: 'Worked on React.js-based frontend development and practical web development tasks.',
+      type: 'Part-time Internship (10 June 2025 – 15 December 2025)',
+      responsibilities:
+        'Worked on React.js-based frontend development and practical web development tasks.',
       technologies: ['React.js', 'JavaScript'],
     },
   ],
@@ -242,6 +251,12 @@ export const verifiedPortfolioData: PortfolioData = {
   ],
   certifications: [
     {
+      title: 'National Coding Aptitude Test (NCAT) 2025 — Ranked 4,237 among 2.1 lakh+ participants',
+      issuer: 'National Coding Aptitude Test (NCAT)',
+      date: 'January 15, 2025',
+      type: 'National Competition / Top ~2%',
+    },
+    {
       title: 'Understanding Machine Learning',
       issuer: 'DataCamp',
       date: 'November 8, 2025 (2 Hours)',
@@ -256,6 +271,12 @@ export const verifiedPortfolioData: PortfolioData = {
       issuer: 'Cognitive Class — IBM Developer Skills Network',
       date: 'June 24, 2025',
       type: 'Certificate of Completion',
+    },
+    {
+      title: 'TCS iON Career Edge — Young Professional',
+      issuer: 'Tata Consultancy Services (TCS iON)',
+      date: 'July 1, 2025',
+      type: 'Professional Certification',
     },
     {
       title: 'Basics of Python',

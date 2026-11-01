@@ -200,66 +200,100 @@ async function main() {
   console.log(`✅ Seeded ${verifiedProjects.length} verified projects.`);
 
   // Seed Verified Experience
-  const existingExp = await prisma.experience.findFirst({
-    where: { company: 'Unstop Events' },
-  });
+  const experiences = [
+    {
+      company: 'Robohatch',
+      role: 'Software Developer Intern',
+      description:
+        'Developed and maintained 20+ responsive web pages for a production e-commerce platform using React.js and Tailwind CSS. Implemented core e-commerce workflows (catalogue, custom design upload, shopping cart, checkout) and integrated REST APIs.',
+      startDate: new Date('2026-01-01'),
+      endDate: new Date('2026-05-31'),
+      current: false,
+      order: 1,
+    },
+    {
+      company: 'Unstop Events',
+      role: 'React JS Developer Intern',
+      description:
+        'Worked on React.js-based frontend development and practical web development tasks.',
+      startDate: new Date('2025-06-10'),
+      endDate: new Date('2025-12-15'),
+      current: false,
+      order: 2,
+    },
+  ];
 
-  if (!existingExp) {
-    await prisma.experience.create({
-      data: {
-        company: 'Unstop Events',
-        role: 'React JS Developer Intern',
-        description:
-          'Worked on React.js-based frontend development and practical web development tasks.',
-        current: false,
-        order: 1,
-      },
+  for (const exp of experiences) {
+    const existing = await prisma.experience.findFirst({
+      where: { company: exp.company },
     });
-    console.log(`✅ Seeded Unstop Events internship.`);
+    if (existing) {
+      await prisma.experience.update({
+        where: { id: existing.id },
+        data: exp,
+      });
+    } else {
+      await prisma.experience.create({ data: exp });
+    }
   }
+  console.log(`✅ Seeded verified internships (Robohatch & Unstop Events).`);
 
   // Seed Verified Certifications
   const verifiedCerts = [
     {
+      title: 'National Coding Aptitude Test (NCAT) 2025 — Ranked 4,237 among 2.1 lakh+ participants',
+      issuer: 'National Coding Aptitude Test (NCAT)',
+      issueDate: new Date('2025-01-15'),
+      credentialUrl: 'https://ncat.in',
+      order: 1,
+    },
+    {
       title: 'Understanding Machine Learning',
       issuer: 'DataCamp',
       issueDate: new Date('2025-11-08'),
-      order: 1,
+      credentialUrl: 'https://datacamp.com',
+      order: 2,
     },
     {
       title: 'Python Programming Course',
       issuer: 'CodeTantra, in association with Sathyabama Institute of Science and Technology',
       issueDate: new Date('2025-10-14'),
-      order: 2,
+      order: 3,
     },
     {
       title: 'Python 101 for Data Science',
       issuer: 'Cognitive Class — IBM Developer Skills Network',
       issueDate: new Date('2025-06-24'),
-      order: 3,
+      order: 4,
+    },
+    {
+      title: 'TCS iON Career Edge — Young Professional',
+      issuer: 'TCS iON',
+      issueDate: new Date('2025-07-01'),
+      order: 5,
     },
     {
       title: 'Basics of Python',
       issuer: 'Infosys Springboard',
       issueDate: new Date('2025-06-19'),
-      order: 4,
+      order: 6,
     },
     {
       title: 'Email Writing Skills',
       issuer: 'Infosys Springboard',
       issueDate: new Date('2025-06-23'),
-      order: 5,
+      order: 7,
     },
     {
       title: 'AI Workshop — AI in Mobile Phones',
       issuer: 'Samsung India — Learn with Samsung',
-      order: 6,
+      order: 8,
     },
     {
       title: "AI 2025 — India's Biggest Career Aptitude Test",
       issuer: 'NxtWave Campus',
       issueDate: new Date('2025-01-01'),
-      order: 7,
+      order: 9,
     },
   ];
 
@@ -267,57 +301,134 @@ async function main() {
     const existing = await prisma.certification.findFirst({
       where: { title: cert.title },
     });
-    if (!existing) {
+    if (existing) {
+      await prisma.certification.update({
+        where: { id: existing.id },
+        data: cert,
+      });
+    } else {
       await prisma.certification.create({ data: cert });
     }
   }
   console.log(`✅ Verified certifications seeded.`);
 
   // Seed Education
-  const existingEdu = await prisma.education.findFirst({
-    where: { institution: 'Sathyabama Institute of Science and Technology' },
-  });
-  if (!existingEdu) {
-    await prisma.education.create({
-      data: {
-        institution: 'Sathyabama Institute of Science and Technology',
-        degree: 'Bachelor of Engineering (B.E.)',
-        department: 'Computer Science and Engineering',
-        startYear: 2023,
-        endYear: 2027,
-        cgpa: '8.4 / 10',
-        coursework: [
-          'Data Structures and Algorithms',
-          'Object-Oriented Programming',
-          'Database Management Systems',
-          'Operating Systems',
-          'Computer Networks',
-          'Machine Learning',
-          'Artificial Intelligence',
-          'Software Engineering',
-        ],
-        order: 1,
-      },
+  const educations = [
+    {
+      institution: 'Sathyabama Institute of Science and Technology',
+      degree: 'Bachelor of Engineering (B.E.)',
+      department: 'Computer Science and Engineering',
+      startYear: 2023,
+      endYear: 2027,
+      cgpa: '8.37 / 10',
+      coursework: [
+        'Data Structures and Algorithms',
+        'Object-Oriented Programming',
+        'Database Management Systems',
+        'Operating Systems',
+        'Computer Networks',
+        'Machine Learning',
+        'Artificial Intelligence',
+        'Software Engineering',
+      ],
+      order: 1,
+    },
+    {
+      institution: 'Narayana Junior College',
+      degree: 'Board of Intermediate Education',
+      department: 'MPC (Mathematics, Physics, Chemistry)',
+      startYear: 2021,
+      endYear: 2023,
+      cgpa: '90.1%',
+      coursework: ['Mathematics', 'Physics', 'Chemistry'],
+      order: 2,
+    },
+  ];
+
+  for (const edu of educations) {
+    const existing = await prisma.education.findFirst({
+      where: { institution: edu.institution },
     });
-    console.log(`✅ Seeded Education records.`);
+    if (existing) {
+      await prisma.education.update({
+        where: { id: existing.id },
+        data: edu,
+      });
+    } else {
+      await prisma.education.create({ data: edu });
+    }
   }
+  console.log(`✅ Seeded Education records.`);
 
   // Seed Achievements
-  const existingAch = await prisma.achievement.findFirst({
-    where: { title: 'Bharatiya Antariksh Hackathon 2026' },
-  });
-  if (!existingAch) {
-    await prisma.achievement.create({
-      data: {
-        title: 'Bharatiya Antariksh Hackathon 2026',
-        category: 'Hackathon',
-        description:
-          'Selected challenge focused on applying AI/ML-based image inpainting to reconstruct missing regions in temporal remote sensing imagery.',
-        year: 2026,
-        status: 'Selected for Challenge 12',
-        order: 1,
+  const achievements = [
+    {
+      title: 'Bharatiya Antariksh Hackathon 2026',
+      category: 'Hackathon',
+      description:
+        'Selected for Challenge 12: Applying AI/ML-based image inpainting to reconstruct missing regions in temporal remote sensing imagery.',
+      year: 2026,
+      status: 'Selected for Challenge 12',
+      order: 1,
+    },
+    {
+      title: 'National Coding Aptitude Test (NCAT) 2025',
+      category: 'National Competition',
+      description: 'Ranked 4,237 nationwide among 2.1 lakh+ participants.',
+      year: 2025,
+      status: 'AIR 4,237 (Top ~2% nationally)',
+      order: 2,
+    },
+    {
+      title: 'CAT Hackathon',
+      category: 'Hackathon',
+      description: 'Built Smart Rental Platform for equipment and fleet management telemetry.',
+      year: 2025,
+      status: 'Deployed Platform',
+      order: 3,
+    },
+  ];
+
+  for (const ach of achievements) {
+    const existing = await prisma.achievement.findFirst({
+      where: { title: ach.title },
+    });
+    if (existing) {
+      await prisma.achievement.update({
+        where: { id: existing.id },
+        data: ach,
+      });
+    } else {
+      await prisma.achievement.create({ data: ach });
+    }
+  }
+  console.log(`✅ Seeded Achievement records.`);
+
+  // Seed Active Resume PDF from public folder
+  const resumeFilePath = path.resolve(__dirname, '../../web/public/resume/Sidhartha_Rayudu_Resume.pdf');
+  if (fs.existsSync(resumeFilePath)) {
+    const resumeBuffer = fs.readFileSync(resumeFilePath);
+    await prisma.resumeDocument.upsert({
+      where: { id: 'active-resume-sidhartha' },
+      update: {
+        filename: 'Sidhartha_Rayudu_Resume.pdf',
+        label: 'Official Resume — Madhavarapu Sidhartha Rayudu',
+        mimeType: 'application/pdf',
+        fileSize: resumeBuffer.length,
+        fileData: new Uint8Array(resumeBuffer),
+        isActive: true,
+      },
+      create: {
+        id: 'active-resume-sidhartha',
+        filename: 'Sidhartha_Rayudu_Resume.pdf',
+        label: 'Official Resume — Madhavarapu Sidhartha Rayudu',
+        mimeType: 'application/pdf',
+        fileSize: resumeBuffer.length,
+        fileData: new Uint8Array(resumeBuffer),
+        isActive: true,
       },
     });
+    console.log(`✅ Seeded active PDF resume (${resumeBuffer.length} bytes) into Neon BYTEA.`);
   }
 }
 

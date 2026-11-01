@@ -9,7 +9,7 @@ import {
   CheckCircle2,
   Sparkles,
 } from 'lucide-react';
-import { EDUCATION_DATA } from '@/lib/constants';
+import { EDUCATION_DATA, INTERMEDIATE_DATA } from '@/lib/constants';
 
 export function EducationSection() {
   return (
@@ -85,6 +85,26 @@ export function EducationSection() {
                   <span>{course}</span>
                 </div>
               ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Intermediate Education Card */}
+        <div className="mt-4 rounded-2xl border border-neutral-800 bg-neutral-900/30 p-5 sm:p-6 backdrop-blur-sm flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+          <div>
+            <span className="inline-flex items-center gap-1.5 rounded-full border border-neutral-700 bg-neutral-800/60 px-2.5 py-0.5 text-[11px] font-mono text-neutral-300">
+              {INTERMEDIATE_DATA.board}
+            </span>
+            <h4 className="mt-1.5 text-base sm:text-lg font-bold text-white">
+              {INTERMEDIATE_DATA.institution}
+            </h4>
+            <p className="text-xs text-neutral-400">
+              {INTERMEDIATE_DATA.location} • {INTERMEDIATE_DATA.years}
+            </p>
+          </div>
+          <div className="flex items-center gap-3">
+            <div className="rounded-lg border border-cyan-500/30 bg-cyan-500/10 px-3 py-1 text-cyan-400 font-bold font-mono text-xs sm:text-sm">
+              Percentage: {INTERMEDIATE_DATA.percentage}
             </div>
           </div>
         </div>

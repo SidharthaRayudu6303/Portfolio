@@ -23,21 +23,35 @@ interface ExperienceSectionProps {
   experience?: Experience[];
 }
 
-// Confirmed internship record
+// Confirmed internship records
 const DEFAULT_EXPERIENCE = [
+  {
+    id: 'exp-robohatch',
+    company: 'Robohatch',
+    role: 'Software Developer Intern',
+    type: 'Internship',
+    description:
+      'Developed and maintained 20+ responsive web pages for a production e-commerce platform using React.js and Tailwind CSS. Implemented core e-commerce workflows including product catalogue, product details, custom design upload, shopping cart, and checkout. Integrated and tested REST APIs using Postman.',
+    technologies: ['React.js', 'Tailwind CSS', 'REST APIs', 'Postman', 'GitHub'],
+    achievement: 'Built 20+ responsive pages and complete e-commerce checkout flow.',
+    startDate: 'Jan 2026',
+    endDate: 'May 2026',
+    current: false,
+    order: 1,
+  },
   {
     id: 'exp-unstop',
     company: 'Unstop Events',
     role: 'React JS Developer Intern',
     type: 'Part-time Internship',
     description:
-      'Worked on React.js-based frontend development and practical web development tasks, gaining foundational hands-on industry experience in component state management and UI implementation.',
-    technologies: ['React.js', 'JavaScript'],
+      'Worked on React.js-based frontend development and practical web development tasks, building foundational industry experience in component state management and UI implementation.',
+    technologies: ['React.js', 'JavaScript', 'HTML5', 'CSS3'],
     achievement: 'Practical experience with frontend development.',
-    startDate: null, // Intentionally left empty as instructed
-    endDate: null,   // Intentionally left empty as instructed
+    startDate: '10 June 2025',
+    endDate: '15 Dec 2025',
     current: false,
-    order: 1,
+    order: 2,
   },
 ];
 

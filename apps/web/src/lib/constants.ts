@@ -39,7 +39,9 @@ export const CURRENTLY_LEARNING = [
 // Contact & Social Links
 export const CONTACT_EMAIL = 'madhavarapusidhartharayudu@gmail.com';
 export const CONTACT_PHONE = '+91 6303075505';
-export const CONTACT_LOCATION = 'Kakinada, East Godavari, Andhra Pradesh, India';
+export const CONTACT_LOCATION = 'Tamil Nadu, Chennai | Kakinada, Andhra Pradesh, India';
+export const PROFILE_PHOTO_URL = '/profile/sidhartha.jpg';
+export const RESUME_DOWNLOAD_URL = '/api/resume/download';
 
 // Social Profiles
 export const GITHUB_URL = 'https://github.com/SidharthaRayudu6303';
@@ -54,7 +56,7 @@ export const EDUCATION_DATA = {
   department: 'Computer Science and Engineering',
   startYear: 2023,
   expectedGraduation: 2027,
-  cgpa: '8.4 / 10',
+  cgpa: '8.37 / 10',
   coursework: [
     'Data Structures and Algorithms',
     'Object-Oriented Programming',
@@ -68,8 +70,24 @@ export const EDUCATION_DATA = {
   academicAchievement: 'Bharatiya Antariksh Hackathon 2026 — Challenge 12 selection (Selected for Challenge 12).',
 };
 
+export const INTERMEDIATE_DATA = {
+  institution: 'Narayana Junior College',
+  board: 'Board of Intermediate Education',
+  location: 'Kakinada, Andhra Pradesh',
+  percentage: '90.1%',
+  years: '2021 – 2023',
+};
+
 // Hackathons & Achievements
 export const HACKATHONS_DATA = [
+  {
+    title: 'National Coding Aptitude Test (NCAT) 2025',
+    year: 2025,
+    challenge: 'National Level Algorithmic & Coding Aptitude Assessment',
+    status: 'Ranked 4,237 among 2.1 lakh+ participants (Top ~2% nationally)',
+    description:
+      'National competitive coding examination assessing data structures, algorithmic problem solving, and analytical thinking.',
+  },
   {
     title: 'Bharatiya Antariksh Hackathon 2026',
     year: 2026,
