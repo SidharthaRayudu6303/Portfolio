@@ -8,7 +8,7 @@
     "dev": "nest start --watch",
     "lint": "echo No lint errors for api",
     "typecheck": "tsc --noEmit",
-    "test": "echo No test suite configured yet",
+    "test": "jest",
     "db:seed": "ts-node prisma/seed.ts"
   },
   "dependencies": {
@@ -33,6 +33,7 @@
     "@nestjs/cli": "^11.0.0",
     "@nestjs/testing": "^11.0.0",
     "@types/bcrypt": "^5.0.2",
+    "@types/express": "^5.0.6",
     "@types/jest": "^29.5.14",
     "@types/jsonwebtoken": "^9.0.7",
     "@types/node": "^22.0.0",
