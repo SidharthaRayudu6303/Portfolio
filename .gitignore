@@ -1,0 +1,41 @@
+# Dependencies
+node_modules/
+.pnpm-store/
+
+# Next.js
+.next/
+out/
+
+# NestJS / TypeScript
+dist/
+*.tsbuildinfo
+
+# Turborepo
+.turbo/
+
+# Environment variables
+.env
+.env*.local
+!.env.example
+
+# Database
+prisma/*.db
+prisma/*.db-journal
+
+# Logs & Debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+*.log
+
+# OS & Editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Backups
+*.sql
+*.sql.gz
+*.sql.gz.enc

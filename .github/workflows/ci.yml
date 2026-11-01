@@ -1,0 +1,102 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: 'pnpm'
+
+      - name: Install Dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Lint Workspace
+        run: pnpm turbo lint
+
+      - name: Verify Types
+        run: pnpm turbo typecheck
+
+      - name: Apply Test Database Migrations
+        run: npx prisma migrate deploy --schema=apps/api/prisma/schema.prisma
+        env:
+          DATABASE_URL: ${{ secrets.TEST_DATABASE_URL }}
+          DIRECT_URL: ${{ secrets.TEST_DIRECT_URL }}
+
+      - name: Run Test Suite
+        run: pnpm turbo test
+        env:
+          NODE_ENV: test
+          DATABASE_URL: ${{ secrets.TEST_DATABASE_URL }}
+          DIRECT_URL: ${{ secrets.TEST_DIRECT_URL }}
+          JWT_SECRET: test-super-secret-key-minimum-32-chars-long!
+          CSRF_SECRET: test-csrf-secret-key-minimum-32-chars-long!
+          IP_SALT_SECRET: test-salt-secret-key-minimum-32-chars!
+
+      - name: Validate Production Build
+        run: pnpm turbo build
+
+  deploy-production:
+    needs: [validate-and-test]
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: 'pnpm'
+
+      - name: Install Dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Apply Production Database Migrations
+        run: npx prisma migrate deploy --schema=apps/api/prisma/schema.prisma
+        env:
+          DATABASE_URL: ${{ secrets.PROD_DATABASE_URL }}
+          DIRECT_URL: ${{ secrets.PROD_DIRECT_URL }}
+
+      - name: Deploy Backend API (apps/api)
+        working-directory: apps/api
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID_API }}
+        run: |
+          pnpm dlx vercel pull --yes --environment=production --token=$VERCEL_TOKEN
+          pnpm dlx vercel build --prod --token=$VERCEL_TOKEN
+          pnpm dlx vercel deploy --prebuilt --prod --token=$VERCEL_TOKEN
+
+      - name: Deploy Frontend Web (apps/web)
+        working-directory: apps/web
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID_WEB }}
+        run: |
+          pnpm dlx vercel pull --yes --environment=production --token=$VERCEL_TOKEN
+          pnpm dlx vercel build --prod --token=$VERCEL_TOKEN
+          pnpm dlx vercel deploy --prebuilt --prod --token=$VERCEL_TOKEN
