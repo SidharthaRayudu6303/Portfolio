@@ -9,10 +9,12 @@ import {
   CONTACT_EMAIL,
   CONTACT_PHONE,
   CONTACT_LOCATION,
+  GITHUB_URL,
   LINKEDIN_URL,
   LEETCODE_URL,
   HACKERRANK_URL,
   EDUCATION_DATA,
+  INTERMEDIATE_DATA,
   HACKATHONS_DATA,
 } from '@/lib/constants';
 
@@ -251,12 +253,18 @@ export function DeveloperTerminal() {
           id: `out-${currentId}`,
           type: 'output',
           content: (
-            <div className="space-y-1 text-xs font-mono text-neutral-300">
-              <div className="text-cyan-400 font-semibold">{EDUCATION_DATA.institution}</div>
-              <div>{EDUCATION_DATA.degree} — {EDUCATION_DATA.department}</div>
-              <div className="text-neutral-400">{EDUCATION_DATA.startYear} – {EDUCATION_DATA.expectedGraduation} • CGPA: {EDUCATION_DATA.cgpa}</div>
-              <div className="pt-1"><span className="text-cyan-300">Coursework:</span> {EDUCATION_DATA.coursework.join(', ')}</div>
-              <div className="text-purple-300 pt-0.5"><span className="text-neutral-400">Achievement:</span> {EDUCATION_DATA.academicAchievement}</div>
+            <div className="space-y-2 text-xs font-mono text-neutral-300">
+              <div className="border-l border-cyan-500/40 pl-2">
+                <div className="text-cyan-400 font-semibold">{EDUCATION_DATA.institution}</div>
+                <div>{EDUCATION_DATA.degree} — {EDUCATION_DATA.department}</div>
+                <div className="text-neutral-400">{EDUCATION_DATA.startYear} – {EDUCATION_DATA.expectedGraduation} • CGPA: {EDUCATION_DATA.cgpa}</div>
+                <div className="pt-0.5"><span className="text-cyan-300">Coursework:</span> {EDUCATION_DATA.coursework.join(', ')}</div>
+                <div className="text-purple-300 pt-0.5"><span className="text-neutral-400">Achievement:</span> {EDUCATION_DATA.academicAchievement}</div>
+              </div>
+              <div className="border-l border-neutral-700 pl-2 pt-1">
+                <div className="text-white font-semibold">{INTERMEDIATE_DATA.institution}</div>
+                <div className="text-neutral-400">{INTERMEDIATE_DATA.board} • {INTERMEDIATE_DATA.years} • Percentage: {INTERMEDIATE_DATA.percentage}</div>
+              </div>
             </div>
           ),
         });
@@ -267,11 +275,20 @@ export function DeveloperTerminal() {
           id: `out-${currentId}`,
           type: 'output',
           content: (
-            <div className="space-y-1 text-xs font-mono text-neutral-300">
-              <div className="text-cyan-400 font-semibold">Unstop Events • React JS Developer Intern</div>
-              <div className="text-neutral-400">Part-time Internship</div>
-              <div>• Worked on React.js-based frontend development and practical web development tasks.</div>
-              <div>• Tech: React.js, JavaScript</div>
+            <div className="space-y-2 text-xs font-mono text-neutral-300">
+              <div className="border-l border-amber-500/40 pl-2">
+                <div className="text-amber-400 font-semibold">Robohatch • Software Developer Intern</div>
+                <div className="text-neutral-400">Jan 2026 – May 2026 • Production E-Commerce Platform</div>
+                <div>• Developed and maintained 20+ responsive web pages using React.js and Tailwind CSS.</div>
+                <div>• Implemented core e-commerce workflows (catalogue, custom design upload, cart, checkout) and integrated REST APIs.</div>
+                <div>• Tech: React.js, Tailwind CSS, REST APIs, Postman, GitHub</div>
+              </div>
+              <div className="border-l border-cyan-500/40 pl-2 pt-1">
+                <div className="text-cyan-400 font-semibold">Unstop Events • React JS Developer Intern</div>
+                <div className="text-neutral-400">10 June 2025 – 15 Dec 2025 • Part-time Internship</div>
+                <div>• Worked on React.js-based frontend development and practical web development tasks.</div>
+                <div>• Tech: React.js, JavaScript, HTML5, CSS3</div>
+              </div>
             </div>
           ),
         });
@@ -302,14 +319,16 @@ export function DeveloperTerminal() {
           type: 'output',
           content: (
             <div className="space-y-1 text-xs font-mono text-neutral-300">
-              <div className="text-cyan-400 font-semibold">Verified Certifications &amp; Learning:</div>
-              <div>1. Understanding Machine Learning — DataCamp (Nov 2025)</div>
-              <div>2. Python Programming Course — CodeTantra &amp; Sathyabama (Oct 2025)</div>
-              <div>3. Python 101 for Data Science — Cognitive Class / IBM (June 2025)</div>
-              <div>4. Basics of Python — Infosys Springboard (June 2025)</div>
-              <div>5. Email Writing Skills — Infosys Springboard (June 2025)</div>
-              <div>6. AI Workshop: AI in Mobile Phones — Samsung India</div>
-              <div>7. AI 2025: India&apos;s Biggest Career Aptitude Test — NxtWave Campus</div>
+              <div className="text-cyan-400 font-semibold">Verified Certifications &amp; Achievements:</div>
+              <div>1. National Coding Aptitude Test (NCAT) 2025 — Ranked 4,237 among 2.1 lakh+ participants (Jan 2025)</div>
+              <div>2. Understanding Machine Learning — DataCamp (Nov 2025)</div>
+              <div>3. Python Programming Course — CodeTantra &amp; Sathyabama (Oct 2025)</div>
+              <div>4. Python 101 for Data Science — Cognitive Class / IBM (June 2025)</div>
+              <div>5. TCS iON Career Edge: Young Professional — TCS iON (July 2025)</div>
+              <div>6. Basics of Python — Infosys Springboard (June 2025)</div>
+              <div>7. Email Writing Skills — Infosys Springboard (June 2025)</div>
+              <div>8. AI Workshop: AI in Mobile Phones — Samsung India</div>
+              <div>9. AI 2025: India&apos;s Biggest Career Aptitude Test — NxtWave Campus</div>
             </div>
           ),
         });
@@ -325,6 +344,7 @@ export function DeveloperTerminal() {
               <div>• Email: {CONTACT_EMAIL}</div>
               <div>• Phone: {CONTACT_PHONE}</div>
               <div>• Location: {CONTACT_LOCATION}</div>
+              <div>• GitHub: {GITHUB_URL}</div>
               <div>• LinkedIn: {LINKEDIN_URL}</div>
               <div>• LeetCode: {LEETCODE_URL}</div>
               <div>• HackerRank: {HACKERRANK_URL}</div>
@@ -341,6 +361,7 @@ export function DeveloperTerminal() {
           content: (
             <div className="space-y-1 text-xs font-mono text-neutral-300">
               <div className="text-cyan-400 font-semibold">Verified Technical Profiles:</div>
+              <div>• GitHub: {GITHUB_URL}</div>
               <div>• LeetCode: {LEETCODE_URL}</div>
               <div>• HackerRank: {HACKERRANK_URL}</div>
               <div>• LinkedIn: {LINKEDIN_URL}</div>
