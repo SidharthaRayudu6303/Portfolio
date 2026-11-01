@@ -31,6 +31,7 @@ export function ContactSection() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [lastSubmitted, setLastSubmitted] = useState<{ name: string; email: string; message: string } | null>(null);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -63,7 +64,8 @@ export function ContactSection() {
         throw new Error(data.message || data.error || 'Failed to deliver message.');
       }
 
-      setSuccessMessage('Thank you! Your message has been received. I will get back to you shortly.');
+      setLastSubmitted({ name: name.trim(), email: email.trim(), message: message.trim() });
+      setSuccessMessage('Thank you! Your message has been safely saved and sent to Sidhartha.');
       setName('');
       setEmail('');
       setMessage('');
@@ -256,9 +258,29 @@ export function ContactSection() {
                 </div>
 
                 {successMessage && (
-                  <div className="flex items-center gap-2 rounded-xl border border-emerald-500/30 bg-emerald-500/10 p-3 text-xs text-emerald-400">
-                    <CheckCircle2 className="h-4 w-4 shrink-0" />
-                    <span>{successMessage}</span>
+                  <div className="rounded-xl border border-emerald-500/30 bg-emerald-500/10 p-4 text-xs text-emerald-400 space-y-2">
+                    <div className="flex items-center gap-2">
+                      <CheckCircle2 className="h-4 w-4 shrink-0 text-emerald-400" />
+                      <span className="font-semibold">{successMessage}</span>
+                    </div>
+                    {lastSubmitted && (
+                      <div className="pt-2 border-t border-emerald-500/20 text-neutral-300">
+                        <p className="text-[11px] text-neutral-400">
+                          Need an instant reply? You can also dispatch a copy straight to my inbox:
+                        </p>
+                        <a
+                          href={`mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(
+                            `Portfolio Inquiry from ${lastSubmitted.name}`,
+                          )}&body=${encodeURIComponent(
+                            `Hi Sidhartha,\n\n${lastSubmitted.message}\n\nFrom: ${lastSubmitted.name} (${lastSubmitted.email})`,
+                          )}`}
+                          className="mt-1.5 inline-flex items-center gap-1.5 rounded-lg bg-emerald-500/20 border border-emerald-500/40 px-3 py-1.5 text-xs font-bold text-emerald-300 hover:bg-emerald-500/30 transition"
+                        >
+                          <Mail className="h-3.5 w-3.5" />
+                          <span>Open in Email App ({CONTACT_EMAIL})</span>
+                        </a>
+                      </div>
+                    )}
                   </div>
                 )}
 

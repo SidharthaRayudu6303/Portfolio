@@ -56,7 +56,8 @@ export async function POST(req: NextRequest) {
 
     const data = await backendRes.json();
     return NextResponse.json(data, { status: backendRes.status });
-  } catch {
+  } catch (err: any) {
+    console.error('Contact BFF error:', err?.message || err);
     return NextResponse.json(
       { error: 'Contact service unavailable. Please reach out via email directly.' },
       { status: 503 },

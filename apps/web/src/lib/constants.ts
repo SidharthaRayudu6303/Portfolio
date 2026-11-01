@@ -1,6 +1,6 @@
 export const ADMIN_SESSION_COOKIE = 'admin_session';
 export const CSRF_COOKIE = 'csrf_token';
-export const BACKEND_API_URL = process.env.BACKEND_API_URL || 'http://localhost:4000/api/v1';
+export const BACKEND_API_URL = process.env.BACKEND_API_URL || process.env.API_INTERNAL_URL || 'http://127.0.0.1:4000/api/v1';
 
 // Personal Details & Branding
 export const FULL_LEGAL_NAME = 'Madhavarapu Sidhartha Rayudu';
