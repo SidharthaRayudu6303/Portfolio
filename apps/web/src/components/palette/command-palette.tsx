@@ -19,7 +19,15 @@ import {
   ArrowRight,
   Check,
   Code2,
+  GraduationCap,
+  FileText,
 } from 'lucide-react';
+import {
+  CONTACT_EMAIL,
+  LINKEDIN_URL,
+  LEETCODE_URL,
+  HACKERRANK_URL,
+} from '@/lib/constants';
 
 interface PaletteItem {
   id: string;
@@ -79,7 +87,7 @@ export function CommandPalette() {
   }, [isOpen]);
 
   const copyEmail = () => {
-    navigator.clipboard.writeText('sidhartha.contact.dev@gmail.com');
+    navigator.clipboard.writeText(CONTACT_EMAIL);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
     setTimeout(() => setIsOpen(false), 800);
@@ -276,22 +284,46 @@ export function CommandPalette() {
         id: 'tool-copy-email',
         category: 'Tools & Actions',
         title: copied ? 'Email Copied!' : 'Copy Contact Email',
-        description: 'sidhartha.contact.dev@gmail.com',
+        description: CONTACT_EMAIL,
         icon: copied ? <Check className="h-4 w-4 text-emerald-400" /> : <Mail className="h-4 w-4 text-cyan-400" />,
         action: copyEmail,
         keywords: ['email', 'copy', 'address', 'contact'],
       },
       {
-        id: 'tool-github',
+        id: 'tool-linkedin',
         category: 'Tools & Actions',
-        title: 'GitHub Profile',
-        description: 'Explore open source repositories and contributions',
+        title: 'LinkedIn Profile',
+        description: 'Connect with Sidhartha Rayudu on LinkedIn',
         icon: <ExternalLink className="h-4 w-4 text-cyan-400" />,
         action: () => {
-          window.open('https://github.com', '_blank');
+          window.open(LINKEDIN_URL, '_blank');
           setIsOpen(false);
         },
-        keywords: ['github', 'git', 'repo', 'open source'],
+        keywords: ['linkedin', 'connect', 'social', 'profile'],
+      },
+      {
+        id: 'tool-leetcode',
+        category: 'Tools & Actions',
+        title: 'LeetCode Profile',
+        description: 'Inspect verified algorithmic problem solving on LeetCode',
+        icon: <ExternalLink className="h-4 w-4 text-cyan-400" />,
+        action: () => {
+          window.open(LEETCODE_URL, '_blank');
+          setIsOpen(false);
+        },
+        keywords: ['leetcode', 'dsa', 'coding', 'algorithms'],
+      },
+      {
+        id: 'tool-hackerrank',
+        category: 'Tools & Actions',
+        title: 'HackerRank Profile',
+        description: 'Inspect verified coding challenges on HackerRank',
+        icon: <ExternalLink className="h-4 w-4 text-cyan-400" />,
+        action: () => {
+          window.open(HACKERRANK_URL, '_blank');
+          setIsOpen(false);
+        },
+        keywords: ['hackerrank', 'coding', 'challenges'],
       },
       {
         id: 'tool-admin',

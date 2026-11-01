@@ -13,6 +13,7 @@ import { BlogModule } from './modules/blog/blog.module';
 import { ContactModule } from './modules/contact/contact.module';
 import { AiModule } from './modules/ai/ai.module';
 import { AnalyticsModule } from './modules/analytics/analytics.module';
+import { ResumeModule } from './modules/resume/resume.module';
 import { AllExceptionsFilter } from './common/filters/http-exception.filter';
 
 @Module({
@@ -39,6 +40,7 @@ import { AllExceptionsFilter } from './common/filters/http-exception.filter';
     ContactModule,
     AiModule,
     AnalyticsModule,
+    ResumeModule,
   ],
   providers: [
     {

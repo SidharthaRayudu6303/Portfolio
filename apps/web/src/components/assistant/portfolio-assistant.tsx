@@ -23,10 +23,10 @@ interface ChatMessage {
 }
 
 const SUGGESTED_PROMPTS = [
-  'Who is Sidhartha?',
+  'Who is Sidhartha Rayudu?',
   'What is GenVision?',
-  'What is his tech stack?',
-  'Tell me about his projects',
+  'What is his technical stack?',
+  'Tell me about his education',
   'How can I contact him?',
 ];
 
@@ -39,7 +39,7 @@ export function PortfolioAssistant() {
     {
       id: 'init',
       sender: 'assistant',
-      text: "Hello! I am Sidhartha's interactive AI assistant. I can answer questions about his verified projects (like GenVision or BhuYanthra), core skills, and how to connect. What would you like to know?",
+      text: "Hello! I am Sidhartha Rayudu's interactive AI assistant. I can answer questions about his verified engineering projects (like GenVision, BhuYanthra, Robohatch, SmartDonum), technical skills, education at Sathyabama, and contact channels. What would you like to know?",
       source: 'local_fallback',
       timestamp: 'Online',
     },

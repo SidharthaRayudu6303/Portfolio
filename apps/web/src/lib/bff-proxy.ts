@@ -71,7 +71,7 @@ export async function proxyAdminGet(req: NextRequest, backendPath: string) {
 export async function proxyAdminMutation(
   req: NextRequest,
   backendPath: string,
-  method: 'POST' | 'PUT' | 'DELETE',
+  method: 'POST' | 'PUT' | 'PATCH' | 'DELETE',
 ) {
   // 1. Enforce CSRF protection on mutating requests
   const cookieCsrfToken = req.cookies.get(CSRF_COOKIE)?.value;
@@ -93,9 +93,9 @@ export async function proxyAdminMutation(
     );
   }
 
-  // 3. Parse body for POST / PUT
+  // 3. Parse body for POST / PUT / PATCH
   let bodyPayload: any = undefined;
-  if (method === 'POST' || method === 'PUT') {
+  if (method === 'POST' || method === 'PUT' || method === 'PATCH') {
     try {
       bodyPayload = await req.json();
     } catch {

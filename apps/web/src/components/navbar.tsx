@@ -7,10 +7,10 @@ import {
   Menu,
   X,
   Lock,
-  ExternalLink,
-  Code2,
   Search,
+  Code2,
 } from 'lucide-react';
+import { DISPLAY_NAME } from '@/lib/constants';
 
 export function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -45,9 +45,11 @@ export function Navbar() {
   const navLinks = [
     { label: 'Home', href: '/#home' },
     { label: 'About', href: '/#about' },
-    { label: 'Projects', href: '/#projects' },
+    { label: 'Education', href: '/#education' },
     { label: 'Skills', href: '/#skills' },
+    { label: 'Projects', href: '/#projects' },
     { label: 'Experience', href: '/#experience' },
+    { label: 'Achievements', href: '/#hackathons' },
     { label: 'Certifications', href: '/#certifications' },
     { label: 'Blog', href: '/blog' },
     { label: 'Contact', href: '/#contact' },
@@ -72,11 +74,11 @@ export function Navbar() {
             <div className="absolute inset-0 rounded-xl bg-cyan-400/20 blur-sm opacity-0 group-hover:opacity-100 transition" />
           </div>
           <div>
-            <span className="text-base font-bold tracking-tight text-white transition group-hover:text-cyan-400">
-              Sidhartha
+            <span className="text-sm sm:text-base font-bold tracking-tight text-white transition group-hover:text-cyan-400">
+              {DISPLAY_NAME}
             </span>
             <span className="block text-[10px] font-mono uppercase tracking-widest text-cyan-400">
-              Dev • Portfolio
+              Full-Stack &amp; AI/ML
             </span>
           </div>
         </a>
@@ -84,12 +86,12 @@ export function Navbar() {
         {/* Desktop Navigation Links */}
         <nav className="hidden lg:flex items-center gap-1 rounded-full border border-neutral-800/80 bg-neutral-900/60 px-3 py-1.5 backdrop-blur-md">
           {navLinks.map((link) => {
-            const isActive = link.href === `#${activeSection}`;
+            const isActive = link.href === `/#${activeSection}` || link.href === `#${activeSection}`;
             return (
               <a
                 key={link.label}
                 href={link.href}
-                className={`rounded-full px-3 py-1 text-xs font-medium transition-all ${
+                className={`rounded-full px-2.5 py-1 text-xs font-medium transition-all ${
                   isActive
                     ? 'bg-cyan-500/20 text-cyan-300 shadow-[0_0_12px_rgba(0,240,255,0.25)] border border-cyan-500/40'
                     : 'text-neutral-300 hover:bg-neutral-800/80 hover:text-cyan-400'
@@ -110,7 +112,7 @@ export function Navbar() {
             title="Search & Quick Actions (Ctrl+K)"
           >
             <Search className="h-3.5 w-3.5 text-cyan-400" />
-            <span className="hidden xl:inline text-[11px]">QuickNav</span>
+            <span className="hidden xl:inline text-[11px]">Search</span>
             <kbd className="rounded border border-neutral-800 bg-neutral-950 px-1.5 py-0.2 text-[9px] text-neutral-400">
               ⌘K
             </kbd>
@@ -134,6 +136,7 @@ export function Navbar() {
             <Lock className="h-3.5 w-3.5 text-cyan-400 transition-transform group-hover:scale-110" />
             <span>Admin</span>
           </Link>
+
           <Link
             href="/#contact"
             data-magnetic="true"
@@ -210,4 +213,3 @@ export function Navbar() {
     </header>
   );
 }
-

@@ -12,6 +12,8 @@ import {
   ShieldCheck,
   Lock,
   Mail,
+  FileText,
+  User,
 } from 'lucide-react';
 import { ADMIN_SESSION_COOKIE, BACKEND_API_URL } from '@/lib/constants';
 import { LogoutButton } from './logout-button';
@@ -71,6 +73,8 @@ export default async function AdminLayout({
 
   const navItems = [
     { label: 'Overview', href: '/admin', icon: LayoutDashboard },
+    { label: 'Profile', href: '/admin/profile', icon: User },
+    { label: 'Resume / CV', href: '/admin/resume', icon: FileText },
     { label: 'Projects', href: '/admin/projects', icon: FolderGit2 },
     { label: 'Skills', href: '/admin/skills', icon: Sparkles },
     { label: 'Experience', href: '/admin/experience', icon: Briefcase },

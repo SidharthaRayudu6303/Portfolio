@@ -12,6 +12,8 @@ export async function getCsrfToken(): Promise<string | null> {
   }
 }
 
+export const getClientCsrfToken = getCsrfToken;
+
 export async function fetchWithCsrf(
   url: string,
   options: RequestInit = {},

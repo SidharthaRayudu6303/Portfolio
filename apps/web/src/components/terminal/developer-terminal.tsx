@@ -2,6 +2,19 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { Terminal as TerminalIcon, X, Minus, Square, CornerDownLeft } from 'lucide-react';
+import {
+  DISPLAY_NAME,
+  FULL_LEGAL_NAME,
+  PROFESSIONAL_TITLE,
+  CONTACT_EMAIL,
+  CONTACT_PHONE,
+  CONTACT_LOCATION,
+  LINKEDIN_URL,
+  LEETCODE_URL,
+  HACKERRANK_URL,
+  EDUCATION_DATA,
+  HACKATHONS_DATA,
+} from '@/lib/constants';
 
 interface TerminalLine {
   id: string;
@@ -14,7 +27,7 @@ const INITIAL_BANNER = (
     <div className="text-cyan-400 font-bold">
       {`╔══════════════════════════════════════════════════════════════╗`}
       <br />
-      {`║   SIDHARTHA DEVELOPER SHELL  •  v7.2.0 (x86_64-pc-portfolio) ║`}
+      {`║   ${DISPLAY_NAME} SHELL  •  v7.2.0 (x86_64-pc-portfolio)  ║`}
       <br />
       {`╚══════════════════════════════════════════════════════════════╝`}
     </div>
@@ -30,6 +43,7 @@ export function DeveloperTerminal() {
   const [input, setInput] = useState('');
   const [historyIndex, setHistoryIndex] = useState(-1);
   const [commandHistory, setCommandHistory] = useState<string[]>([]);
+  const msgCounter = useRef(0);
   const [lines, setLines] = useState<TerminalLine[]>([
     {
       id: 'init-banner',
@@ -62,10 +76,12 @@ export function DeveloperTerminal() {
 
   const executeCommand = (cmdStr: string) => {
     const trimmed = cmdStr.trim();
+    msgCounter.current++;
+    const currentId = msgCounter.current;
     if (!trimmed) {
       setLines((prev) => [
         ...prev,
-        { id: `in-${Date.now()}`, type: 'input', content: '' },
+        { id: `in-${currentId}`, type: 'input', content: '' },
       ]);
       return;
     }
@@ -80,7 +96,7 @@ export function DeveloperTerminal() {
 
     const newLines: TerminalLine[] = [
       {
-        id: `in-${Date.now()}`,
+        id: `in-${currentId}`,
         type: 'input',
         content: trimmed,
       },
@@ -89,23 +105,25 @@ export function DeveloperTerminal() {
     switch (root) {
       case 'help':
         newLines.push({
-          id: `out-${Date.now()}`,
+          id: `out-${currentId}`,
           type: 'output',
           content: (
             <div className="space-y-1 text-xs font-mono text-neutral-300">
               <div className="text-cyan-400 font-semibold">Available Commands:</div>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-1 pt-1">
-                <div><span className="text-cyan-300">about</span> - Background & engineering summary</div>
+                <div><span className="text-cyan-300">about</span> - Background & engineering profile</div>
                 <div><span className="text-cyan-300">skills</span> - Verified technical skill matrix</div>
                 <div><span className="text-cyan-300">projects</span> - List all verified portfolio applications</div>
-                <div><span className="text-cyan-300">project &lt;name&gt;</span> - Inspect specific project details</div>
-                <div><span className="text-cyan-300">education</span> - Academic background & degree</div>
-                <div><span className="text-cyan-300">contact</span> - Direct contact channels</div>
-                <div><span className="text-cyan-300">github</span> - GitHub repository link</div>
-                <div><span className="text-cyan-300">whoami</span> - Inspect active session credentials</div>
-                <div><span className="text-cyan-300">date</span> - Display current UTC system timestamp</div>
+                <div><span className="text-cyan-300">project &lt;name&gt;</span> - Deep-dive into specific project</div>
+                <div><span className="text-cyan-300">education</span> - Academic degree & coursework</div>
+                <div><span className="text-cyan-300">experience</span> - Internship & work background</div>
+                <div><span className="text-cyan-300">hackathons</span> - Hackathon challenges & selections</div>
+                <div><span className="text-cyan-300">certifications</span> - Verified industry credentials</div>
+                <div><span className="text-cyan-300">contact</span> - Email, phone, location & profiles</div>
+                <div><span className="text-cyan-300">profiles</span> - LeetCode, HackerRank & LinkedIn</div>
+                <div><span className="text-cyan-300">whoami</span> - Active session status</div>
                 <div><span className="text-cyan-300">clear</span> - Clear terminal buffer</div>
-                <div><span className="text-cyan-300">exit</span> - Close interactive terminal window</div>
+                <div><span className="text-cyan-300">exit</span> - Close terminal window</div>
               </div>
             </div>
           ),
@@ -115,24 +133,37 @@ export function DeveloperTerminal() {
       case 'about':
       case 'bio':
         newLines.push({
-          id: `out-${Date.now()}`,
+          id: `out-${currentId}`,
           type: 'output',
-          content:
-            'Sidhartha is a Full-Stack Software Engineer & AI / 3D Web Developer specializing in scalable cloud platforms, responsive reactive frontends (React, Next.js, TypeScript), high-throughput backend services (NestJS, Node.js, SQL), and machine learning applications.',
+          content: (
+            <div className="space-y-1 text-xs font-mono text-neutral-300">
+              <div className="text-cyan-400 font-bold">{DISPLAY_NAME} ({FULL_LEGAL_NAME})</div>
+              <div className="text-neutral-400">{PROFESSIONAL_TITLE} • {CONTACT_LOCATION}</div>
+              <p className="pt-1 text-neutral-300 leading-relaxed">
+                Computer Science and Engineering student passionate about full-stack development, software engineering, and artificial intelligence. Transforming ideas into practical applications combining modern web technologies, backend systems, databases, and AI/ML.
+              </p>
+              <div className="text-neutral-400 pt-1">
+                <span className="text-cyan-300">Career Objective:</span> To begin my career as a software developer where I can contribute to real-world engineering problems, build scalable applications and continuously grow as a software engineer.
+              </div>
+            </div>
+          ),
         });
         break;
 
       case 'skills':
         newLines.push({
-          id: `out-${Date.now()}`,
+          id: `out-${currentId}`,
           type: 'output',
           content: (
             <div className="space-y-1.5 text-xs font-mono text-neutral-300">
               <div className="text-cyan-400 font-semibold">Verified Technical Stack:</div>
-              <div>• <span className="text-neutral-100">Frontend:</span> React, Next.js, TypeScript, JavaScript, Tailwind CSS</div>
-              <div>• <span className="text-neutral-100">Backend:</span> Node.js, NestJS, REST APIs, Microservices</div>
-              <div>• <span className="text-neutral-100">Database & Cloud:</span> PostgreSQL (Neon), Prisma ORM, SQL, AWS</div>
-              <div>• <span className="text-neutral-100">AI / ML:</span> Python, Machine Learning, Computer Vision</div>
+              <div>• <span className="text-neutral-100">Programming Languages:</span> Python, JavaScript, TypeScript</div>
+              <div>• <span className="text-neutral-100">Frontend:</span> React.js, Next.js, HTML5, CSS3, Tailwind CSS, Vite</div>
+              <div>• <span className="text-neutral-100">Backend:</span> Node.js, NestJS, REST APIs</div>
+              <div>• <span className="text-neutral-100">Databases:</span> MySQL, PostgreSQL, Amazon RDS</div>
+              <div>• <span className="text-neutral-100">Cloud:</span> AWS, AWS EC2, AWS Amplify, Vercel</div>
+              <div>• <span className="text-neutral-100">Tools:</span> Git, GitHub, GitHub Actions, VS Code, Figma, Postman</div>
+              <div>• <span className="text-neutral-100">AI / ML:</span> Machine Learning, Deep Learning Fundamentals, Computer Vision, Image Classification, Geospatial Analysis, Python</div>
             </div>
           ),
         });
@@ -140,18 +171,18 @@ export function DeveloperTerminal() {
 
       case 'projects':
         newLines.push({
-          id: `out-${Date.now()}`,
+          id: `out-${currentId}`,
           type: 'output',
           content: (
             <div className="space-y-1.5 text-xs font-mono text-neutral-300">
               <div className="text-cyan-400 font-semibold">Verified Portfolio Applications:</div>
-              <div>1. <span className="text-cyan-300">genvision</span> - Computer Vision & Generative AI Platform (Python, ML, Next.js)</div>
-              <div>2. <span className="text-cyan-300">bhuyanthra</span> - Geospatial Analytics & Telemetry Platform (TypeScript, React, SQL, AWS)</div>
-              <div>3. <span className="text-cyan-300">robohatch</span> - Robotics Hardware/Software Orchestration (Python, ML, Node.js)</div>
-              <div>4. <span className="text-cyan-300">smartdonum</span> - Transparent Resource Allocation Platform (Next.js, SQL, AWS)</div>
-              <div>5. <span className="text-cyan-300">autism-screening</span> - Early Behavioral ML Screening (Machine Learning, Python, React)</div>
-              <div>6. <span className="text-cyan-300">smart-rental</span> - Property Management Platform (Next.js, TypeScript, NestJS, SQL)</div>
-              <div className="pt-1 text-[11px] text-neutral-500">Tip: Run &apos;project genvision&apos; to view deep dive on any application.</div>
+              <div>1. <span className="text-cyan-300">genvision</span> - Cloud Severity-Aware Transformer-Diffusion Framework (In Development)</div>
+              <div>2. <span className="text-cyan-300">bhuyanthra</span> - AI-Powered Agricultural Intelligence Platform (In Development)</div>
+              <div>3. <span className="text-cyan-300">robohatch</span> - 3D Printed Products E-commerce Platform (Deployed)</div>
+              <div>4. <span className="text-cyan-300">smartdonum</span> - Donation Management Platform (Deployed)</div>
+              <div>5. <span className="text-cyan-300">autism-screening</span> - Web-based Autism Screening Platform (Deployed)</div>
+              <div>6. <span className="text-cyan-300">smart-rental</span> - Equipment & Fleet Management Dashboard (Deployed)</div>
+              <div className="pt-1 text-[11px] text-neutral-500">Tip: Run &apos;project genvision&apos; to view details for any project.</div>
             </div>
           ),
         });
@@ -160,132 +191,196 @@ export function DeveloperTerminal() {
       case 'project':
         if (!arg) {
           newLines.push({
-            id: `err-${Date.now()}`,
+            id: `err-${currentId}`,
             type: 'error',
             content: 'Usage: project <genvision | bhuyanthra | robohatch | smartdonum | autism-screening | smart-rental>',
           });
         } else if (arg.includes('genvision')) {
           newLines.push({
-            id: `out-${Date.now()}`,
+            id: `out-${currentId}`,
             type: 'output',
             content:
-              'GenVision: Advanced computer vision and generative AI platform engineered for high-accuracy image processing, intelligent analysis, and automated neural visual workflows.\nStack: Python, Machine Learning, Next.js, TypeScript, FastAPI.',
+              'GenVision: A Cloud Severity-Aware Transformer-Diffusion Framework for Cloud-Free Satellite Image Reconstruction and Agricultural Analysis.\nStatus: Final-year project — In Development\nFrontend: Next.js / React\nBackend: Python processing services\nTechnologies: Transformers, Diffusion Models, Computer Vision, Image Inpainting\nLive Demo: https://gen-vision-nu.vercel.app/',
           });
         } else if (arg.includes('bhuyanthra')) {
           newLines.push({
-            id: `out-${Date.now()}`,
+            id: `out-${currentId}`,
             type: 'output',
             content:
-              'BhuYanthra: Geospatial intelligence and mapping analytics platform leveraging location telemetry, spatial queries, and high-performance data processing.\nStack: TypeScript, React, Next.js, SQL, AWS.',
+              'BhuYanthra: AI-Powered Agricultural Intelligence Platform using satellite imagery and geospatial analysis to support agricultural monitoring and decision-making.\nStatus: In Development\nTechnologies: Next.js, React, Python, ISRO Bhuvan, Sentinel-2, Geospatial Analysis.',
           });
         } else if (arg.includes('robohatch')) {
           newLines.push({
-            id: `out-${Date.now()}`,
+            id: `out-${currentId}`,
             type: 'output',
             content:
-              'Robohatch: Robotics automation and hardware/software orchestration system engineered for intelligent monitoring, control loops, and autonomous task execution.\nStack: Python, Machine Learning, Node.js, TypeScript.',
+              'Robohatch: 3D Printed Products E-commerce Platform for showcasing and selling 3D-printed products.\nStatus: Developed / Deployed\nStack: Next.js, NestJS, TypeScript, REST APIs, AWS, Vercel\nLive Demo: https://robohatch-platform-web.vercel.app/\nGitHub: https://github.com/Chandrasekhar246800/robohatch-platform.git',
           });
         } else if (arg.includes('smartdonum')) {
           newLines.push({
-            id: `out-${Date.now()}`,
+            id: `out-${currentId}`,
             type: 'output',
             content:
-              'SmartDonum: Transparent resource allocation and donation management platform featuring automated verification workflows, real-time status tracking, and secure auditability.\nStack: Next.js, React, Node.js, SQL, AWS.',
+              'SmartDonum: Donation Management Platform connecting donors and beneficiaries for food, clothing and book donations.\nStatus: Developed / Deployed\nStack: React.js, Next.js, REST APIs, MySQL\nLive Demo: https://smartdonum.vercel.app/\nGitHub: https://github.com/Chandrasekhar246800/smartdonum.git',
           });
         } else if (arg.includes('autism')) {
           newLines.push({
-            id: `out-${Date.now()}`,
+            id: `out-${currentId}`,
             type: 'output',
             content:
-              'Autism Screening Platform: Early digital developmental screening platform utilizing behavioral evaluation metrics and machine learning models for accessible assessment.\nStack: Machine Learning, Python, React, Next.js, SQL.',
+              'Autism Screening Platform: Web-based accessible interface for screening-related assessments and media submissions.\nStatus: Developed / Deployed\nStack: React, Vite, TypeScript\nLive Demo: https://autism-screening-platform.vercel.app/\nGitHub: https://github.com/SidharthaRayudu6303/autism_screening_platform.git',
           });
         } else if (arg.includes('rental')) {
           newLines.push({
-            id: `out-${Date.now()}`,
+            id: `out-${currentId}`,
             type: 'output',
             content:
-              'Smart Rental Platform: Modern end-to-end property management and rental system featuring verified tenant workflows, dynamic listings, and secure agreement management.\nStack: Next.js, TypeScript, NestJS, SQL, AWS.',
+              'Smart Rental Platform: Equipment and Fleet Management Dashboard for rental equipment tracking and operations.\nStatus: Developed / Deployed\nStack: React.js, Next.js, REST APIs, Vercel\nLive Demo: https://cat-hackathon-nu.vercel.app/dashboard\nGitHub: https://github.com/SidharthaRayudu6303/CAT_Hackathon.git',
           });
         } else {
           newLines.push({
-            id: `err-${Date.now()}`,
+            id: `err-${currentId}`,
             type: 'error',
-            content: `Project '${arg}' not recognized in verified records. Run 'projects' to list all.`,
+            content: `Project '${arg}' not recognized. Run 'projects' to list all valid names.`,
           });
         }
         break;
 
       case 'education':
         newLines.push({
-          id: `out-${Date.now()}`,
+          id: `out-${currentId}`,
           type: 'output',
-          content:
-            'Bachelor of Technology in Computer Science & Engineering. Focused on distributed systems, algorithm design, software architecture, and machine learning.',
+          content: (
+            <div className="space-y-1 text-xs font-mono text-neutral-300">
+              <div className="text-cyan-400 font-semibold">{EDUCATION_DATA.institution}</div>
+              <div>{EDUCATION_DATA.degree} — {EDUCATION_DATA.department}</div>
+              <div className="text-neutral-400">{EDUCATION_DATA.startYear} – {EDUCATION_DATA.expectedGraduation} • CGPA: {EDUCATION_DATA.cgpa}</div>
+              <div className="pt-1"><span className="text-cyan-300">Coursework:</span> {EDUCATION_DATA.coursework.join(', ')}</div>
+              <div className="text-purple-300 pt-0.5"><span className="text-neutral-400">Achievement:</span> {EDUCATION_DATA.academicAchievement}</div>
+            </div>
+          ),
+        });
+        break;
+
+      case 'experience':
+        newLines.push({
+          id: `out-${currentId}`,
+          type: 'output',
+          content: (
+            <div className="space-y-1 text-xs font-mono text-neutral-300">
+              <div className="text-cyan-400 font-semibold">Unstop Events • React JS Developer Intern</div>
+              <div className="text-neutral-400">Part-time Internship</div>
+              <div>• Worked on React.js-based frontend development and practical web development tasks.</div>
+              <div>• Tech: React.js, JavaScript</div>
+            </div>
+          ),
+        });
+        break;
+
+      case 'hackathons':
+        newLines.push({
+          id: `out-${currentId}`,
+          type: 'output',
+          content: (
+            <div className="space-y-1.5 text-xs font-mono text-neutral-300">
+              <div className="text-cyan-400 font-semibold">Hackathons &amp; Achievements:</div>
+              {HACKATHONS_DATA.map((h, i) => (
+                <div key={i} className="border-l border-cyan-500/30 pl-2">
+                  <div className="font-semibold text-white">{h.title} ({h.year})</div>
+                  <div className="text-cyan-300 text-[11px]">{h.status}: {h.challenge}</div>
+                  <div className="text-neutral-400 text-[11px]">{h.description}</div>
+                </div>
+              ))}
+            </div>
+          ),
+        });
+        break;
+
+      case 'certifications':
+        newLines.push({
+          id: `out-${currentId}`,
+          type: 'output',
+          content: (
+            <div className="space-y-1 text-xs font-mono text-neutral-300">
+              <div className="text-cyan-400 font-semibold">Verified Certifications &amp; Learning:</div>
+              <div>1. Understanding Machine Learning — DataCamp (Nov 2025)</div>
+              <div>2. Python Programming Course — CodeTantra &amp; Sathyabama (Oct 2025)</div>
+              <div>3. Python 101 for Data Science — Cognitive Class / IBM (June 2025)</div>
+              <div>4. Basics of Python — Infosys Springboard (June 2025)</div>
+              <div>5. Email Writing Skills — Infosys Springboard (June 2025)</div>
+              <div>6. AI Workshop: AI in Mobile Phones — Samsung India</div>
+              <div>7. AI 2025: India&apos;s Biggest Career Aptitude Test — NxtWave Campus</div>
+            </div>
+          ),
         });
         break;
 
       case 'contact':
         newLines.push({
-          id: `out-${Date.now()}`,
+          id: `out-${currentId}`,
           type: 'output',
-          content:
-            'Direct Contact Channels:\n• Email: sidhartha.contact.dev@gmail.com\n• Website: Form on #contact section\n• Availability: Open for full-stack engineering roles and high-impact technical collaborations.',
+          content: (
+            <div className="space-y-1 text-xs font-mono text-neutral-300">
+              <div className="text-cyan-400 font-semibold">Contact &amp; Profiles:</div>
+              <div>• Email: {CONTACT_EMAIL}</div>
+              <div>• Phone: {CONTACT_PHONE}</div>
+              <div>• Location: {CONTACT_LOCATION}</div>
+              <div>• LinkedIn: {LINKEDIN_URL}</div>
+              <div>• LeetCode: {LEETCODE_URL}</div>
+              <div>• HackerRank: {HACKERRANK_URL}</div>
+            </div>
+          ),
+        });
+        break;
+
+      case 'profiles':
+      case 'coding':
+        newLines.push({
+          id: `out-${currentId}`,
+          type: 'output',
+          content: (
+            <div className="space-y-1 text-xs font-mono text-neutral-300">
+              <div className="text-cyan-400 font-semibold">Verified Technical Profiles:</div>
+              <div>• LeetCode: {LEETCODE_URL}</div>
+              <div>• HackerRank: {HACKERRANK_URL}</div>
+              <div>• LinkedIn: {LINKEDIN_URL}</div>
+            </div>
+          ),
         });
         break;
 
       case 'github':
         newLines.push({
-          id: `out-${Date.now()}`,
+          id: `out-${currentId}`,
           type: 'output',
-          content: 'GitHub: https://github.com (Explore source repositories and project architectures)',
+          content: 'GitHub profile link has not been provided yet. Profile URL will be linked once confirmed.',
         });
         break;
 
       case 'whoami':
         newLines.push({
-          id: `out-${Date.now()}`,
+          id: `out-${currentId}`,
           type: 'output',
           content: 'guest@portfolio (Permissions: READ_ONLY_VERIFIED_ACCESS)',
         });
         break;
 
-      case 'date':
-        newLines.push({
-          id: `out-${Date.now()}`,
-          type: 'output',
-          content: `UTC System Time: ${new Date().toUTCString()}`,
-        });
-        break;
-
       case 'clear':
-        setLines([
-          {
-            id: `init-${Date.now()}`,
-            type: 'system',
-            content: INITIAL_BANNER,
-          },
-        ]);
+        setLines([]);
         setInput('');
         return;
 
-      case 'sudo':
-        newLines.push({
-          id: `err-${Date.now()}`,
-          type: 'error',
-          content: 'Permission denied: Guest user is not permitted to escalate to root privileges.',
-        });
-        break;
-
       case 'exit':
+      case 'quit':
         setIsOpen(false);
         setInput('');
         return;
 
       default:
         newLines.push({
-          id: `err-${Date.now()}`,
+          id: `err-${currentId}`,
           type: 'error',
-          content: `bash: command not found: '${root}'. Type 'help' for available commands.`,
+          content: `Command not found: '${trimmed}'. Type 'help' for available commands.`,
         });
         break;
     }
@@ -300,19 +395,20 @@ export function DeveloperTerminal() {
     } else if (e.key === 'ArrowUp') {
       e.preventDefault();
       if (commandHistory.length === 0) return;
-      const nextIdx = historyIndex === -1 ? commandHistory.length - 1 : Math.max(0, historyIndex - 1);
-      setHistoryIndex(nextIdx);
-      setInput(commandHistory[nextIdx]);
+      const nextIdx = historyIndex + 1;
+      if (nextIdx < commandHistory.length) {
+        setHistoryIndex(nextIdx);
+        setInput(commandHistory[commandHistory.length - 1 - nextIdx]);
+      }
     } else if (e.key === 'ArrowDown') {
       e.preventDefault();
-      if (commandHistory.length === 0 || historyIndex === -1) return;
-      const nextIdx = historyIndex + 1;
-      if (nextIdx >= commandHistory.length) {
+      if (historyIndex > 0) {
+        const nextIdx = historyIndex - 1;
+        setHistoryIndex(nextIdx);
+        setInput(commandHistory[commandHistory.length - 1 - nextIdx]);
+      } else if (historyIndex === 0) {
         setHistoryIndex(-1);
         setInput('');
-      } else {
-        setHistoryIndex(nextIdx);
-        setInput(commandHistory[nextIdx]);
       }
     }
   };
@@ -321,136 +417,88 @@ export function DeveloperTerminal() {
 
   return (
     <div
-      role="dialog"
-      aria-modal="true"
-      aria-label="Developer Terminal"
-      className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6"
+      className={`fixed z-50 transition-all duration-200 flex flex-col rounded-xl border border-cyan-500/40 bg-neutral-950/95 shadow-[0_0_40px_rgba(0,240,255,0.2)] backdrop-blur-xl ${
+        isMaximized
+          ? 'inset-4 w-auto h-auto'
+          : 'bottom-6 right-6 w-full max-w-2xl h-[480px]'
+      }`}
     >
-      {/* Backdrop */}
-      <div
-        onClick={() => setIsOpen(false)}
-        className="fixed inset-0 bg-neutral-950/80 backdrop-blur-md"
-      />
-
-      {/* Terminal Window */}
-      <div
-        className={`relative z-10 flex flex-col overflow-hidden rounded-2xl border border-cyan-500/40 bg-neutral-950 shadow-2xl shadow-cyan-950/60 backdrop-blur-2xl transition-all duration-200 ${
-          isMaximized
-            ? 'h-[92vh] w-[96vw]'
-            : 'h-[500px] w-full max-w-3xl'
-        }`}
-      >
-        {/* Title Bar */}
-        <div className="flex items-center justify-between border-b border-neutral-800 bg-neutral-900/90 px-4 py-2.5 select-none">
-          <div className="flex items-center gap-2">
-            <button
-              onClick={() => setIsOpen(false)}
-              className="h-3 w-3 rounded-full bg-rose-500 transition hover:opacity-80"
-              title="Close terminal"
-            />
-            <button
-              onClick={() => setIsMaximized(!isMaximized)}
-              className="h-3 w-3 rounded-full bg-amber-500 transition hover:opacity-80"
-              title="Toggle size"
-            />
-            <button
-              onClick={() => {
-                setLines([
-                  {
-                    id: `init-${Date.now()}`,
-                    type: 'system',
-                    content: INITIAL_BANNER,
-                  },
-                ]);
-              }}
-              className="h-3 w-3 rounded-full bg-emerald-500 transition hover:opacity-80"
-              title="Clear buffer"
-            />
-            <span className="ml-3 font-mono text-xs text-neutral-400">
-              sidhartha@portfolio:~ (bash)
-            </span>
-          </div>
-
-          <div className="flex items-center gap-1.5 text-neutral-400">
-            <button
-              onClick={() => setIsMaximized(!isMaximized)}
-              className="rounded p-1 hover:bg-neutral-800 hover:text-white"
-            >
-              <Square className="h-3.5 w-3.5" />
-            </button>
-            <button
-              onClick={() => setIsOpen(false)}
-              className="rounded p-1 hover:bg-neutral-800 hover:text-white"
-            >
-              <X className="h-3.5 w-3.5" />
-            </button>
-          </div>
+      {/* Title Bar */}
+      <div className="flex items-center justify-between border-b border-neutral-800 bg-neutral-900/80 px-4 py-2.5 rounded-t-xl select-none">
+        <div className="flex items-center gap-2 text-xs font-mono text-neutral-300">
+          <TerminalIcon className="h-4 w-4 text-cyan-400" />
+          <span className="font-semibold text-white">{DISPLAY_NAME} Developer Terminal</span>
+          <span className="text-[10px] text-neutral-500">v7.2.0</span>
         </div>
+        <div className="flex items-center gap-2">
+          <button
+            type="button"
+            onClick={() => setIsMaximized(!isMaximized)}
+            className="rounded p-1 text-neutral-400 hover:bg-neutral-800 hover:text-white transition"
+            title={isMaximized ? 'Restore' : 'Maximize'}
+          >
+            <Square className="h-3 w-3" />
+          </button>
+          <button
+            type="button"
+            onClick={() => setIsOpen(false)}
+            className="rounded p-1 text-neutral-400 hover:bg-red-500/20 hover:text-red-400 transition"
+            title="Close"
+          >
+            <X className="h-3.5 w-3.5" />
+          </button>
+        </div>
+      </div>
 
-        {/* Terminal Screen Body */}
-        <div
-          onClick={() => inputRef.current?.focus()}
-          className="flex-1 overflow-y-auto p-4 font-mono text-xs space-y-2 select-text"
-        >
-          {lines.map((line) => {
-            if (line.type === 'system') {
-              return <div key={line.id}>{line.content}</div>;
-            }
-
-            if (line.type === 'input') {
-              return (
-                <div key={line.id} className="flex items-center gap-2 text-neutral-300">
-                  <span className="text-cyan-400 font-semibold">sidhartha@portfolio:~$</span>
-                  <span className="text-white">{line.content}</span>
-                </div>
-              );
-            }
-
-            if (line.type === 'error') {
-              return (
-                <div key={line.id} className="text-rose-400 pl-4 whitespace-pre-wrap">
-                  {line.content}
-                </div>
-              );
-            }
-
-            return (
-              <div key={line.id} className="text-neutral-300 pl-4 whitespace-pre-wrap leading-relaxed">
+      {/* Terminal Output Area */}
+      <div className="flex-1 overflow-y-auto p-4 space-y-3 font-mono text-xs">
+        {lines.map((line) => (
+          <div key={line.id} className="leading-relaxed">
+            {line.type === 'input' && (
+              <div className="flex items-center gap-2 text-cyan-300">
+                <span className="text-neutral-500">&gt;</span>
+                <span className="text-white font-medium">{line.content}</span>
+              </div>
+            )}
+            {line.type === 'output' && (
+              <div className="text-neutral-300 pl-4 border-l border-neutral-800/80 whitespace-pre-wrap">
                 {line.content}
               </div>
-            );
-          })}
-
-          {/* Active Input Line */}
-          <div className="flex items-center gap-2 pt-1">
-            <span className="text-cyan-400 font-semibold shrink-0">sidhartha@portfolio:~$</span>
-            <input
-              ref={inputRef}
-              type="text"
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              onKeyDown={handleKeyDown}
-              autoFocus
-              className="flex-1 bg-transparent text-white font-mono text-xs focus:outline-none caret-cyan-400"
-            />
+            )}
+            {line.type === 'error' && (
+              <div className="text-red-400 pl-4 border-l border-red-500/40">
+                {line.content}
+              </div>
+            )}
+            {line.type === 'system' && (
+              <div className="text-neutral-400">{line.content}</div>
+            )}
           </div>
+        ))}
+        <div ref={terminalEndRef} />
+      </div>
 
-          <div ref={terminalEndRef} />
-        </div>
-
-        {/* Terminal Footer Bar */}
-        <div className="flex items-center justify-between border-t border-neutral-800/80 bg-neutral-900/60 px-4 py-2 font-mono text-[10px] text-neutral-500">
-          <div>
-            Type <span className="text-cyan-400">&apos;help&apos;</span> for commands • <span className="text-cyan-400">&apos;exit&apos;</span> to close
-          </div>
-          <div className="flex items-center gap-2 text-neutral-400">
-            <span>bash 5.2</span>
-            <span>•</span>
-            <span className="text-emerald-400 font-bold">ONLINE</span>
-          </div>
-        </div>
+      {/* Input Prompt */}
+      <div className="flex items-center gap-2 border-t border-neutral-800 bg-neutral-900/60 px-4 py-2.5 rounded-b-xl">
+        <span className="font-mono text-xs text-cyan-400 font-bold">&gt;</span>
+        <input
+          ref={inputRef}
+          type="text"
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+          onKeyDown={handleKeyDown}
+          placeholder="Type 'help' for commands..."
+          className="flex-1 bg-transparent font-mono text-xs text-white placeholder-neutral-500 focus:outline-none"
+        />
+        <button
+          type="button"
+          onClick={() => executeCommand(input)}
+          className="rounded p-1 text-neutral-400 hover:text-cyan-400 transition"
+          title="Execute"
+        >
+          <CornerDownLeft className="h-3.5 w-3.5" />
+        </button>
       </div>
     </div>
   );
 }
-

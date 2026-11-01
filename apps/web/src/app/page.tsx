@@ -3,9 +3,11 @@ import { BACKEND_API_URL } from '@/lib/constants';
 import { Navbar } from '@/components/navbar';
 import { Hero } from '@/components/hero';
 import { About } from '@/components/about';
-import { ProjectsSection } from '@/components/projects-section';
+import { EducationSection } from '@/components/education-section';
 import { SkillsSection } from '@/components/skills-section';
+import { ProjectsSection, VERIFIED_DEFAULT_PROJECTS } from '@/components/projects-section';
 import { ExperienceSection } from '@/components/experience-section';
+import { HackathonsSection } from '@/components/hackathons-section';
 import { CertificationsSection } from '@/components/certifications-section';
 import { ContactSection } from '@/components/contact-section';
 import { Footer } from '@/components/footer';
@@ -24,6 +26,11 @@ interface Project {
   imageUrl?: string | null;
   featured: boolean;
   order: number;
+  problemSolved?: string | null;
+  myContribution?: string | null;
+  whyBuilt?: string | null;
+  features?: string[];
+  status?: string | null;
 }
 
 interface Skill {
@@ -39,7 +46,7 @@ interface Experience {
   company: string;
   role: string;
   description: string;
-  startDate: string;
+  startDate?: string | null;
   endDate?: string | null;
   current: boolean;
   order: number;
@@ -49,7 +56,7 @@ interface Certification {
   id: string;
   title: string;
   issuer: string;
-  issueDate: string;
+  issueDate?: string | null;
   credentialUrl?: string | null;
   imageUrl?: string | null;
   order: number;
@@ -103,28 +110,34 @@ export default async function HomePage() {
 
       {/* Main Sections */}
       <main>
-        {/* Hero Section */}
+        {/* 1. Hero Section */}
         <Hero
-          projectCount={projects.length}
-          skillCount={skills.length}
+          projectCount={projects.length > 0 ? projects.length : VERIFIED_DEFAULT_PROJECTS.length}
+          skillCount={skills.length > 0 ? skills.length : 32}
         />
 
-        {/* About Section */}
+        {/* 2. About Me */}
         <About />
 
-        {/* Projects Section */}
-        <ProjectsSection projects={projects} />
+        {/* 3. Education */}
+        <EducationSection />
 
-        {/* Skills Section */}
+        {/* 4. Technical Skills */}
         <SkillsSection skills={skills} />
 
-        {/* Experience Section */}
+        {/* 5. Featured & Engineering Projects */}
+        <ProjectsSection projects={projects} />
+
+        {/* 6. Experience & Internship */}
         <ExperienceSection experience={experience} />
 
-        {/* Certifications Section */}
+        {/* 7. Hackathons & Coding Profiles */}
+        <HackathonsSection />
+
+        {/* 8. Certifications & Accreditations */}
         <CertificationsSection certifications={certifications} />
 
-        {/* Contact Section */}
+        {/* 9. Contact Section & Resume Download */}
         <ContactSection />
       </main>
 

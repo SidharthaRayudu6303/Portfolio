@@ -37,5 +37,6 @@ Thumbs.db
 
 # Backups
 *.sql
+!**/migrations/**/*.sql
 *.sql.gz
 *.sql.gz.enc

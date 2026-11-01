@@ -11,6 +11,11 @@ export interface ProjectDto {
   imageUrl?: string | null;
   featured: boolean;
   order: number;
+  problemSolved?: string | null;
+  myContribution?: string | null;
+  whyBuilt?: string | null;
+  features?: string[];
+  status?: string | null;
   createdAt: string;
   updatedAt: string;
 }
@@ -41,7 +46,7 @@ export interface ExperienceDto {
   company: string;
   role: string;
   description: string;
-  startDate: string;
+  startDate?: string | null;
   endDate?: string | null;
   current: boolean;
   order: number;
@@ -51,10 +56,63 @@ export interface CertificationDto {
   id: string;
   title: string;
   issuer: string;
-  issueDate: string;
+  issueDate?: string | null;
   credentialUrl?: string | null;
   imageUrl?: string | null;
   order: number;
+}
+
+export interface EducationDto {
+  id: string;
+  institution: string;
+  degree: string;
+  department: string;
+  startYear: number;
+  endYear: number;
+  cgpa: string;
+  coursework: string[];
+  order: number;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+export interface AchievementDto {
+  id: string;
+  title: string;
+  category: string;
+  description: string;
+  year?: number | null;
+  status?: string | null;
+  projectUrl?: string | null;
+  proofUrl?: string | null;
+  order: number;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+export interface ResumeDocumentDto {
+  id: string;
+  filename: string;
+  label: string;
+  mimeType: string;
+  fileSize: number;
+  isActive: boolean;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface ProfileSettingDto {
+  key: string;
+  value: string;
+}
+
+export interface ProfileMediaDto {
+  id: string;
+  type: string;
+  mimeType: string;
+  fileSize: number;
+  imageUrl?: string | null;
+  updatedAt: string;
 }
 
 export interface ContactMessageDto {

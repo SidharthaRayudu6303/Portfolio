@@ -5,7 +5,6 @@ import dynamic from 'next/dynamic';
 import {
   ArrowUpRight,
   Send,
-  Github,
   Linkedin,
   Mail,
   ChevronDown,
@@ -16,7 +15,24 @@ import {
   ShieldCheck,
   Code2,
   Eye,
+  FileText,
+  MapPin,
+  Github,
 } from 'lucide-react';
+import {
+  DISPLAY_NAME,
+  FULL_LEGAL_NAME,
+  PROFESSIONAL_TITLE,
+  HERO_HEADLINE,
+  HERO_SUBTITLE,
+  CONTACT_EMAIL,
+  CONTACT_LOCATION,
+  GITHUB_URL,
+  LINKEDIN_URL,
+  LEETCODE_URL,
+  HACKERRANK_URL,
+  AVAILABILITY,
+} from '@/lib/constants';
 
 const CharacterScene = dynamic(
   () => import('@/components/three/character-scene').then((mod) => mod.CharacterScene),
@@ -53,12 +69,18 @@ export function Hero({ projectCount, skillCount }: HeroProps) {
           {/* Left Column: Bio & Hero Details */}
           <div className="lg:col-span-7 space-y-6">
             {/* Status Pill */}
-            <div className="inline-flex items-center gap-2.5 rounded-full border border-cyan-500/30 bg-cyan-500/10 px-3.5 py-1 text-xs font-medium text-cyan-400 backdrop-blur-md">
-              <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75" />
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-cyan-500" />
-              </span>
-              <span>Available for Software Engineering Roles</span>
+            <div className="flex flex-wrap items-center gap-2">
+              <div className="inline-flex items-center gap-2.5 rounded-full border border-cyan-500/30 bg-cyan-500/10 px-3.5 py-1 text-xs font-medium text-cyan-400 backdrop-blur-md">
+                <span className="relative flex h-2 w-2">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75" />
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-cyan-500" />
+                </span>
+                <span>{AVAILABILITY}</span>
+              </div>
+              <div className="inline-flex items-center gap-1.5 rounded-full border border-neutral-800 bg-neutral-900/60 px-3 py-1 text-xs text-neutral-400">
+                <MapPin className="h-3 w-3 text-cyan-400" />
+                <span>{CONTACT_LOCATION}</span>
+              </div>
             </div>
 
             {/* Main Headline */}
@@ -67,61 +89,100 @@ export function Hero({ projectCount, skillCount }: HeroProps) {
                 Hi, my name is
               </span>
               <h1 className="text-4xl font-extrabold tracking-tight text-white sm:text-6xl xl:text-7xl">
-                Sidhartha
+                {DISPLAY_NAME}
               </h1>
               <h2 className="text-2xl font-bold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-blue-400 to-indigo-300 sm:text-3xl xl:text-4xl">
-                Full Stack Developer &amp; Tech Enthusiast
+                {PROFESSIONAL_TITLE}
               </h2>
             </div>
 
             {/* Introduction Paragraph */}
-            <p className="text-sm text-neutral-300 sm:text-base leading-relaxed max-w-2xl">
-              Architecting full-stack web applications, machine learning systems, and IoT robotics. Passionate about solving real-world challenges through clean engineering, type safety, and futuristic user interfaces.
-            </p>
+            <div className="space-y-2 max-w-2xl">
+              <p className="text-base sm:text-lg font-semibold text-neutral-200">
+                {HERO_HEADLINE}
+              </p>
+              <p className="text-sm text-neutral-300 sm:text-base leading-relaxed">
+                {HERO_SUBTITLE}
+              </p>
+            </div>
 
             {/* Call to Actions & Social Links */}
-            <div className="flex flex-wrap items-center gap-4 pt-2">
+            <div className="flex flex-wrap items-center gap-3 pt-2">
               <a
                 href="#projects"
                 data-magnetic="true"
-                className="group inline-flex items-center gap-2 rounded-xl bg-cyan-500 px-6 py-3 text-xs font-bold text-neutral-950 transition hover:bg-cyan-400 hover:shadow-lg hover:shadow-cyan-500/25"
+                className="group inline-flex items-center gap-2 rounded-xl bg-cyan-500 px-5 py-3 text-xs font-bold text-neutral-950 transition hover:bg-cyan-400 hover:shadow-lg hover:shadow-cyan-500/25"
               >
                 <span>View Projects</span>
                 <ArrowUpRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
               </a>
 
               <a
+                href="/api/resume/download"
+                target="_blank"
+                rel="noopener noreferrer"
+                data-magnetic="true"
+                className="group inline-flex items-center gap-2 rounded-xl border border-cyan-500/40 bg-cyan-950/30 px-5 py-3 text-xs font-bold text-cyan-300 transition hover:bg-cyan-500/20 hover:text-white hover:border-cyan-400"
+                title="Download Active Resume PDF"
+              >
+                <FileText className="h-4 w-4 text-cyan-400 transition-transform group-hover:scale-110" />
+                <span>Download Resume</span>
+              </a>
+
+              <a
                 href="#contact"
                 data-magnetic="true"
-                className="group inline-flex items-center gap-2 rounded-xl border border-neutral-800 bg-neutral-900/60 px-6 py-3 text-xs font-bold text-neutral-200 transition hover:border-cyan-500/40 hover:bg-neutral-800 hover:text-white"
+                className="group inline-flex items-center gap-2 rounded-xl border border-neutral-800 bg-neutral-900/60 px-5 py-3 text-xs font-bold text-neutral-200 transition hover:border-cyan-500/40 hover:bg-neutral-800 hover:text-white"
               >
                 <Send className="h-4 w-4 text-cyan-400 transition-transform group-hover:scale-110" />
                 <span>Contact Me</span>
               </a>
 
-              <div className="flex items-center gap-2 border-l border-neutral-800 pl-4 ml-2">
+              <div className="flex items-center gap-2 border-l border-neutral-800 pl-3 ml-1">
+                {GITHUB_URL && (
+                  <a
+                    href={GITHUB_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    data-magnetic="true"
+                    className="rounded-xl border border-neutral-800 bg-neutral-900/60 p-2.5 text-neutral-400 transition hover:border-neutral-700 hover:bg-neutral-800 hover:text-white"
+                    title="GitHub Profile"
+                  >
+                    <Github className="h-4 w-4" />
+                  </a>
+                )}
                 <a
-                  href="https://github.com/sidhartha"
+                  href={LINKEDIN_URL}
                   target="_blank"
                   rel="noopener noreferrer"
                   data-magnetic="true"
-                  className="rounded-xl border border-neutral-800 bg-neutral-900/60 p-2.5 text-neutral-400 transition hover:border-neutral-700 hover:bg-neutral-800 hover:text-white"
-                  title="GitHub Profile"
-                >
-                  <Github className="h-4 w-4" />
-                </a>
-                <a
-                  href="https://linkedin.com/in/sidhartha"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  data-magnetic="true"
-                  className="rounded-xl border border-neutral-800 bg-neutral-900/60 p-2.5 text-neutral-400 transition hover:border-neutral-700 hover:bg-neutral-800 hover:text-blue-400"
+                  className="rounded-xl border border-neutral-800 bg-neutral-900/60 p-2.5 text-neutral-400 transition hover:border-neutral-700 hover:bg-neutral-800 hover:text-cyan-400"
                   title="LinkedIn Profile"
                 >
                   <Linkedin className="h-4 w-4" />
                 </a>
                 <a
-                  href="mailto:contact@sidhartha.dev"
+                  href={LEETCODE_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  data-magnetic="true"
+                  className="rounded-xl border border-neutral-800 bg-neutral-900/60 px-2.5 py-1.5 text-xs font-mono font-bold text-neutral-400 transition hover:border-neutral-700 hover:bg-neutral-800 hover:text-amber-400"
+                  title="LeetCode Profile"
+                >
+                  LC
+                </a>
+                <a
+                  href={HACKERRANK_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  data-magnetic="true"
+                  className="rounded-xl border border-neutral-800 bg-neutral-900/60 px-2.5 py-1.5 text-xs font-mono font-bold text-neutral-400 transition hover:border-neutral-700 hover:bg-neutral-800 hover:text-emerald-400"
+                  title="HackerRank Profile"
+                >
+                  HR
+                </a>
+                <a
+                  href={`mailto:${CONTACT_EMAIL}`}
                   data-magnetic="true"
                   className="rounded-xl border border-neutral-800 bg-neutral-900/60 p-2.5 text-neutral-400 transition hover:border-neutral-700 hover:bg-neutral-800 hover:text-cyan-400"
                   title="Send Email"

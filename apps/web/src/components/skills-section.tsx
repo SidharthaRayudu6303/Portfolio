@@ -9,6 +9,8 @@ import {
   Database,
   Cloud,
   Cpu,
+  Wrench,
+  CheckCircle,
 } from 'lucide-react';
 
 interface Skill {
@@ -20,11 +22,59 @@ interface Skill {
 }
 
 interface SkillsSectionProps {
-  skills: Skill[];
+  skills?: Skill[];
 }
 
+// Fallback verified skills matrix as specified
+const DEFAULT_SKILL_CATEGORIES: { category: string; skills: string[] }[] = [
+  {
+    category: 'Programming Languages',
+    skills: ['Python', 'JavaScript', 'TypeScript'],
+  },
+  {
+    category: 'Frontend Development',
+    skills: ['React.js', 'Next.js', 'HTML5', 'CSS3', 'Tailwind CSS', 'Vite'],
+  },
+  {
+    category: 'Backend & APIs',
+    skills: ['Node.js', 'NestJS', 'REST APIs'],
+  },
+  {
+    category: 'Databases & Storage',
+    skills: ['MySQL', 'PostgreSQL', 'Amazon RDS'],
+  },
+  {
+    category: 'Cloud & Infrastructure',
+    skills: ['AWS', 'AWS EC2', 'AWS Amplify', 'Vercel'],
+  },
+  {
+    category: 'AI & Machine Learning',
+    skills: [
+      'Machine Learning',
+      'Deep Learning Fundamentals',
+      'Computer Vision',
+      'Image Classification',
+      'Geospatial Analysis',
+    ],
+  },
+  {
+    category: 'Developer Tools',
+    skills: ['Git', 'GitHub', 'GitHub Actions', 'VS Code', 'Figma', 'Postman'],
+  },
+  {
+    category: 'Core Engineering Competencies',
+    skills: [
+      'Responsive Web Design',
+      'API Integration',
+      'Debugging',
+      'Deployment',
+      'Problem Solving',
+      'Data Structures and Algorithms',
+    ],
+  },
+];
+
 export function SkillsSection({ skills }: SkillsSectionProps) {
-  // Category icon mapping
   function getCategoryIcon(cat: string) {
     const lower = cat.toLowerCase();
     if (lower.includes('language')) return Terminal;
@@ -33,11 +83,21 @@ export function SkillsSection({ skills }: SkillsSectionProps) {
     if (lower.includes('data')) return Database;
     if (lower.includes('cloud')) return Cloud;
     if (lower.includes('ai') || lower.includes('machine')) return Cpu;
+    if (lower.includes('tool')) return Wrench;
     return Sparkles;
   }
 
-  // Get distinct categories preserving skill order
-  const categories = Array.from(new Set(skills.map((s) => s.category)));
+  // If skills provided from DB, group them by category; otherwise use DEFAULT_SKILL_CATEGORIES
+  const displayCategories =
+    skills && skills.length > 0
+      ? Array.from(new Set(skills.map((s) => s.category))).map((cat) => ({
+          category: cat,
+          skills: skills
+            .filter((s) => s.category === cat)
+            .sort((a, b) => a.order - b.order)
+            .map((s) => s.name),
+        }))
+      : DEFAULT_SKILL_CATEGORIES;
 
   return (
     <section id="skills" className="scroll-mt-24 py-20 border-b border-neutral-800/80">
@@ -50,70 +110,56 @@ export function SkillsSection({ skills }: SkillsSectionProps) {
               <span>Technical Skills</span>
             </div>
             <h2 className="mt-2 text-3xl font-extrabold tracking-tight text-white sm:text-4xl">
-              Core Competencies &amp; Technologies
+              Verified Technical Stack &amp; Competencies
             </h2>
+            <p className="mt-2 text-xs sm:text-sm text-neutral-400">
+              Clean categorization of proven technologies, frameworks, and engineering tools without arbitrary percentages.
+            </p>
           </div>
           <span className="font-mono text-xs text-neutral-500">
-            {skills.length} Verified Skills
+            {displayCategories.reduce((acc, cat) => acc + cat.skills.length, 0)} Verified Technologies
           </span>
         </div>
 
-        {skills.length === 0 ? (
-          <div className="flex flex-col items-center justify-center rounded-2xl border border-dashed border-neutral-800 bg-neutral-900/20 py-16 text-center">
-            <Sparkles className="h-8 w-8 text-neutral-500 mb-3" />
-            <h3 className="text-sm font-semibold text-white">No skills populated yet</h3>
-          </div>
-        ) : (
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {categories.map((cat) => {
-              const CategoryIcon = getCategoryIcon(cat);
-              const categorySkills = skills
-                .filter((s) => s.category === cat)
-                .sort((a, b) => a.order - b.order);
+        {/* Categories Grid */}
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
+          {displayCategories.map(({ category, skills }) => {
+            const CategoryIcon = getCategoryIcon(category);
 
-              return (
-                <div
-                  key={cat}
-                  className="group rounded-2xl border border-neutral-800/80 bg-neutral-900/40 p-6 backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:border-cyan-500/40 hover:bg-neutral-850/50 hover:shadow-lg hover:shadow-cyan-950/20"
-                >
+            return (
+              <div
+                key={category}
+                className="group rounded-2xl border border-neutral-800/80 bg-neutral-900/40 p-5 backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:border-cyan-500/40 hover:bg-neutral-850/50 hover:shadow-lg hover:shadow-cyan-950/20 flex flex-col justify-between"
+              >
+                <div>
                   {/* Category Title */}
-                  <div className="flex items-center gap-2.5 border-b border-neutral-800 pb-3 mb-5">
-                    <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-purple-500/10 text-purple-400">
+                  <div className="flex items-center gap-2.5 border-b border-neutral-800 pb-3 mb-4">
+                    <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-cyan-500/10 text-cyan-400">
                       <CategoryIcon className="h-4 w-4" />
                     </div>
                     <h3 className="text-xs font-bold font-mono uppercase tracking-wider text-white">
-                      {cat}
+                      {category}
                     </h3>
                   </div>
 
-                  {/* Skills List in Category */}
-                  <div className="space-y-4">
-                    {categorySkills.map((skill) => (
-                      <div key={skill.id} className="space-y-1.5">
-                        <div className="flex items-center justify-between text-xs">
-                          <span className="font-semibold text-neutral-200">{skill.name}</span>
-                          <span className="font-mono text-[11px] text-cyan-400 font-medium">
-                            {skill.level}%
-                          </span>
-                        </div>
-
-                        {/* Animated Progress Bar */}
-                        <div className="h-1.5 w-full rounded-full bg-neutral-800 overflow-hidden">
-                          <div
-                            className="h-full rounded-full bg-gradient-to-r from-blue-500 via-cyan-400 to-emerald-400 transition-all duration-700"
-                            style={{ width: `${skill.level}%` }}
-                          />
-                        </div>
-                      </div>
+                  {/* Badges List */}
+                  <div className="flex flex-wrap gap-2">
+                    {skills.map((skillName) => (
+                      <span
+                        key={skillName}
+                        className="inline-flex items-center gap-1.5 rounded-lg border border-neutral-800 bg-neutral-950/70 px-2.5 py-1 text-xs text-neutral-300 transition hover:border-cyan-500/40 hover:text-white"
+                      >
+                        <span className="h-1.5 w-1.5 rounded-full bg-cyan-400" />
+                        <span>{skillName}</span>
+                      </span>
                     ))}
                   </div>
                 </div>
-              );
-            })}
-          </div>
-        )}
+              </div>
+            );
+          })}
+        </div>
       </div>
     </section>
   );
 }
-

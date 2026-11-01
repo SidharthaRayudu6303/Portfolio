@@ -39,18 +39,23 @@ model SecurityAuditLog {
 }
 
 model Project {
-  id          String   @id @default(cuid())
-  title       String
-  slug        String   @unique
-  description String   @db.Text
-  techStack   String[]
-  githubUrl   String?
-  liveUrl     String?
-  imageUrl    String?
-  featured    Boolean  @default(false)
-  order       Int      @default(0)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id             String   @id @default(cuid())
+  title          String
+  slug           String   @unique
+  description    String   @db.Text
+  techStack      String[]
+  githubUrl      String?
+  liveUrl        String?
+  imageUrl       String?
+  featured       Boolean  @default(false)
+  order          Int      @default(0)
+  problemSolved  String?  @db.Text
+  myContribution String?  @db.Text
+  whyBuilt       String?  @db.Text
+  features       String[] @default([])
+  status         String?  @default("In Development")
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
 
   @@index([featured, order])
 }
@@ -86,7 +91,7 @@ model Experience {
   company     String
   role        String
   description String    @db.Text
-  startDate   DateTime
+  startDate   DateTime?
   endDate     DateTime?
   current     Boolean   @default(false)
   order       Int       @default(0)
@@ -95,13 +100,72 @@ model Experience {
 }
 
 model Certification {
-  id            String   @id @default(cuid())
+  id            String    @id @default(cuid())
   title         String
   issuer        String
-  issueDate     DateTime
+  issueDate     DateTime?
   credentialUrl String?
   imageUrl      String?
-  order         Int      @default(0)
+  order         Int       @default(0)
+}
+
+model Education {
+  id          String   @id @default(cuid())
+  institution String
+  degree      String
+  department  String
+  startYear   Int
+  endYear     Int
+  cgpa        String
+  coursework  String[]
+  order       Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Achievement {
+  id          String   @id @default(cuid())
+  title       String
+  category    String   // "Hackathon", "Academic", "Coding"
+  description String   @db.Text
+  year        Int?
+  status      String?
+  projectUrl  String?
+  proofUrl    String?
+  order       Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model ResumeDocument {
+  id        String   @id @default(cuid())
+  filename  String
+  label     String   @default("Resume")
+  mimeType  String   @default("application/pdf")
+  fileSize  Int
+  fileData  Bytes
+  isActive  Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([isActive, createdAt])
+}
+
+model ProfileSetting {
+  id        String   @id @default(cuid())
+  key       String   @unique
+  value     String   @db.Text
+  updatedAt DateTime @updatedAt
+}
+
+model ProfileMedia {
+  id        String   @id @default(cuid())
+  type      String   @unique // e.g. "avatar"
+  mimeType  String   @default("image/png")
+  fileSize  Int
+  fileData  Bytes
+  imageUrl  String?
+  updatedAt DateTime @updatedAt
 }
 
 model ContactMessage {
