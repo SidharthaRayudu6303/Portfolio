@@ -1,8 +1,20 @@
 import { PrismaClient } from '@prisma/client';
 import * as bcrypt from 'bcrypt';
+import * as path from 'node:path';
+import * as fs from 'node:fs';
+
+// Automatically load local .env if present and environment variables are unset
+const envPath = path.resolve(__dirname, '../.env');
+if (fs.existsSync(envPath) && typeof process.loadEnvFile === 'function') {
+  try {
+    process.loadEnvFile(envPath);
+  } catch {
+    // Ignore if already loaded or partially defined
+  }
+}
 
 const prisma = new PrismaClient();
-const STRONG_PASSWORD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{12,}$/;
+const STRONG_PASSWORD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).{12,}$/;
 
 async function main() {
   const email = process.env.ADMIN_EMAIL;

@@ -10,6 +10,7 @@ import {
   HttpStatus,
   HttpCode,
 } from '@nestjs/common';
+import { Throttle } from '@nestjs/throttler';
 import { ContactService } from './contact.service';
 import { ContactDto } from './dto/contact.dto';
 import { JwtAuthGuard } from '../../common/guards/jwt-auth.guard';
@@ -20,6 +21,7 @@ export class ContactController {
 
   @Post()
   @HttpCode(HttpStatus.OK)
+  @Throttle({ default: { limit: 5, ttl: 60000 } })
   async submit(@Body() contactDto: ContactDto) {
     return this.contactService.submitMessage(contactDto);
   }

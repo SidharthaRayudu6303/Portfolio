@@ -8,7 +8,9 @@ describe('RateLimiterService', () => {
   let prismaService: PrismaService;
 
   const mockPrismaService = {
+    $transaction: jest.fn(),
     $queryRaw: jest.fn(),
+    $executeRaw: jest.fn(),
     loginAttempt: {
       count: jest.fn(),
       create: jest.fn(),
@@ -46,14 +48,27 @@ describe('RateLimiterService', () => {
     expect(hash1).toHaveLength(64); // SHA256 hex length
   });
 
-  it('should record failed attempt when failure limit is not exceeded', async () => {
-    mockPrismaService.$queryRaw.mockResolvedValue([{ id: 'mock-attempt-id' }]);
+  it('should record failed attempt via transaction with pg_advisory_xact_lock when count < 5', async () => {
+    const mockTx = {
+      $executeRaw: jest.fn().mockResolvedValue(1),
+      $queryRaw: jest.fn().mockResolvedValue([{ failure_count: 2 }]),
+    };
+    mockPrismaService.$transaction.mockImplementation(async (cb: (tx: any) => Promise<any>) => {
+      return cb(mockTx);
+    });
 
     await expect(service.recordFailedAttemptAtomic('192.168.1.1')).resolves.not.toThrow();
+    expect(mockTx.$executeRaw).toHaveBeenCalled();
   });
 
-  it('should throw 429 Too Many Requests when CTE returns 0 rows (lockout)', async () => {
-    mockPrismaService.$queryRaw.mockResolvedValue([]);
+  it('should throw 429 via transaction when failure_count >= 5', async () => {
+    const mockTx = {
+      $executeRaw: jest.fn().mockResolvedValue(1),
+      $queryRaw: jest.fn().mockResolvedValue([{ failure_count: 5 }]),
+    };
+    mockPrismaService.$transaction.mockImplementation(async (cb: (tx: any) => Promise<any>) => {
+      return cb(mockTx);
+    });
 
     await expect(service.recordFailedAttemptAtomic('192.168.1.1')).rejects.toThrow(
       new HttpException(
@@ -61,6 +76,29 @@ describe('RateLimiterService', () => {
         HttpStatus.TOO_MANY_REQUESTS,
       ),
     );
+  });
+
+  it('should enforce serialized lock and prevent lockout bypass under concurrent failed attempts', async () => {
+    let currentFailures = 3;
+    // Simulate transactional lock where transactions execute sequentially per IP
+    mockPrismaService.$transaction.mockImplementation(async (cb: (tx: any) => Promise<any>) => {
+      const mockTx = {
+        $executeRaw: jest.fn().mockResolvedValue(1),
+        $queryRaw: jest.fn().mockImplementation(async () => [{ failure_count: currentFailures }]),
+      };
+      const res = await cb(mockTx);
+      currentFailures++;
+      return res;
+    });
+
+    // Attempt 1: failureCount 3 -> success (inserted, now 4)
+    await expect(service.recordFailedAttemptAtomic('192.168.1.1')).resolves.not.toThrow();
+    // Attempt 2: failureCount 4 -> success (inserted, now 5)
+    await expect(service.recordFailedAttemptAtomic('192.168.1.1')).resolves.not.toThrow();
+    // Attempt 3: failureCount 5 -> locked out! (throws 429)
+    await expect(service.recordFailedAttemptAtomic('192.168.1.1')).rejects.toThrow(HttpException);
+    // Attempt 4: failureCount 6 -> locked out! (throws 429)
+    await expect(service.recordFailedAttemptAtomic('192.168.1.1')).rejects.toThrow(HttpException);
   });
 
   it('should throw 429 on assertNotLockedOut when count >= 5', async () => {

@@ -11,6 +11,8 @@ import {
   HttpCode,
 } from '@nestjs/common';
 import { SkillsService } from './skills.service';
+import { CreateSkillDto } from './dto/create-skill.dto';
+import { UpdateSkillDto } from './dto/update-skill.dto';
 import { JwtAuthGuard } from '../../common/guards/jwt-auth.guard';
 
 @Controller('skills')
@@ -22,16 +24,21 @@ export class SkillsController {
     return this.skillsService.findAll();
   }
 
+  @Get(':id')
+  async findOne(@Param('id') id: string) {
+    return this.skillsService.findOneById(id);
+  }
+
   @Post()
   @UseGuards(JwtAuthGuard)
   @HttpCode(HttpStatus.CREATED)
-  async create(@Body() body: any) {
+  async create(@Body() body: CreateSkillDto) {
     return this.skillsService.create(body);
   }
 
   @Put(':id')
   @UseGuards(JwtAuthGuard)
-  async update(@Param('id') id: string, @Body() body: any) {
+  async update(@Param('id') id: string, @Body() body: UpdateSkillDto) {
     return this.skillsService.update(id, body);
   }
 

@@ -45,4 +45,10 @@ export class AuthController {
     const userId = req.admin!.sub;
     return this.authService.me(userId);
   }
+
+  @Get('audit-logs')
+  @UseGuards(JwtAuthGuard)
+  async getAuditLogs() {
+    return this.authService.getSecurityAuditLogs();
+  }
 }

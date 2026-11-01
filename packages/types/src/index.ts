@@ -63,6 +63,27 @@ export interface ContactMessageDto {
   message: string;
 }
 
+export interface ContactMessageItemDto {
+  id: string;
+  name: string;
+  email: string;
+  message: string;
+  read: boolean;
+  createdAt: string;
+}
+
+export interface AnalyticsSummaryDto {
+  totalViews: number;
+  topPages: { path: string; visits: number }[];
+  recentViews: {
+    id: string;
+    path: string;
+    referrer: string | null;
+    device: string | null;
+    createdAt: string;
+  }[];
+}
+
 export interface AiChatRequestDto {
   message: string;
 }

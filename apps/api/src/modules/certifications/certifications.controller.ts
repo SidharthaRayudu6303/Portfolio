@@ -11,6 +11,8 @@ import {
   HttpCode,
 } from '@nestjs/common';
 import { CertificationsService } from './certifications.service';
+import { CreateCertificationDto } from './dto/create-certification.dto';
+import { UpdateCertificationDto } from './dto/update-certification.dto';
 import { JwtAuthGuard } from '../../common/guards/jwt-auth.guard';
 
 @Controller('certifications')
@@ -22,16 +24,21 @@ export class CertificationsController {
     return this.certificationsService.findAll();
   }
 
+  @Get(':id')
+  async findOne(@Param('id') id: string) {
+    return this.certificationsService.findOneById(id);
+  }
+
   @Post()
   @UseGuards(JwtAuthGuard)
   @HttpCode(HttpStatus.CREATED)
-  async create(@Body() body: any) {
+  async create(@Body() body: CreateCertificationDto) {
     return this.certificationsService.create(body);
   }
 
   @Put(':id')
   @UseGuards(JwtAuthGuard)
-  async update(@Param('id') id: string, @Body() body: any) {
+  async update(@Param('id') id: string, @Body() body: UpdateCertificationDto) {
     return this.certificationsService.update(id, body);
   }
 

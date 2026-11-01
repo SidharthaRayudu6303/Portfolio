@@ -132,4 +132,34 @@ export class AuthService {
 
     return user;
   }
+
+  async getSecurityAuditLogs() {
+    const logs = await this.prisma.securityAuditLog.findMany({
+      take: 50,
+      orderBy: { createdAt: 'desc' },
+      select: {
+        id: true,
+        action: true,
+        ipHash: true,
+        details: true,
+        createdAt: true,
+      },
+    });
+
+    const recentAttempts = await this.prisma.loginAttempt.findMany({
+      take: 20,
+      orderBy: { createdAt: 'desc' },
+      select: {
+        id: true,
+        ipHash: true,
+        success: true,
+        createdAt: true,
+      },
+    });
+
+    return {
+      auditLogs: logs,
+      recentAttempts,
+    };
+  }
 }

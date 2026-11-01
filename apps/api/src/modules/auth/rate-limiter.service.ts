@@ -21,11 +21,44 @@ export class RateLimiterService {
   /**
    * Concurrency-Safe Atomic Check-and-Record.
    * Atomically records a failed attempt ONLY IF the failure limit (< 5 in 15 mins) has not been exceeded.
-   * If limit is already reached, the CTE returns 0 rows, signaling an active lockout.
+   * Uses PostgreSQL transaction-level advisory locks (pg_advisory_xact_lock) serialized per IP hash
+   * to guarantee that concurrent requests from the same IP cannot race or bypass the lockout threshold.
    */
   async recordFailedAttemptAtomic(rawIp: string): Promise<void> {
     const ipHash = this.hashIp(rawIp);
 
+    if (typeof this.prisma.$transaction === 'function') {
+      await this.prisma.$transaction(async (tx) => {
+        // 1. Transaction-level advisory lock on hashed IP (serializes concurrent attempts for this IP)
+        await tx.$executeRaw`SELECT pg_advisory_xact_lock(hashtext(${ipHash})::bigint);`;
+
+        // 2. Count recent failures under serialized lock
+        const countRows = await tx.$queryRaw<Array<{ failure_count: number | bigint }>>`
+          SELECT COUNT(*)::int AS failure_count
+          FROM "LoginAttempt"
+          WHERE "ipHash" = ${ipHash}
+            AND "success" = false
+            AND "createdAt" >= NOW() - INTERVAL '15 minutes';
+        `;
+        const failureCount = Number(countRows[0]?.failure_count ?? 0);
+
+        if (failureCount >= 5) {
+          throw new HttpException(
+            'Too many failed login attempts. IP temporarily restricted for 15 minutes.',
+            HttpStatus.TOO_MANY_REQUESTS,
+          );
+        }
+
+        // 3. Atomically insert failed attempt record
+        await tx.$executeRaw`
+          INSERT INTO "LoginAttempt" ("id", "ipHash", "success", "createdAt")
+          VALUES (gen_random_uuid()::text, ${ipHash}, false, NOW());
+        `;
+      });
+      return;
+    }
+
+    // Fallback for mocked unit tests or non-transaction environments
     const result = await this.prisma.$queryRaw<Array<{ id: string }>>`
       WITH current_window AS (
         SELECT COUNT(*)::int AS failure_count
@@ -41,7 +74,7 @@ export class RateLimiterService {
       RETURNING "id";
     `;
 
-    if (result.length === 0) {
+    if (!result || result.length === 0) {
       throw new HttpException(
         'Too many failed login attempts. IP temporarily restricted for 15 minutes.',
         HttpStatus.TOO_MANY_REQUESTS,

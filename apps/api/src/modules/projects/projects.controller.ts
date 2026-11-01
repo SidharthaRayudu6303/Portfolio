@@ -11,6 +11,8 @@ import {
   HttpCode,
 } from '@nestjs/common';
 import { ProjectsService } from './projects.service';
+import { CreateProjectDto } from './dto/create-project.dto';
+import { UpdateProjectDto } from './dto/update-project.dto';
 import { JwtAuthGuard } from '../../common/guards/jwt-auth.guard';
 
 @Controller('projects')
@@ -22,6 +24,11 @@ export class ProjectsController {
     return this.projectsService.findAll();
   }
 
+  @Get('id/:id')
+  async findOneById(@Param('id') id: string) {
+    return this.projectsService.findOneById(id);
+  }
+
   @Get(':slug')
   async findOneBySlug(@Param('slug') slug: string) {
     return this.projectsService.findOneBySlug(slug);
@@ -30,13 +37,13 @@ export class ProjectsController {
   @Post()
   @UseGuards(JwtAuthGuard)
   @HttpCode(HttpStatus.CREATED)
-  async create(@Body() body: any) {
+  async create(@Body() body: CreateProjectDto) {
     return this.projectsService.create(body);
   }
 
   @Put(':id')
   @UseGuards(JwtAuthGuard)
-  async update(@Param('id') id: string, @Body() body: any) {
+  async update(@Param('id') id: string, @Body() body: UpdateProjectDto) {
     return this.projectsService.update(id, body);
   }
 

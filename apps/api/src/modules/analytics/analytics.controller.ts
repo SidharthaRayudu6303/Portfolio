@@ -33,4 +33,10 @@ export class AnalyticsController {
   async getSummary() {
     return this.analyticsService.getSummary();
   }
+
+  @Get('stats')
+  @UseGuards(JwtAuthGuard)
+  async getStats() {
+    return this.analyticsService.getDashboardStats();
+  }
 }

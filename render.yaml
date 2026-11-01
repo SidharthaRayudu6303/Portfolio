@@ -1,0 +1,30 @@
+services:
+  - type: web
+    name: sidhartha-portfolio-api
+    runtime: node
+    plan: free
+    buildCommand: pnpm install && pnpm --filter api exec prisma generate && pnpm --filter api build
+    startCommand: pnpm --filter api start:prod
+    healthCheckPath: /api/v1/health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+      - key: DATABASE_URL
+        sync: false
+      - key: DIRECT_URL
+        sync: false
+      - key: JWT_SECRET
+        sync: false
+      - key: IP_SALT_SECRET
+        sync: false
+      - key: BACKUP_ENCRYPTION_KEY
+        sync: false
+      - key: ADMIN_EMAIL
+        sync: false
+      - key: ADMIN_PASSWORD
+        sync: false
+      - key: FRONTEND_URL
+        sync: false
+

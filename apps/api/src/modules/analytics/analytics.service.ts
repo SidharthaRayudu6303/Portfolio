@@ -85,4 +85,34 @@ export class AnalyticsService {
       recentViews,
     };
   }
+
+  async getDashboardStats() {
+    const [
+      projectsCount,
+      skillsCount,
+      experienceCount,
+      certificationsCount,
+      contactMessagesCount,
+      unreadMessagesCount,
+      pageViewsCount,
+    ] = await Promise.all([
+      this.prisma.project.count(),
+      this.prisma.skill.count(),
+      this.prisma.experience.count(),
+      this.prisma.certification.count(),
+      this.prisma.contactMessage.count(),
+      this.prisma.contactMessage.count({ where: { read: false } }),
+      this.prisma.pageView.count(),
+    ]);
+
+    return {
+      projects: projectsCount,
+      skills: skillsCount,
+      experience: experienceCount,
+      certifications: certificationsCount,
+      totalMessages: contactMessagesCount,
+      unreadMessages: unreadMessagesCount,
+      totalViews: pageViewsCount,
+    };
+  }
 }
