@@ -1,0 +1,84 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" width="100%" height="100%">
+  <defs>
+    <linearGradient id="by-bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#03150d" />
+      <stop offset="50%" stop-color="#062e1e" />
+      <stop offset="100%" stop-color="#020d08" />
+    </linearGradient>
+    <linearGradient id="by-ndvi" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#ef4444" />
+      <stop offset="35%" stop-color="#f59e0b" />
+      <stop offset="70%" stop-color="#10b981" />
+      <stop offset="100%" stop-color="#059669" />
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="800" height="450" fill="url(#by-bg)" />
+
+  <!-- Geospatial Topo Contour Lines -->
+  <g stroke="#10b981" stroke-width="0.8" opacity="0.25" fill="none">
+    <ellipse cx="400" cy="225" rx="350" ry="180" />
+    <ellipse cx="400" cy="225" rx="280" ry="140" />
+    <ellipse cx="400" cy="225" rx="210" ry="105" />
+    <ellipse cx="400" cy="225" rx="140" ry="70" />
+    <ellipse cx="400" cy="225" rx="70" ry="35" />
+  </g>
+
+  <!-- Geospatial Grid Quadrants -->
+  <g stroke="#00f0ff" stroke-width="0.5" opacity="0.2">
+    <line x1="0" y1="225" x2="800" y2="225" />
+    <line x1="400" y1="0" x2="400" y2="450" />
+    <circle cx="400" cy="225" r="160" fill="none" stroke-dasharray="4,4" />
+  </g>
+
+  <!-- Agricultural Crop Plots / Polygons with NDVI Grading -->
+  <g opacity="0.65" stroke="#10b981" stroke-width="1.2">
+    <!-- Plot A: High Biomass Green -->
+    <polygon points="180,140 310,120 330,220 200,240" fill="#059669" opacity="0.4" />
+    <!-- Plot B: Vigorous Growth -->
+    <polygon points="325,118 470,105 490,205 345,218" fill="#10b981" opacity="0.4" />
+    <!-- Plot C: Moderate Stress Amber -->
+    <polygon points="485,103 620,95 640,195 505,203" fill="#d97706" opacity="0.35" />
+    <!-- Plot D: High NDVI Emerald -->
+    <polygon points="210,255 345,235 365,345 230,365" fill="#047857" opacity="0.4" />
+    <!-- Plot E: Sentinel-2 Multispectral Parcel -->
+    <polygon points="360,233 500,220 520,330 380,343" fill="#10b981" opacity="0.45" />
+    <!-- Plot F: Low NDVI / Moisture Deficit -->
+    <polygon points="515,218 645,210 660,320 535,328" fill="#b45309" opacity="0.35" />
+  </g>
+
+  <!-- Drone / Satellite Target Reticle (Center-Focused) -->
+  <g transform="translate(400, 225)" stroke="#00f0ff" stroke-width="1.5">
+    <circle cx="0" cy="0" r="38" fill="none" stroke-dasharray="6,4" />
+    <line x1="-50" y1="0" x2="-25" y2="0" />
+    <line x1="25" y1="0" x2="50" y2="0" />
+    <line x1="0" y1="-50" x2="0" y2="-25" />
+    <line x1="0" y1="25" x2="0" y2="50" />
+    <circle cx="0" cy="0" r="3" fill="#00f0ff" />
+  </g>
+
+  <!-- ISRO Bhuvan / Sentinel-2 Satellite Orbiter (Top Left) -->
+  <g transform="translate(130, 70)">
+    <circle cx="0" cy="0" r="24" fill="#062e1e" stroke="#10b981" stroke-width="1.5" />
+    <path d="M -15 0 L 15 0 M 0 -15 L 0 15" stroke="#10b981" stroke-width="1" />
+    <text x="34" y="5" fill="#10b981" font-family="monospace" font-size="11" font-weight="bold">BHUVAN / SENTINEL-2</text>
+    <text x="34" y="20" fill="#6ee7b7" font-family="monospace" font-size="9">MULTISPECTRAL BAND B04/B08</text>
+  </g>
+
+  <!-- NDVI Spectrum Indicator Scale (Bottom-Center) -->
+  <g transform="translate(250, 395)">
+    <rect width="300" height="12" rx="6" fill="url(#by-ndvi)" stroke="#022c22" stroke-width="1" />
+    <text x="0" y="-6" fill="#94a3b8" font-family="monospace" font-size="9">NDVI: 0.1 (STRESS)</text>
+    <text x="210" y="-6" fill="#10b981" font-family="monospace" font-size="9">0.85 (VIGOROUS)</text>
+  </g>
+
+  <!-- Live Telemetry Card (Top Right) -->
+  <g transform="translate(560, 40)">
+    <rect width="200" height="75" rx="8" fill="#02140d" stroke="#10b981" stroke-width="1" opacity="0.9" />
+    <circle cx="18" cy="22" r="4" fill="#10b981" />
+    <text x="30" y="26" fill="#10b981" font-family="monospace" font-size="11" font-weight="bold">BhuYanthra Core</text>
+    <text x="18" y="46" fill="#94a3b8" font-family="monospace" font-size="9">GEOSPATIAL AI: ANALYZING</text>
+    <text x="18" y="62" fill="#38bdf8" font-family="monospace" font-size="9">CROP HEALTH: OPTIMAL</text>
+  </g>
+</svg>

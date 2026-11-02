@@ -1,0 +1,95 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" width="100%" height="100%">
+  <defs>
+    <linearGradient id="gv-bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#050814" />
+      <stop offset="50%" stop-color="#0a192f" />
+      <stop offset="100%" stop-color="#030712" />
+    </linearGradient>
+    <linearGradient id="gv-cyan" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#00f0ff" />
+      <stop offset="100%" stop-color="#3b82f6" />
+    </linearGradient>
+    <linearGradient id="gv-earth" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#064e3b" />
+      <stop offset="40%" stop-color="#047857" />
+      <stop offset="80%" stop-color="#1e3a8a" />
+      <stop offset="100%" stop-color="#0f172a" />
+    </linearGradient>
+    <filter id="gv-glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="8" result="blur" />
+      <feMerge>
+        <feMergeNode in="blur" />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="800" height="450" fill="url(#gv-bg)" />
+
+  <!-- Grid Pattern -->
+  <g opacity="0.15">
+    <path d="M0 50 H800 M0 100 H800 M0 150 H800 M0 200 H800 M0 250 H800 M0 300 H800 M0 350 H800 M0 400 H800" stroke="#00f0ff" stroke-width="0.5" />
+    <path d="M100 0 V450 M200 0 V450 M300 0 V450 M400 0 V450 M500 0 V450 M600 0 V450 M700 0 V450" stroke="#00f0ff" stroke-width="0.5" />
+  </g>
+
+  <!-- Curvature of Earth / Farmland Surface -->
+  <ellipse cx="400" cy="520" rx="460" ry="240" fill="url(#gv-earth)" opacity="0.8" />
+
+  <!-- Agricultural Field Parcels -->
+  <g opacity="0.45" stroke="#22c55e" stroke-width="1" fill="none">
+    <polygon points="220,310 320,295 340,360 230,375" fill="#15803d" opacity="0.3" />
+    <polygon points="330,293 450,280 470,350 350,363" fill="#166534" opacity="0.3" />
+    <polygon points="460,278 580,270 595,335 480,348" fill="#14532d" opacity="0.3" />
+    <polygon points="240,380 355,368 370,430 255,440" fill="#047857" opacity="0.25" />
+    <polygon points="365,366 485,353 500,420 380,432" fill="#065f46" opacity="0.25" />
+  </g>
+
+  <!-- Cloud Masked Obscured Region -->
+  <path d="M 280 230 Q 320 190 380 210 Q 440 180 500 220 Q 540 250 510 280 Q 470 310 400 300 Q 330 320 290 280 Z" fill="#ffffff" opacity="0.18" filter="blur(14px)" />
+  <path d="M 310 240 Q 350 200 400 220 Q 450 200 480 230 Q 500 260 470 280 Q 420 290 380 280 Q 330 290 310 260 Z" fill="#38bdf8" opacity="0.25" filter="blur(8px)" />
+
+  <!-- AI Reconstruction Inpainting Grid Overlay -->
+  <g stroke="#00f0ff" stroke-width="1.2" opacity="0.75" filter="url(#gv-glow)">
+    <circle cx="400" cy="245" r="75" fill="none" stroke-dasharray="6,4" />
+    <line x1="400" y1="160" x2="400" y2="330" stroke="#00f0ff" stroke-width="0.8" />
+    <line x1="315" y1="245" x2="485" y2="245" stroke="#00f0ff" stroke-width="0.8" />
+    <rect x="365" y="210" width="70" height="70" fill="none" stroke="#22d3ee" stroke-width="1" />
+  </g>
+
+  <!-- Satellite Sensor Node (Top-Left) -->
+  <g transform="translate(140, 85)">
+    <!-- Satellite Body -->
+    <rect x="-20" y="-15" width="40" height="30" rx="4" fill="#1e293b" stroke="#00f0ff" stroke-width="1.5" />
+    <rect x="-14" y="-9" width="28" height="18" fill="#0284c7" opacity="0.6" />
+    <!-- Solar Panels -->
+    <rect x="-85" y="-10" width="60" height="20" rx="2" fill="#0f172a" stroke="#38bdf8" stroke-width="1" />
+    <line x1="-55" y1="-10" x2="-55" y2="10" stroke="#38bdf8" stroke-width="1" />
+    <rect x="25" y="-10" width="60" height="20" rx="2" fill="#0f172a" stroke="#38bdf8" stroke-width="1" />
+    <line x1="55" y1="-10" x2="55" y2="10" stroke="#38bdf8" stroke-width="1" />
+    <!-- Optical Beam Scanning -->
+    <polygon points="0,15 250,165 300,165" fill="url(#gv-cyan)" opacity="0.15" />
+    <line x1="0" y1="15" x2="275" y2="165" stroke="#00f0ff" stroke-width="1" stroke-dasharray="4,3" opacity="0.8" />
+  </g>
+
+  <!-- Deep Learning Latent Diffusion Vectors -->
+  <g opacity="0.6" stroke="#c084fc" stroke-width="1" stroke-dasharray="3,3">
+    <path d="M 400 245 L 490 190 M 400 245 L 530 260 M 400 245 L 470 310" />
+    <circle cx="490" cy="190" r="3" fill="#c084fc" />
+    <circle cx="530" cy="260" r="3" fill="#c084fc" />
+    <circle cx="470" cy="310" r="3" fill="#c084fc" />
+  </g>
+
+  <!-- HUD Telemetry Card (Top-Right) -->
+  <g transform="translate(560, 40)">
+    <rect width="200" height="75" rx="8" fill="#050814" stroke="#00f0ff" stroke-width="1" opacity="0.85" />
+    <circle cx="18" cy="22" r="4" fill="#00f0ff" />
+    <text x="30" y="26" fill="#00f0ff" font-family="monospace" font-size="11" font-weight="bold">GENVISION AI</text>
+    <text x="18" y="46" fill="#94a3b8" font-family="monospace" font-size="9">CLOUD SEVERITY: RECONSTRUCTED</text>
+    <text x="18" y="62" fill="#22c55e" font-family="monospace" font-size="9">DIFFUSION MODEL: ACTIVE</text>
+  </g>
+
+  <!-- Bottom Label Bar -->
+  <rect x="30" y="405" width="280" height="26" rx="4" fill="#050814" stroke="#1e293b" stroke-width="1" opacity="0.9" />
+  <text x="42" y="422" fill="#38bdf8" font-family="monospace" font-size="10" font-weight="bold">SATELLITE REMOTE SENSING INPAINTING</text>
+</svg>

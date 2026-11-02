@@ -2,7 +2,7 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { Home, BookOpen, Search, AlertCircle } from 'lucide-react';
+import { Home, Mail, Search, AlertCircle } from 'lucide-react';
 
 export default function NotFound() {
   return (
@@ -44,11 +44,11 @@ export default function NotFound() {
           </Link>
 
           <Link
-            href="/blog"
+            href="/#contact"
             className="inline-flex items-center gap-2 rounded-xl border border-neutral-800 bg-neutral-900/80 px-4 py-2.5 text-xs font-medium text-neutral-300 transition hover:border-cyan-500/40 hover:text-cyan-300"
           >
-            <BookOpen className="h-4 w-4" />
-            <span>Read Blog</span>
+            <Mail className="h-4 w-4" />
+            <span>Contact Me</span>
           </Link>
 
           <button

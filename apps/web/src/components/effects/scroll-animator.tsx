@@ -42,26 +42,56 @@ export function ScrollAnimator() {
       observer.observe(sec);
     });
 
-    // 2. Smooth Anchor Navigation Interceptor
+    const scrollToTargetId = (id: string, updateHistory = true) => {
+      const cleanId = id.replace(/^\/?#/, '');
+      if (!cleanId) return;
+
+      const element = document.getElementById(cleanId);
+      if (element) {
+        // Offset for fixed navbar (64px) + breathing room (14px)
+        const yOffset = -78;
+        const y = element.getBoundingClientRect().top + window.pageYOffset + yOffset;
+        window.scrollTo({
+          top: y,
+          behavior: prefersReducedMotion ? 'auto' : 'smooth',
+        });
+        if (updateHistory) {
+          window.history.pushState(null, '', `#${cleanId}`);
+        }
+      }
+    };
+
+    // 2. Smooth Anchor Navigation Interceptor (Catches #contact, /#contact, etc.)
     const handleAnchorClick = (e: MouseEvent) => {
-      const target = (e.target as HTMLElement)?.closest('a[href^="#"]') as HTMLAnchorElement | null;
+      const target = (e.target as HTMLElement)?.closest('a') as HTMLAnchorElement | null;
       if (!target) return;
 
-      const hash = target.getAttribute('href');
-      if (!hash || hash === '#') return;
+      const href = target.getAttribute('href');
+      if (!href) return;
 
-      const element = document.querySelector(hash);
-      if (element) {
+      // Check if it's an in-page anchor (#section or /#section)
+      if (href.startsWith('#') || (href.startsWith('/#') && (window.location.pathname === '/' || window.location.pathname === ''))) {
         e.preventDefault();
-        element.scrollIntoView({
-          behavior: prefersReducedMotion ? 'auto' : 'smooth',
-          block: 'start',
-        });
-        window.history.pushState(null, '', hash);
+        const hash = href.replace(/^\/?#/, '');
+        scrollToTargetId(hash, true);
       }
     };
 
     document.addEventListener('click', handleAnchorClick);
+
+    // 3. Handle initial landing on URL with hash (e.g., http://localhost:3000/#contact)
+    if (window.location.hash) {
+      const initialHash = window.location.hash;
+      const initialTimer = setTimeout(() => {
+        scrollToTargetId(initialHash, false);
+      }, 350);
+
+      return () => {
+        observer.disconnect();
+        document.removeEventListener('click', handleAnchorClick);
+        clearTimeout(initialTimer);
+      };
+    }
 
     return () => {
       observer.disconnect();
@@ -71,4 +101,3 @@ export function ScrollAnimator() {
 
   return null;
 }
-

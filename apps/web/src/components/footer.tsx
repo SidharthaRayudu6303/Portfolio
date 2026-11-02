@@ -3,7 +3,6 @@
 import React from 'react';
 import Link from 'next/link';
 import {
-  Terminal,
   ShieldCheck,
   Linkedin,
   Mail,
@@ -22,6 +21,7 @@ import {
   LEETCODE_URL,
   HACKERRANK_URL,
 } from '@/lib/constants';
+import { SRLogo } from '@/components/brand/sr-logo';
 
 export function Footer() {
   const currentYear = new Date().getFullYear();
@@ -30,11 +30,11 @@ export function Footer() {
     <footer className="border-t border-neutral-800/80 bg-neutral-950 py-12 text-neutral-400">
       <div className="mx-auto max-w-7xl px-6">
         <div className="flex flex-col gap-8 md:flex-row md:items-center md:justify-between">
-          {/* Brand & Tagline */}
+          {/* Brand & Tagline with SR Logo */}
           <div className="space-y-2">
-            <div className="flex items-center gap-2">
-              <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-cyan-500/10 text-cyan-400 ring-1 ring-cyan-500/30">
-                <Terminal className="h-4 w-4" />
+            <div className="flex items-center gap-2.5">
+              <div className="flex items-center justify-center rounded-lg border border-cyan-500/30 bg-neutral-900/60 p-1">
+                <SRLogo size="xs" showGlow={true} />
               </div>
               <span className="text-base font-bold text-white tracking-wider">{DISPLAY_NAME}</span>
             </div>
@@ -43,7 +43,7 @@ export function Footer() {
             </p>
           </div>
 
-          {/* Quick Links */}
+          {/* Quick Links (Blog removed completely) */}
           <div className="flex flex-wrap items-center gap-6 text-xs font-medium">
             <a href="#home" className="hover:text-cyan-400 transition">
               Home
@@ -60,24 +60,18 @@ export function Footer() {
             <a href="#projects" className="hover:text-cyan-400 transition">
               Projects
             </a>
-            <Link href="/#experience" className="hover:text-cyan-400 transition">
+            <a href="#experience" className="hover:text-cyan-400 transition">
               Experience
-            </Link>
-            <Link href="/#hackathons" className="hover:text-cyan-400 transition">
+            </a>
+            <a href="#hackathons" className="hover:text-cyan-400 transition">
               Achievements
-            </Link>
-            <Link href="/#certifications" className="hover:text-cyan-400 transition">
+            </a>
+            <a href="#certifications" className="hover:text-cyan-400 transition">
               Certifications
-            </Link>
-            <Link href="/#coding-profiles" className="hover:text-cyan-400 transition">
-              Coding
-            </Link>
-            <Link href="/blog" className="hover:text-cyan-400 transition">
-              Blog
-            </Link>
-            <Link href="/#contact" className="hover:text-cyan-400 transition">
+            </a>
+            <a href="#contact" className="hover:text-cyan-400 transition">
               Contact
-            </Link>
+            </a>
             <Link
               href="/admin"
               className="inline-flex items-center gap-1 text-neutral-500 hover:text-white transition"
@@ -113,7 +107,7 @@ export function Footer() {
               href={LEETCODE_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className="rounded-lg border border-neutral-800 p-2 text-neutral-400 hover:bg-neutral-900 hover:text-amber-400 transition font-mono text-xs font-bold"
+              className="rounded-lg border border-neutral-800 px-2.5 py-1.5 text-xs font-mono font-bold text-neutral-400 hover:bg-neutral-900 hover:text-amber-400 transition"
               title="LeetCode Profile"
             >
               LC
@@ -122,7 +116,7 @@ export function Footer() {
               href={HACKERRANK_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className="rounded-lg border border-neutral-800 p-2 text-neutral-400 hover:bg-neutral-900 hover:text-emerald-400 transition font-mono text-xs font-bold"
+              className="rounded-lg border border-neutral-800 px-2.5 py-1.5 text-xs font-mono font-bold text-neutral-400 hover:bg-neutral-900 hover:text-emerald-400 transition"
               title="HackerRank Profile"
             >
               HR
@@ -130,19 +124,23 @@ export function Footer() {
             <a
               href={`mailto:${CONTACT_EMAIL}`}
               className="rounded-lg border border-neutral-800 p-2 text-neutral-400 hover:bg-neutral-900 hover:text-cyan-400 transition"
-              title="Send Direct Email"
+              title="Direct Email"
             >
               <Mail className="h-4 w-4" />
             </a>
           </div>
         </div>
 
-        {/* Bottom Bar */}
-        <div className="mt-8 border-t border-neutral-800/60 pt-6 flex flex-col sm:flex-row items-center justify-between text-xs text-neutral-500 gap-3">
+        {/* Bottom Metadata & System Status */}
+        <div className="mt-8 flex flex-col items-center justify-between gap-4 border-t border-neutral-800/60 pt-6 text-[11px] text-neutral-400 sm:flex-row">
           <p>© {currentYear} {DISPLAY_NAME}. All rights reserved.</p>
-          <div className="flex items-center gap-2 text-neutral-400">
-            <ShieldCheck className="h-4 w-4 text-cyan-400" />
-            <span>Architecture v7.2 • Next.js &amp; Neon PostgreSQL</span>
+          <div className="flex items-center gap-4">
+            <span className="flex items-center gap-1.5">
+              <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
+              <span>Full-Stack &amp; AI Engineering Portfolio</span>
+            </span>
+            <span>•</span>
+            <span className="font-mono text-neutral-400">Architecture v7.2</span>
           </div>
         </div>
       </div>

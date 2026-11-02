@@ -157,26 +157,21 @@ export function CommandPalette() {
         keywords: ['experience', 'career', 'jobs', 'history'],
       },
       {
-        id: 'nav-blog',
-        category: 'Navigation',
-        title: 'Technical Blog',
-        description: 'Deep dives on engineering, ML, and 3D web experiences',
-        icon: <BookOpen className="h-4 w-4 text-cyan-400" />,
-        action: () => {
-          router.push('/blog');
-          setIsOpen(false);
-        },
-        keywords: ['blog', 'articles', 'writing', 'posts', 'guides'],
-      },
-      {
         id: 'nav-contact',
         category: 'Navigation',
         title: 'Contact Form',
         description: 'Send a verified direct message to Sidhartha',
         icon: <Mail className="h-4 w-4 text-cyan-400" />,
         action: () => {
-          router.push('/#contact');
           setIsOpen(false);
+          const el = document.getElementById('contact');
+          if (el) {
+            const y = el.getBoundingClientRect().top + window.pageYOffset - 78;
+            window.scrollTo({ top: y, behavior: 'smooth' });
+            window.history.pushState(null, '', '#contact');
+          } else {
+            router.push('/#contact');
+          }
         },
         keywords: ['contact', 'email', 'message', 'hire', 'reach'],
       },

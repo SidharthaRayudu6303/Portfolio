@@ -62,6 +62,72 @@ body {
   animation: pulse-subtle 6s ease-in-out infinite;
 }
 
+/* Certificate Infinite Marquee Animation */
+@keyframes marquee-infinite {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee {
+  animation: marquee-infinite 38s linear infinite;
+  will-change: transform;
+}
+
+.animate-marquee-paused {
+  animation-play-state: paused !important;
+}
+
+/* Orbital Skills System Animations */
+@keyframes orbit-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes orbit-counter-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(-360deg);
+  }
+}
+
+.animate-orbit-1 {
+  animation: orbit-spin 55s linear infinite;
+}
+
+.animate-orbit-2 {
+  animation: orbit-counter-spin 80s linear infinite;
+}
+
+.animate-orbit-3 {
+  animation: orbit-spin 105s linear infinite;
+}
+
+.animate-counter-orbit-1 {
+  animation: orbit-counter-spin 55s linear infinite;
+}
+
+.animate-counter-orbit-2 {
+  animation: orbit-spin 80s linear infinite;
+}
+
+.animate-counter-orbit-3 {
+  animation: orbit-counter-spin 105s linear infinite;
+}
+
+.orbit-paused {
+  animation-play-state: paused !important;
+}
+
 /* Reduced Motion Override */
 @media (prefers-reduced-motion: reduce) {
   *,

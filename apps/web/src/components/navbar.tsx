@@ -2,8 +2,8 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import {
-  Terminal,
   Menu,
   X,
   Lock,
@@ -11,8 +11,10 @@ import {
   Code2,
 } from 'lucide-react';
 import { DISPLAY_NAME } from '@/lib/constants';
+import { SRLogo } from '@/components/brand/sr-logo';
 
 export function Navbar() {
+  const router = useRouter();
   const [isScrolled, setIsScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState('home');
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -42,18 +44,38 @@ export function Navbar() {
     };
   }, []);
 
+  // Public Navigation links (Blog completely removed)
   const navLinks = [
-    { label: 'Home', href: '/#home' },
-    { label: 'About', href: '/#about' },
-    { label: 'Education', href: '/#education' },
-    { label: 'Skills', href: '/#skills' },
-    { label: 'Projects', href: '/#projects' },
-    { label: 'Experience', href: '/#experience' },
-    { label: 'Achievements', href: '/#hackathons' },
-    { label: 'Certifications', href: '/#certifications' },
-    { label: 'Blog', href: '/blog' },
-    { label: 'Contact', href: '/#contact' },
+    { label: 'Home', href: '#home' },
+    { label: 'About', href: '#about' },
+    { label: 'Education', href: '#education' },
+    { label: 'Skills', href: '#skills' },
+    { label: 'Projects', href: '#projects' },
+    { label: 'Experience', href: '#experience' },
+    { label: 'Achievements', href: '#hackathons' },
+    { label: 'Certifications', href: '#certifications' },
+    { label: 'Contact', href: '#contact' },
   ];
+
+  // Guaranteed smooth-scroll navigation that never gets eaten by router
+  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    if (href.startsWith('#') || href.startsWith('/#')) {
+      e.preventDefault();
+      const id = href.replace(/^\/?#/, '');
+      const element = document.getElementById(id);
+      if (element) {
+        // Compensate for fixed navbar height (64px) with breathing space
+        const yOffset = -76;
+        const y = element.getBoundingClientRect().top + window.pageYOffset + yOffset;
+        window.scrollTo({ top: y, behavior: 'smooth' });
+        window.history.pushState(null, '', `#${id}`);
+        setActiveSection(id);
+      } else {
+        router.push(`/#${id}`);
+      }
+      setMobileMenuOpen(false);
+    }
+  };
 
   return (
     <header
@@ -64,14 +86,14 @@ export function Navbar() {
       }`}
     >
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6">
-        {/* Brand Logo */}
+        {/* Brand Logo with Custom SR Monogram */}
         <a
           href="#home"
-          className="group flex items-center gap-2.5 text-decoration-none"
+          onClick={(e) => handleNavClick(e, '#home')}
+          className="group flex items-center gap-3 text-decoration-none"
         >
-          <div className="relative flex h-9 w-9 items-center justify-center rounded-xl bg-cyan-500/10 text-cyan-400 ring-1 ring-cyan-500/30 transition group-hover:bg-cyan-500/20 group-hover:ring-cyan-400/60">
-            <Terminal className="h-4 w-4 transition-transform group-hover:scale-110" />
-            <div className="absolute inset-0 rounded-xl bg-cyan-400/20 blur-sm opacity-0 group-hover:opacity-100 transition" />
+          <div className="relative flex items-center justify-center rounded-xl border border-cyan-500/30 bg-neutral-900/60 p-1.5 transition-all group-hover:border-cyan-400/60 group-hover:bg-cyan-500/10 group-hover:shadow-[0_0_16px_rgba(0,240,255,0.3)]">
+            <SRLogo size="sm" showGlow={true} animated={true} />
           </div>
           <div>
             <span className="text-sm sm:text-base font-bold tracking-tight text-white transition group-hover:text-cyan-400">
@@ -86,11 +108,13 @@ export function Navbar() {
         {/* Desktop Navigation Links */}
         <nav className="hidden lg:flex items-center gap-1 rounded-full border border-neutral-800/80 bg-neutral-900/60 px-3 py-1.5 backdrop-blur-md">
           {navLinks.map((link) => {
-            const isActive = link.href === `/#${activeSection}` || link.href === `#${activeSection}`;
+            const linkId = link.href.replace('#', '');
+            const isActive = activeSection === linkId;
             return (
               <a
                 key={link.label}
                 href={link.href}
+                onClick={(e) => handleNavClick(e, link.href)}
                 className={`rounded-full px-2.5 py-1 text-xs font-medium transition-all ${
                   isActive
                     ? 'bg-cyan-500/20 text-cyan-300 shadow-[0_0_12px_rgba(0,240,255,0.25)] border border-cyan-500/40'
@@ -137,13 +161,15 @@ export function Navbar() {
             <span>Admin</span>
           </Link>
 
-          <Link
-            href="/#contact"
+          {/* Let's Connect CTA - Explicit Smooth Scroll to #contact */}
+          <a
+            href="#contact"
+            onClick={(e) => handleNavClick(e, '#contact')}
             data-magnetic="true"
-            className="relative inline-flex items-center gap-1.5 overflow-hidden rounded-xl bg-cyan-500 px-4 py-1.5 text-xs font-semibold text-neutral-950 transition hover:bg-cyan-400 hover:shadow-lg hover:shadow-cyan-500/20"
+            className="relative inline-flex items-center gap-1.5 overflow-hidden rounded-xl bg-cyan-500 px-4 py-1.5 text-xs font-semibold text-neutral-950 transition hover:bg-cyan-400 hover:shadow-lg hover:shadow-cyan-500/25 cursor-pointer"
           >
             <span>Let&apos;s Connect</span>
-          </Link>
+          </a>
         </div>
 
         {/* Mobile Hamburger Button */}
@@ -164,7 +190,7 @@ export function Navbar() {
               <a
                 key={link.label}
                 href={link.href}
-                onClick={() => setMobileMenuOpen(false)}
+                onClick={(e) => handleNavClick(e, link.href)}
                 className="rounded-xl px-4 py-2.5 text-sm font-medium text-neutral-300 hover:bg-neutral-900 hover:text-cyan-400 transition"
               >
                 {link.label}
@@ -199,13 +225,13 @@ export function Navbar() {
                 <Lock className="h-3.5 w-3.5 text-cyan-400" />
                 <span>Admin CMS Portal</span>
               </Link>
-              <Link
-                href="/#contact"
-                onClick={() => setMobileMenuOpen(false)}
-                className="flex items-center justify-center rounded-xl bg-cyan-500 py-2.5 text-xs font-bold text-neutral-950"
+              <a
+                href="#contact"
+                onClick={(e) => handleNavClick(e, '#contact')}
+                className="flex items-center justify-center rounded-xl bg-cyan-500 py-2.5 text-xs font-bold text-neutral-950 cursor-pointer"
               >
                 Let&apos;s Connect
-              </Link>
+              </a>
             </div>
           </nav>
         </div>

@@ -16,7 +16,7 @@
 
 ## 👨‍💻 About Sidhartha Rayudu
 
-**Madhavarapu Sidhartha Rayudu** (`SIDHARTHA RAYUDU`) is an aspiring Full-Stack Developer and Software Engineer currently pursuing a Bachelor of Engineering (B.E.) in Computer Science and Engineering at **Sathyabama Institute of Science and Technology** (2023–2027, CGPA: **8.4 / 10**).
+**Madhavarapu Sidhartha Rayudu** (`SIDHARTHA RAYUDU`) is an aspiring Full-Stack Developer and Software Engineer currently pursuing a Bachelor of Engineering (B.E.) in Computer Science and Engineering at **Sathyabama Institute of Science and Technology** (2023–2027, CGPA: **8.37 / 10**).
 
 - **Location**: Kakinada, East Godavari, Andhra Pradesh, India
 - **Core Focus**: Full-Stack Web Development, Scalable Backend Architectures, Computer Vision & AI/ML
@@ -44,12 +44,13 @@
   - **SmartDonum** — Transparent donation tracking platform built with Next.js, Node.js, and SQL.
   - **Autism Screening Platform** — Machine learning early detection prototype.
   - **Smart Rental Platform** — Equipment rental tracking and fleet management operations engine.
-- **Academic Foundation**: Dedicated Sathyabama Institute of Science and Technology section detailing coursework, CGPA (8.4/10), and major academic milestones.
+- **Academic Foundation**: Dedicated Sathyabama Institute of Science and Technology section detailing coursework, CGPA (8.37/10), and major academic milestones.
 - **Professional Experience**: React JS Developer Intern at Unstop Events.
 - **Competitions & Hackathons**:
   - **Bharatiya Antariksh Hackathon 2026** — Selected for Challenge 12 (Space Applications & Geospatial Processing).
   - **CAT Hackathon** — Competitive coding and algorithmic problem-solving.
-- **Verified Certifications**: DataCamp (Understanding Machine Learning), CodeTantra / Sathyabama (Python), Cognitive Class / IBM Developer Network (Python 101 for Data Science), Infosys Springboard (Python & Communications), Samsung India, and NxtWave.
+  - **National Coding Aptitude Test (NCAT) 2025** — Ranked 4,237 among 2.1 lakh+ participants.
+- **Verified Certifications**: 9 authenticated credentials including CodeTantra / Sathyabama (Python), Infosys Springboard (Python, Email Writing, Time Management), TCS iON Career Edge, Udemy (Generative AI Primer), MongoDB University, and One Roadmap (Frontend).
 
 ### 3. Developer Tools & Intelligence
 - **Developer Terminal (`Ctrl+\``)**: Interactive command-line interface supporting Unix-like commands (`about`, `skills`, `projects`, `education`, `experience`, `certifications`, `hackathons`, `contact`, `clear`).
