@@ -119,7 +119,7 @@ export function HackathonsSection() {
   }, []);
 
   return (
-    <section id="hackathons" className="scroll-mt-24 py-20 border-b border-neutral-800/80 relative overflow-hidden">
+    <section id="hackathons" className="scroll-mt-16 min-h-screen flex flex-col justify-center py-20 border-b border-neutral-800/80 relative overflow-hidden">
       {/* Background ambient lighting */}
       <div className="absolute top-1/4 right-1/4 w-[500px] h-[300px] bg-cyan-500/5 blur-[120px] pointer-events-none -z-10" />
       <div className="absolute bottom-1/4 left-1/4 w-[450px] h-[300px] bg-purple-600/5 blur-[120px] pointer-events-none -z-10" />

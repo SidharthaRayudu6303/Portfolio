@@ -12,6 +12,8 @@ import { CertificationsSection } from '@/components/certifications-section';
 import { ContactSection } from '@/components/contact-section';
 import { Footer } from '@/components/footer';
 import { InteractiveUniverse } from '@/components/effects/interactive-universe';
+import { ScreenDots } from '@/components/navigation/screen-dots';
+import { BackToTop } from '@/components/navigation/back-to-top';
 
 export const dynamic = 'force-dynamic';
 
@@ -101,15 +103,16 @@ export default async function HomePage() {
   const { projects, skills, experience, certifications } = await fetchPortfolioData();
 
   return (
-    <div className="min-h-screen bg-[#050505] text-neutral-100 selection:bg-cyan-500 selection:text-neutral-950">
+    <div className="relative min-h-screen bg-[#050505] text-neutral-100 selection:bg-cyan-500 selection:text-neutral-950 overflow-x-hidden">
       {/* 3D Particle Universe, Cinematic Loader, Custom Cursor & Scroll Effects */}
       <InteractiveUniverse />
 
-      {/* Navigation */}
+      {/* Navigation & Section Indicator */}
       <Navbar />
+      <ScreenDots />
 
       {/* Main Sections */}
-      <main>
+      <main className="relative z-10">
         {/* 1. Hero Section */}
         <Hero
           projectCount={projects.length > 0 ? projects.length : VERIFIED_DEFAULT_PROJECTS.length}
@@ -143,6 +146,9 @@ export default async function HomePage() {
 
       {/* Footer */}
       <Footer />
+
+      {/* Floating Back to Top Button */}
+      <BackToTop />
     </div>
   );
 }

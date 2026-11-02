@@ -69,9 +69,13 @@ export class ContactService {
   }
 
   async findAll() {
-    return this.prisma.contactMessage.findMany({
-      orderBy: { createdAt: 'desc' },
-    });
+    try {
+      return await this.prisma.contactMessage.findMany({
+        orderBy: { createdAt: 'desc' },
+      });
+    } catch {
+      return [];
+    }
   }
 
   async markAsRead(id: string) {

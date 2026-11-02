@@ -68,28 +68,29 @@ export const VERIFIED_EXPERIENCES: Experience[] = [
     ],
   },
   {
-    id: 'exp-unstop',
-    company: 'Unstop Events',
-    role: 'React JS Developer Intern',
-    type: 'Part-time Internship',
-    startDate: '2025-06-10',
-    endDate: '2025-12-15',
+    id: 'exp-navodita',
+    company: 'Navodita Infotech',
+    role: 'Machine Learning Intern',
+    type: 'Internship',
+    startDate: '2025-06-05',
+    endDate: '2025-07-04',
     current: false,
     order: 2,
     location: 'Remote',
     description:
-      'Worked on React.js-based frontend development and practical web development tasks, building foundational industry experience in component state management and UI implementation.',
+      'Machine Learning internship focused on data preprocessing, feature engineering, exploratory data analysis (EDA), and training predictive machine learning models using Python and Scikit-learn.',
     responsibilities: [
-      'React.js-based frontend development and user interface implementation.',
-      'Executed practical web development tasks across application views.',
-      'Managed component state and optimized React render cycles.',
-      'Implemented responsive UI layouts adhering to design specifications.',
+      'Engineered data preprocessing and exploratory data analysis (EDA) pipelines using Python, Pandas, and NumPy.',
+      'Trained and evaluated machine learning models for predictive analytics and classification tasks.',
+      'Implemented feature selection, data normalization, and hyperparameter tuning.',
+      'Benchmarked model accuracy, precision, and recall using cross-validation and confusion matrices.',
+      'Documented model performance metrics, experiment findings, and actionable insights.',
     ],
-    technologies: ['React.js', 'JavaScript', 'HTML5', 'CSS3', 'Git'],
+    technologies: ['Python', 'Machine Learning', 'Scikit-learn', 'Pandas', 'NumPy', 'EDA'],
     learningOutcomes: [
-      'Deepened practical mastery of React hooks, component lifecycle, and state lifting.',
-      'Hands-on experience in converting design specifications into functional React components.',
-      'Strengthened clean code habits and frontend development workflows.',
+      'Practical end-to-end machine learning workflows from dataset preparation to model evaluation.',
+      'Hands-on expertise in feature engineering, hyperparameter tuning, and metric assessment.',
+      'Solidified analytical rigor and reproducible experimentation practices with Python ML libraries.',
     ],
   },
 ];
@@ -156,7 +157,7 @@ export function ExperienceSection({ experience }: ExperienceSectionProps) {
   };
 
   return (
-    <section id="experience" className="scroll-mt-24 py-20 border-b border-neutral-800/80 relative overflow-hidden">
+    <section id="experience" className="scroll-mt-16 min-h-screen flex flex-col justify-center py-20 border-b border-neutral-800/80 relative overflow-hidden">
       {/* Ambient background lighting */}
       <div className="absolute top-1/3 left-10 w-[500px] h-[300px] bg-cyan-500/5 blur-[120px] pointer-events-none -z-10" />
       <div className="absolute bottom-10 right-10 w-[450px] h-[300px] bg-emerald-500/5 blur-[120px] pointer-events-none -z-10" />
@@ -194,7 +195,7 @@ export function ExperienceSection({ experience }: ExperienceSectionProps) {
               const accentColor = isRobohatch ? 'cyan' : 'emerald';
               const dateString = isRobohatch
                 ? 'Jan 2026 – May 2026'
-                : '10 June 2025 – 15 Dec 2025';
+                : '5 June 2025 – 4 July 2025';
 
               return (
                 <div key={exp.id} className="relative pl-12 sm:pl-20 group">
@@ -413,7 +414,7 @@ export function ExperienceSection({ experience }: ExperienceSectionProps) {
                     <span>
                       {selectedExperience.company.toLowerCase().includes('robohatch')
                         ? 'Jan 2026 – May 2026'
-                        : '10 June 2025 – 15 Dec 2025'}
+                        : '5 June 2025 – 4 July 2025'}
                     </span>
                     <span>•</span>
                     <span>{selectedExperience.location}</span>

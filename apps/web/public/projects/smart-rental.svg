@@ -1,98 +1,201 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" width="100%" height="100%">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 675" width="100%" height="100%">
   <defs>
     <linearGradient id="sr-bg" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#140b03" />
-      <stop offset="50%" stop-color="#241405" />
-      <stop offset="100%" stop-color="#0a0502" />
+      <stop offset="0%" stop-color="#0c0a03" />
+      <stop offset="50%" stop-color="#1c1706" />
+      <stop offset="100%" stop-color="#050401" />
     </linearGradient>
+
     <linearGradient id="sr-amber" x1="0%" y1="0%" x2="100%" y2="0%">
       <stop offset="0%" stop-color="#f59e0b" />
-      <stop offset="50%" stop-color="#fbbf24" />
-      <stop offset="100%" stop-color="#00f0ff" />
+      <stop offset="100%" stop-color="#fbbf24" />
     </linearGradient>
+
+    <linearGradient id="sr-cyan" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00f0ff" />
+      <stop offset="100%" stop-color="#0284c7" />
+    </linearGradient>
+
+    <filter id="sr-glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="6" result="blur" />
+      <feMerge>
+        <feMergeNode in="blur" />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
+
+    <pattern id="sr-grid" width="35" height="35" patternUnits="userSpaceOnUse">
+      <path d="M 35 0 L 0 0 0 35" fill="none" stroke="#78350f" stroke-width="0.8" stroke-opacity="0.4" />
+    </pattern>
   </defs>
 
-  <!-- Background -->
-  <rect width="800" height="450" fill="url(#sr-bg)" />
+  <!---->
+  <rect width="1200" height="675" fill="url(#sr-bg)" />
+  <rect width="1200" height="675" fill="url(#sr-grid)" />
 
-  <!-- Fleet Telemetry Grid Background -->
-  <g stroke="#f59e0b" stroke-width="0.5" opacity="0.15">
-    <line x1="0" y1="100" x2="800" y2="100" />
-    <line x1="0" y1="200" x2="800" y2="200" />
-    <line x1="0" y1="300" x2="800" y2="300" />
-    <line x1="0" y1="400" x2="800" y2="400" />
-    <line x1="200" y1="0" x2="200" y2="450" />
-    <line x1="400" y1="0" x2="400" y2="450" />
-    <line x1="600" y1="0" x2="600" y2="450" />
-  </g>
+  <!---->
+  <circle cx="280" cy="300" r="280" fill="#f59e0b" fill-opacity="0.05" filter="url(#sr-glow)" />
+  <circle cx="920" cy="340" r="280" fill="#00f0ff" fill-opacity="0.04" filter="url(#sr-glow)" />
 
-  <!-- Central Dashboard Workspace Frame -->
-  <g transform="translate(140, 60)">
-    <rect width="520" height="320" rx="16" fill="#1c0f05" stroke="#f59e0b" stroke-width="1.5" opacity="0.9" />
+  <!---->
+  <rect x="30" y="30" width="1140" height="615" rx="16" fill="none" stroke="#451a03" stroke-width="1.5" />
+  <path d="M 30 70 L 30 30 L 70 30" fill="none" stroke="#f59e0b" stroke-width="3" />
+  <path d="M 1170 70 L 1170 30 L 1130 30" fill="none" stroke="#f59e0b" stroke-width="3" />
+  <path d="M 30 605 L 30 645 L 70 645" fill="none" stroke="#f59e0b" stroke-width="3" />
+  <path d="M 1170 605 L 1170 645 L 1130 645" fill="none" stroke="#f59e0b" stroke-width="3" />
 
-    <!-- Top Dashboard Header Bar -->
-    <rect width="520" height="38" rx="16" fill="#291607" />
-    <circle cx="20" cy="19" r="4.5" fill="#ef4444" />
-    <circle cx="34" cy="19" r="4.5" fill="#f59e0b" />
-    <circle cx="48" cy="19" r="4.5" fill="#10b981" />
-    <text x="75" y="23" fill="#fde68a" font-family="monospace" font-size="11" font-weight="bold">CAT HACKATHON • SMART RENTAL DASHBOARD</text>
+  <!---->
+  <rect x="50" y="50" width="1100" height="48" rx="8" fill="#1e1305" fill-opacity="0.85" stroke="#78350f" stroke-width="1" />
+  <circle cx="75" cy="74" r="5" fill="#f59e0b" filter="url(#sr-glow)" />
+  <text x="95" y="79" fill="#f59e0b" font-family="monospace" font-size="14" font-weight="bold" letter-spacing="2">SMART RENTAL // INDUSTRIAL FLEET &amp; HEAVY EQUIPMENT TELEMETRY PLATFORM</text>
+  <text x="790" y="79" fill="#fde68a" font-family="monospace" font-size="12">5 CORE ANALYTICS DASHBOARDS</text>
+  <rect x="1035" y="62" width="95" height="24" rx="4" fill="#78350f" fill-opacity="0.4" stroke="#f59e0b" stroke-width="1" />
+  <text x="1046" y="78" fill="#fef08a" font-family="monospace" font-size="11" font-weight="bold">FLEET ACTIVE</text>
 
-    <!-- Stat Metric Box 1: Fleet Utilization (Top-Left) -->
-    <g transform="translate(24, 56)">
-      <rect width="145" height="75" rx="8" fill="#140902" stroke="#f59e0b" stroke-width="1" opacity="0.8" />
-      <text x="12" y="22" fill="#94a3b8" font-family="monospace" font-size="9">ACTIVE FLEET</text>
-      <text x="12" y="48" fill="#fbbf24" font-family="monospace" font-size="20" font-weight="bold">88.4%</text>
-      <text x="12" y="64" fill="#10b981" font-family="monospace" font-size="8.5">▲ +12% Efficiency</text>
-    </g>
+  <!---->
+  <g transform="translate(50, 115)">
+    <!---->
+    <g transform="translate(0, 0)">
+      <rect x="0" y="0" width="340" height="210" rx="10" fill="#140d04" stroke="#78350f" stroke-width="1" />
+      <text x="20" y="28" fill="#fef08a" font-family="monospace" font-size="11" font-weight="bold">1. FLEET UTILIZATION RATE</text>
+      <text x="20" y="70" fill="#f59e0b" font-family="monospace" font-size="34" font-weight="bold">82.4%</text>
+      <text x="160" y="65" fill="#10b981" font-family="sans-serif" font-size="11">▲ +4.2% This Month</text>
+      <text x="20" y="95" fill="#94a3b8" font-family="sans-serif" font-size="11">Active Deployed Units: 42 / 51 Machines</text>
 
-    <!-- Stat Metric Box 2: Total Operating Hours (Top-Center) -->
-    <g transform="translate(187, 56)">
-      <rect width="145" height="75" rx="8" fill="#140902" stroke="#00f0ff" stroke-width="1" opacity="0.8" />
-      <text x="12" y="22" fill="#94a3b8" font-family="monospace" font-size="9">HOURS LOGGED</text>
-      <text x="12" y="48" fill="#00f0ff" font-family="monospace" font-size="20" font-weight="bold">1,420h</text>
-      <text x="12" y="64" fill="#38bdf8" font-family="monospace" font-size="8.5">Telematics Active</text>
-    </g>
+      <!---->
+      <rect x="20" y="115" width="300" height="12" rx="4" fill="#291807" />
+      <rect x="20" y="115" width="247" height="12" rx="4" fill="url(#sr-amber)" />
 
-    <!-- Stat Metric Box 3: Predictive Maintenance Alerts (Top-Right) -->
-    <g transform="translate(350, 56)">
-      <rect width="145" height="75" rx="8" fill="#140902" stroke="#10b981" stroke-width="1" opacity="0.8" />
-      <text x="12" y="22" fill="#94a3b8" font-family="monospace" font-size="9">EQUIPMENT HEALTH</text>
-      <text x="12" y="48" fill="#10b981" font-family="monospace" font-size="20" font-weight="bold">OPTIMAL</text>
-      <text x="12" y="64" fill="#6ee7b7" font-family="monospace" font-size="8.5">0 Critical Faults</text>
-    </g>
+      <g transform="translate(20, 145)">
+        <rect x="0" y="0" width="90" height="45" rx="6" fill="#1e1305" stroke="#92400e" stroke-width="1" />
+        <text x="12" y="20" fill="#94a3b8" font-family="sans-serif" font-size="9">Excavators</text>
+        <text x="12" y="36" fill="#ffffff" font-family="monospace" font-size="13" font-weight="bold">18/20</text>
 
-    <!-- Lower Dashboard Telemetry Graph -->
-    <g transform="translate(24, 146)">
-      <rect width="471" height="150" rx="10" fill="#140902" stroke="#291607" stroke-width="1" />
-      <text x="16" y="24" fill="#fde68a" font-family="monospace" font-size="10" font-weight="bold">REAL-TIME EQUIPMENT UTILIZATION &amp; REVENUE TELEMETRY</text>
+        <rect x="105" y="0" width="90" height="45" rx="6" fill="#1e1305" stroke="#92400e" stroke-width="1" />
+        <text x="117" y="20" fill="#94a3b8" font-family="sans-serif" font-size="9">Cranes</text>
+        <text x="117" y="36" fill="#ffffff" font-family="monospace" font-size="13" font-weight="bold">12/15</text>
 
-      <!-- Bar / Line Charts -->
-      <g stroke="#f59e0b" stroke-width="2" fill="none">
-        <path d="M 20 120 L 70 95 L 120 110 L 170 70 L 220 85 L 270 45 L 320 60 L 370 30 L 420 50 L 450 25" />
+        <rect x="210" y="0" width="90" height="45" rx="6" fill="#1e1305" stroke="#92400e" stroke-width="1" />
+        <text x="222" y="20" fill="#94a3b8" font-family="sans-serif" font-size="9">Bulldozers</text>
+        <text x="222" y="36" fill="#ffffff" font-family="monospace" font-size="13" font-weight="bold">12/16</text>
       </g>
-      <!-- Area Glow Fill -->
-      <polygon points="20,120 70,95 120,110 170,70 220,85 270,45 320,60 370,30 420,50 450,25 450,135 20,135" fill="url(#sr-amber)" opacity="0.15" />
+    </g>
 
-      <!-- Horizontal Gridlines in Graph -->
-      <line x1="20" y1="50" x2="450" y2="50" stroke="#f59e0b" stroke-width="0.5" opacity="0.2" stroke-dasharray="3,3" />
-      <line x1="20" y1="90" x2="450" y2="90" stroke="#f59e0b" stroke-width="0.5" opacity="0.2" stroke-dasharray="3,3" />
-      <line x1="20" y1="130" x2="450" y2="130" stroke="#f59e0b" stroke-width="0.5" opacity="0.3" />
+    <!---->
+    <g transform="translate(360, 0)">
+      <rect x="0" y="0" width="415" height="210" rx="10" fill="#140d04" stroke="#78350f" stroke-width="1" />
+      <text x="20" y="28" fill="#fef08a" font-family="monospace" font-size="11" font-weight="bold">2. LIVE GPS TRACKING &amp; GEOFENCE</text>
+
+      <!---->
+      <rect x="20" y="42" width="375" height="150" rx="8" fill="#0c0702" stroke="#451a03" stroke-width="1" />
+      <!---->
+      <polygon points="60,60 340,65 310,170 50,160" fill="#f59e0b" fill-opacity="0.08" stroke="#f59e0b" stroke-width="1.5" stroke-dasharray="4,4" />
+      <text x="65" y="80" fill="#f59e0b" font-family="monospace" font-size="9" font-weight="bold">AUTHORIZED ZONE: CHENNAI PORT LOGISTICS</text>
+
+      <!---->
+      <circle cx="120" cy="115" r="8" fill="#f59e0b" stroke="#ffffff" stroke-width="1.5" filter="url(#sr-glow)" />
+      <circle cx="120" cy="115" r="3" fill="#000000" />
+      <rect x="90" y="130" width="60" height="16" rx="3" fill="#1e1305" stroke="#f59e0b" stroke-width="1" />
+      <text x="96" y="142" fill="#fef08a" font-family="monospace" font-size="8">CAT-320D</text>
+
+      <!---->
+      <circle cx="260" cy="100" r="8" fill="#10b981" stroke="#ffffff" stroke-width="1.5" filter="url(#sr-glow)" />
+      <circle cx="260" cy="100" r="3" fill="#000000" />
+      <rect x="230" y="115" width="60" height="16" rx="3" fill="#1e1305" stroke="#10b981" stroke-width="1" />
+      <text x="238" y="127" fill="#a7f3d0" font-family="monospace" font-size="8">JCB-4DX</text>
+    </g>
+
+    <!---->
+    <g transform="translate(795, 0)">
+      <rect x="0" y="0" width="305" height="210" rx="10" fill="#140d04" stroke="#78350f" stroke-width="1" />
+      <text x="20" y="28" fill="#fef08a" font-family="monospace" font-size="11" font-weight="bold">3. MAINTENANCE TELEMETRY</text>
+
+      <rect x="20" y="45" width="265" height="45" rx="6" fill="#1e1305" stroke="#92400e" stroke-width="1" />
+      <circle cx="38" cy="67" r="5" fill="#10b981" />
+      <text x="52" y="62" fill="#ffffff" font-family="sans-serif" font-size="10" font-weight="bold">Hydraulic Pump Temp: 68°C</text>
+      <text x="52" y="78" fill="#94a3b8" font-family="sans-serif" font-size="9">Normal Operating Range</text>
+
+      <rect x="20" y="98" width="265" height="45" rx="6" fill="#1e1305" stroke="#d97706" stroke-width="1" />
+      <circle cx="38" cy="120" r="5" fill="#f59e0b" />
+      <text x="52" y="115" fill="#ffffff" font-family="sans-serif" font-size="10" font-weight="bold">Engine Oil Hours: 242/250h</text>
+      <text x="52" y="131" fill="#fef08a" font-family="sans-serif" font-size="9">Scheduled Service in 8 Hours</text>
+
+      <rect x="20" y="151" width="265" height="45" rx="6" fill="#1e1305" stroke="#92400e" stroke-width="1" />
+      <circle cx="38" cy="173" r="5" fill="#10b981" />
+      <text x="52" y="168" fill="#ffffff" font-family="sans-serif" font-size="10" font-weight="bold">Vibration Sensor: 2.1 mm/s</text>
+      <text x="52" y="184" fill="#94a3b8" font-family="sans-serif" font-size="9">Bearing Wear Baseline Normal</text>
+    </g>
+
+    <!---->
+    <g transform="translate(0, 230)">
+      <rect x="0" y="0" width="540" height="210" rx="10" fill="#140d04" stroke="#78350f" stroke-width="1" />
+      <text x="20" y="28" fill="#fef08a" font-family="monospace" font-size="11" font-weight="bold">4. DEMAND FORECASTING // RANDOM FOREST MODEL</text>
+      <text x="340" y="28" fill="#38bdf8" font-family="monospace" font-size="11">DEMO TIME-SERIES MODEL</text>
+
+      <!---->
+      <g transform="translate(20, 48)">
+        <rect x="0" y="0" width="500" height="140" rx="6" fill="#0c0702" stroke="#451a03" stroke-width="1" />
+        <line x1="30" y1="110" x2="480" y2="110" stroke="#451a03" stroke-width="1" />
+        <line x1="30" y1="70" x2="480" y2="70" stroke="#451a03" stroke-width="1" stroke-dasharray="2,2" />
+
+        <!---->
+        <polyline points="40,95 100,85 160,90 220,65 280,75 340,55" fill="none" stroke="#f59e0b" stroke-width="2.5" />
+        <!---->
+        <polyline points="340,55 400,40 460,30" fill="none" stroke="#00f0ff" stroke-width="2.5" stroke-dasharray="4,3" filter="url(#sr-glow)" />
+
+        <circle cx="340" cy="55" r="4" fill="#ffffff" />
+        <text x="310" y="40" fill="#ffffff" font-family="monospace" font-size="9">TODAY</text>
+        <circle cx="460" cy="30" r="4" fill="#00f0ff" />
+        <text x="410" y="20" fill="#00f0ff" font-family="monospace" font-size="9">+28% PROJECTED</text>
+
+        <text x="40" y="128" fill="#64748b" font-family="monospace" font-size="9">JAN</text>
+        <text x="100" y="128" fill="#64748b" font-family="monospace" font-size="9">FEB</text>
+        <text x="160" y="128" fill="#64748b" font-family="monospace" font-size="9">MAR</text>
+        <text x="220" y="128" fill="#64748b" font-family="monospace" font-size="9">APR</text>
+        <text x="280" y="128" fill="#64748b" font-family="monospace" font-size="9">MAY</text>
+        <text x="340" y="128" fill="#f59e0b" font-family="monospace" font-size="9">JUN (ACTUAL)</text>
+        <text x="420" y="128" fill="#00f0ff" font-family="monospace" font-size="9">Q3 FORECAST</text>
+      </g>
+    </g>
+
+    <!---->
+    <g transform="translate(560, 230)">
+      <rect x="0" y="0" width="540" height="210" rx="10" fill="#140d04" stroke="#78350f" stroke-width="1" />
+      <text x="20" y="28" fill="#fef08a" font-family="monospace" font-size="11" font-weight="bold">5. RENTAL AGREEMENTS &amp; DISPATCH QUEUE</text>
+
+      <g transform="translate(20, 48)">
+        <!---->
+        <rect x="0" y="0" width="500" height="42" rx="6" fill="#1e1305" stroke="#92400e" stroke-width="1" />
+        <text x="16" y="25" fill="#ffffff" font-family="sans-serif" font-size="11" font-weight="bold">L&amp;T Urban Infra Corp</text>
+        <text x="180" y="25" fill="#fef08a" font-family="monospace" font-size="10">2x Hydraulic Excavators</text>
+        <text x="340" y="25" fill="#10b981" font-family="monospace" font-size="10">ACTIVE (Day 14/30)</text>
+        <rect x="440" y="10" width="45" height="22" rx="3" fill="#059669" />
+        <text x="450" y="25" fill="#ffffff" font-family="sans-serif" font-size="9">PAID</text>
+
+        <!---->
+        <rect x="0" y="50" width="500" height="42" rx="6" fill="#1e1305" stroke="#92400e" stroke-width="1" />
+        <text x="16" y="75" fill="#ffffff" font-family="sans-serif" font-size="11" font-weight="bold">GMR Expressways Ltd</text>
+        <text x="180" y="75" fill="#fef08a" font-family="monospace" font-size="10">1x 50T Mobile Crane</text>
+        <text x="340" y="75" fill="#38bdf8" font-family="monospace" font-size="10">DISPATCHING (ETA 2h)</text>
+        <rect x="440" y="60" width="45" height="22" rx="3" fill="#0284c7" />
+        <text x="446" y="75" fill="#ffffff" font-family="sans-serif" font-size="9">TRANS</text>
+
+        <!---->
+        <rect x="0" y="100" width="500" height="42" rx="6" fill="#1e1305" stroke="#92400e" stroke-width="1" />
+        <text x="16" y="125" fill="#ffffff" font-family="sans-serif" font-size="11" font-weight="bold">Tata Projects Metro Line</text>
+        <text x="180" y="125" fill="#fef08a" font-family="monospace" font-size="10">3x Wheel Loaders</text>
+        <text x="340" y="125" fill="#f59e0b" font-family="monospace" font-size="10">RENEWAL PENDING</text>
+        <rect x="440" y="110" width="45" height="22" rx="3" fill="#b45309" />
+        <text x="448" y="125" fill="#ffffff" font-family="sans-serif" font-size="9">ALERT</text>
+      </g>
     </g>
   </g>
 
-  <!-- Heavy Machinery / Excavator Silhouette Element (Bottom Right) -->
-  <g transform="translate(670, 340)" stroke="#f59e0b" stroke-width="1.5" fill="#241405" opacity="0.8">
-    <rect x="-30" y="-15" width="45" height="15" rx="3" />
-    <circle cx="-18" cy="4" r="7" fill="#140902" stroke="#f59e0b" />
-    <circle cx="2" cy="4" r="7" fill="#140902" stroke="#f59e0b" />
-    <!-- Boom Arm -->
-    <line x1="-10" y1="-15" x2="10" y2="-45" />
-    <line x1="10" y1="-45" x2="35" y2="-20" />
-    <polygon points="35,-20 48,-12 40,-5 30,-14" fill="#f59e0b" />
+  <!---->
+  <g transform="translate(50, 575)">
+    <rect x="0" y="0" width="1100" height="48" rx="8" fill="#1e1305" fill-opacity="0.85" stroke="#78350f" stroke-width="1" />
+    <text x="25" y="28" fill="#94a3b8" font-family="monospace" font-size="11">STACK: <tspan fill="#f59e0b">Next.js + REST APIs + Scikit-Learn (Random Forest)</tspan></text>
+    <text x="510" y="28" fill="#94a3b8" font-family="monospace" font-size="11">DEPLOYMENT: <tspan fill="#fbbf24">Enterprise Fleet Telemetry System</tspan></text>
+    <text x="960" y="28" fill="#94a3b8" font-family="monospace" font-size="11">YEAR: <tspan fill="#10b981">2026</tspan></text>
   </g>
-
-  <!-- Bottom Overview Bar -->
-  <rect x="220" y="405" width="360" height="26" rx="6" fill="#140902" stroke="#f59e0b" stroke-width="1" opacity="0.9" />
-  <text x="240" y="422" fill="#fbbf24" font-family="monospace" font-size="9.5" font-weight="bold">CAT HACKATHON • REAL-TIME FLEET TELEMATICS</text>
 </svg>
-

@@ -1,74 +1,157 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" width="100%" height="100%">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 675" width="100%" height="100%">
   <defs>
     <linearGradient id="sd-bg" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#02141a" />
-      <stop offset="50%" stop-color="#042a38" />
-      <stop offset="100%" stop-color="#010c10" />
+      <stop offset="0%" stop-color="#020e14" />
+      <stop offset="50%" stop-color="#041a24" />
+      <stop offset="100%" stop-color="#01070a" />
     </linearGradient>
+
     <linearGradient id="sd-cyan" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" stop-color="#00f0ff" />
-      <stop offset="100%" stop-color="#10b981" />
+      <stop offset="0%" stop-color="#06b6d4" />
+      <stop offset="100%" stop-color="#38bdf8" />
     </linearGradient>
+
+    <linearGradient id="sd-emerald" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#10b981" />
+      <stop offset="100%" stop-color="#059669" />
+    </linearGradient>
+
+    <filter id="sd-glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="6" result="blur" />
+      <feMerge>
+        <feMergeNode in="blur" />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
+
+    <pattern id="sd-grid" width="35" height="35" patternUnits="userSpaceOnUse">
+      <path d="M 35 0 L 0 0 0 35" fill="none" stroke="#0e3a4e" stroke-width="0.8" stroke-opacity="0.4" />
+    </pattern>
   </defs>
 
-  <!-- Background -->
-  <rect width="800" height="450" fill="url(#sd-bg)" />
+  <!---->
+  <rect width="1200" height="675" fill="url(#sd-bg)" />
+  <rect width="1200" height="675" fill="url(#sd-grid)" />
 
-  <!-- Radial Network Nodes and Connection Lines -->
-  <g stroke="#00f0ff" stroke-width="1" opacity="0.3" fill="none">
-    <circle cx="400" cy="225" r="160" stroke-dasharray="6,4" />
-    <circle cx="400" cy="225" r="90" stroke-dasharray="4,4" />
-    <line x1="200" y1="120" x2="400" y2="225" />
-    <line x1="600" y1="120" x2="400" y2="225" />
-    <line x1="180" y1="320" x2="400" y2="225" />
-    <line x1="620" y1="320" x2="400" y2="225" />
+  <!---->
+  <circle cx="280" cy="300" r="270" fill="#06b6d4" fill-opacity="0.05" filter="url(#sd-glow)" />
+  <circle cx="920" cy="340" r="280" fill="#10b981" fill-opacity="0.05" filter="url(#sd-glow)" />
+
+  <!---->
+  <rect x="30" y="30" width="1140" height="615" rx="16" fill="none" stroke="#0e3a4e" stroke-width="1.5" />
+  <path d="M 30 70 L 30 30 L 70 30" fill="none" stroke="#00f0ff" stroke-width="3" />
+  <path d="M 1170 70 L 1170 30 L 1130 30" fill="none" stroke="#00f0ff" stroke-width="3" />
+  <path d="M 30 605 L 30 645 L 70 645" fill="none" stroke="#00f0ff" stroke-width="3" />
+  <path d="M 1170 605 L 1170 645 L 1130 645" fill="none" stroke="#00f0ff" stroke-width="3" />
+
+  <!---->
+  <rect x="50" y="50" width="1100" height="48" rx="8" fill="#041a24" fill-opacity="0.85" stroke="#0e4760" stroke-width="1" />
+  <circle cx="75" cy="74" r="5" fill="#00f0ff" filter="url(#sd-glow)" />
+  <text x="95" y="79" fill="#00f0ff" font-family="monospace" font-size="14" font-weight="bold" letter-spacing="2">SMARTDONUM // COMMUNITY DONATION &amp; BENEFICIARY DISTRIBUTION PLATFORM</text>
+  <text x="815" y="79" fill="#7dd3fc" font-family="monospace" font-size="12">ARCH: NEXT.JS + MYSQL + REST</text>
+  <rect x="1035" y="62" width="95" height="24" rx="4" fill="#0891b2" fill-opacity="0.25" stroke="#06b6d4" stroke-width="1" />
+  <text x="1047" y="78" fill="#67e8f9" font-family="monospace" font-size="11" font-weight="bold">ACTIVE DISPATCH</text>
+
+  <!---->
+  <g transform="translate(50, 115)">
+    <!---->
+    <g transform="translate(0, 0)">
+      <rect x="0" y="0" width="460" height="440" rx="12" fill="#031620" stroke="#0e4760" stroke-width="1" />
+      <text x="24" y="32" fill="#67e8f9" font-family="monospace" font-size="12" font-weight="bold" letter-spacing="1">DONATION CATEGORIES &amp; INTAKE PORTAL</text>
+
+      <!---->
+      <rect x="20" y="50" width="420" height="110" rx="8" fill="#052230" stroke="#0891b2" stroke-width="1" />
+      <rect x="35" y="65" width="45" height="45" rx="6" fill="#083344" stroke="#06b6d4" stroke-width="1" />
+      <path d="M 57 74 L 57 100 M 50 78 C 50 86 64 86 64 78" fill="none" stroke="#00f0ff" stroke-width="2" stroke-linecap="round" />
+      <text x="95" y="80" fill="#ffffff" font-family="sans-serif" font-size="13" font-weight="bold">Surplus Food &amp; Cooked Meal Rations</text>
+      <text x="95" y="100" fill="#94a3b8" font-family="sans-serif" font-size="11">Perishable Quality Audit • Cold-Chain Window: 4h</text>
+      <text x="95" y="122" fill="#10b981" font-family="monospace" font-size="12" font-weight="bold">Status: Donation Intake &amp; Dispatch Workflow (Demo)</text>
+      <rect x="365" y="65" width="60" height="20" rx="4" fill="#059669" fill-opacity="0.3" stroke="#10b981" stroke-width="1" />
+      <text x="373" y="79" fill="#a7f3d0" font-family="monospace" font-size="9" font-weight="bold">ACTIVE</text>
+
+      <!---->
+      <rect x="20" y="175" width="420" height="110" rx="8" fill="#052230" stroke="#0891b2" stroke-width="1" />
+      <rect x="35" y="190" width="45" height="45" rx="6" fill="#083344" stroke="#06b6d4" stroke-width="1" />
+      <path d="M 45 200 L 57 195 L 70 200 L 65 210 L 60 210 L 60 225 L 55 225 L 55 210 L 50 210 Z" fill="#38bdf8" opacity="0.9" />
+      <text x="95" y="205" fill="#ffffff" font-family="sans-serif" font-size="13" font-weight="bold">Clothing &amp; Winterwear Bundles</text>
+      <text x="95" y="225" fill="#94a3b8" font-family="sans-serif" font-size="11">Sorted by Age/Gender • Sanitized &amp; Packaged</text>
+      <text x="95" y="247" fill="#38bdf8" font-family="monospace" font-size="12" font-weight="bold">Status: Shelter Matching &amp; Logistics Tracking (Demo)</text>
+      <rect x="365" y="190" width="60" height="20" rx="4" fill="#0284c7" fill-opacity="0.3" stroke="#38bdf8" stroke-width="1" />
+      <text x="371" y="204" fill="#bae6fd" font-family="monospace" font-size="9" font-weight="bold">VERIFIED</text>
+
+      <!---->
+      <rect x="20" y="300" width="420" height="110" rx="8" fill="#052230" stroke="#0891b2" stroke-width="1" />
+      <rect x="35" y="315" width="45" height="45" rx="6" fill="#083344" stroke="#06b6d4" stroke-width="1" />
+      <path d="M 47 325 L 57 330 L 67 325 L 67 345 L 57 350 L 47 345 Z" fill="#a855f7" opacity="0.9" />
+      <text x="95" y="330" fill="#ffffff" font-family="sans-serif" font-size="13" font-weight="bold">School Textbooks &amp; Educational Kits</text>
+      <text x="95" y="350" fill="#94a3b8" font-family="sans-serif" font-size="11">Grades 1-12 Curriculum • Learning Kits</text>
+      <text x="95" y="372" fill="#c084fc" font-family="monospace" font-size="12" font-weight="bold">230 Textbooks • 4 Community Centers Supplied</text>
+      <rect x="365" y="315" width="60" height="20" rx="4" fill="#7e22ce" fill-opacity="0.3" stroke="#a855f7" stroke-width="1" />
+      <text x="375" y="329" fill="#e9d5ff" font-family="monospace" font-size="9" font-weight="bold">READY</text>
+    </g>
+
+    <!---->
+    <g transform="translate(485, 0)">
+      <rect x="0" y="0" width="615" height="440" rx="12" fill="#031620" stroke="#0e4760" stroke-width="1" />
+      <text x="24" y="32" fill="#67e8f9" font-family="monospace" font-size="12" font-weight="bold" letter-spacing="1">DONOR-TO-BENEFICIARY ROUTING &amp; DISPATCH MAP</text>
+
+      <!---->
+      <g transform="translate(24, 50)">
+        <rect x="0" y="0" width="565" height="250" rx="8" fill="#020f17" stroke="#073042" stroke-width="1" />
+
+        <!---->
+        <line x1="0" y1="80" x2="565" y2="80" stroke="#0c3549" stroke-width="2" />
+        <line x1="0" y1="160" x2="565" y2="160" stroke="#0c3549" stroke-width="2" />
+        <line x1="160" y1="0" x2="160" y2="250" stroke="#0c3549" stroke-width="2" />
+        <line x1="380" y1="0" x2="380" y2="250" stroke="#0c3549" stroke-width="2" />
+        <path d="M 60 210 Q 240 100 480 60" fill="none" stroke="#00f0ff" stroke-width="3" stroke-dasharray="6,4" />
+
+        <!---->
+        <circle cx="60" cy="210" r="16" fill="#083344" stroke="#00f0ff" stroke-width="2" filter="url(#sd-glow)" />
+        <circle cx="60" cy="210" r="6" fill="#00f0ff" />
+        <rect x="15" y="165" width="110" height="22" rx="4" fill="#041a24" stroke="#00f0ff" stroke-width="1" />
+        <text x="24" y="180" fill="#00f0ff" font-family="monospace" font-size="9" font-weight="bold">DONOR HUB #1</text>
+
+        <!---->
+        <g transform="translate(250, 120)">
+          <rect x="-18" y="-12" width="36" height="24" rx="4" fill="#059669" stroke="#10b981" stroke-width="1.5" filter="url(#sd-glow)" />
+          <circle cx="-8" cy="12" r="4" fill="#020617" stroke="#10b981" stroke-width="1" />
+          <circle cx="8" cy="12" r="4" fill="#020617" stroke="#10b981" stroke-width="1" />
+          <text x="-12" y="4" fill="#ffffff" font-family="sans-serif" font-size="9" font-weight="bold">VAN</text>
+        </g>
+
+        <!---->
+        <circle cx="480" cy="60" r="16" fill="#042f2e" stroke="#10b981" stroke-width="2" filter="url(#sd-glow)" />
+        <circle cx="480" cy="60" r="6" fill="#10b981" />
+        <rect x="420" y="20" width="140" height="22" rx="4" fill="#022c22" stroke="#10b981" stroke-width="1" />
+        <text x="428" y="35" fill="#34d399" font-family="monospace" font-size="9" font-weight="bold">BENEFICIARY SHELTER</text>
+      </g>
+
+      <!---->
+      <g transform="translate(24, 315)">
+        <rect x="0" y="0" width="175" height="100" rx="8" fill="#052230" stroke="#0891b2" stroke-width="1" />
+        <text x="18" y="32" fill="#94a3b8" font-family="monospace" font-size="10">INTAKE CATEGORY</text>
+        <text x="18" y="64" fill="#00f0ff" font-family="monospace" font-size="18" font-weight="bold">MEALS</text>
+        <text x="18" y="84" fill="#38bdf8" font-family="sans-serif" font-size="9">Food Preservation Channel</text>
+
+        <rect x="195" y="0" width="175" height="100" rx="8" fill="#052230" stroke="#0891b2" stroke-width="1" />
+        <text x="213" y="32" fill="#94a3b8" font-family="monospace" font-size="10">INTAKE CATEGORY</text>
+        <text x="213" y="64" fill="#10b981" font-family="monospace" font-size="18" font-weight="bold">APPAREL</text>
+        <text x="213" y="84" fill="#34d399" font-family="sans-serif" font-size="9">Shelter Relief Channel</text>
+
+        <rect x="390" y="0" width="175" height="100" rx="8" fill="#052230" stroke="#0891b2" stroke-width="1" />
+        <text x="408" y="32" fill="#94a3b8" font-family="monospace" font-size="10">INTAKE CATEGORY</text>
+        <text x="408" y="64" fill="#c084fc" font-family="monospace" font-size="18" font-weight="bold">BOOKS</text>
+        <text x="408" y="84" fill="#d8b4fe" font-family="sans-serif" font-size="9">Youth Education Channel</text>
+      </g>
+    </g>
   </g>
 
-  <!-- Central Hub: SmartDonum Heart & Handshake Empathic Shield -->
-  <g transform="translate(400, 225)">
-    <circle cx="0" cy="0" r="50" fill="#042a38" stroke="#00f0ff" stroke-width="2" />
-    <!-- Heart & Care Vector -->
-    <path d="M 0 -18 C -14 -32, -32 -16, -32 2 C -32 18, -12 30, 0 38 C 12 30, 32 18, 32 2 C 32 -16, 14 -32, 0 -18 Z" fill="url(#sd-cyan)" opacity="0.85" />
-    <circle cx="0" cy="0" r="6" fill="#ffffff" />
+  <!---->
+  <g transform="translate(50, 575)">
+    <rect x="0" y="0" width="1100" height="48" rx="8" fill="#041a24" fill-opacity="0.85" stroke="#0e4760" stroke-width="1" />
+    <text x="25" y="28" fill="#94a3b8" font-family="monospace" font-size="11">SCOPE: <tspan fill="#00f0ff">25+ Responsive Views, Donor Portal &amp; Request Tracking</tspan></text>
+    <text x="560" y="28" fill="#94a3b8" font-family="monospace" font-size="11">PERSISTENCE: <tspan fill="#38bdf8">MySQL Relational Schemas &amp; Express REST</tspan></text>
+    <text x="960" y="28" fill="#94a3b8" font-family="monospace" font-size="11">YEAR: <tspan fill="#10b981">2025</tspan></text>
   </g>
-
-  <!-- Node 1: Donors (Top-Left) -->
-  <g transform="translate(200, 120)">
-    <rect x="-60" y="-30" width="120" height="60" rx="10" fill="#031f29" stroke="#00f0ff" stroke-width="1.5" />
-    <circle cx="-35" cy="0" r="12" fill="#00f0ff" opacity="0.3" />
-    <text x="-16" y="-3" fill="#ffffff" font-family="monospace" font-size="11" font-weight="bold">DONORS</text>
-    <text x="-16" y="13" fill="#38bdf8" font-family="monospace" font-size="9">FOOD • BOOKS</text>
-  </g>
-
-  <!-- Node 2: Beneficiaries & Shelters (Top-Right) -->
-  <g transform="translate(600, 120)">
-    <rect x="-65" y="-30" width="130" height="60" rx="10" fill="#031f29" stroke="#10b981" stroke-width="1.5" />
-    <circle cx="-40" cy="0" r="12" fill="#10b981" opacity="0.3" />
-    <text x="-20" y="-3" fill="#ffffff" font-family="monospace" font-size="11" font-weight="bold">RECIPIENTS</text>
-    <text x="-20" y="13" fill="#6ee7b7" font-family="monospace" font-size="9">COMMUNITY HUBS</text>
-  </g>
-
-  <!-- Node 3: Logistics & Inventory Tracking (Bottom-Left) -->
-  <g transform="translate(180, 320)">
-    <rect x="-65" y="-30" width="130" height="60" rx="10" fill="#031f29" stroke="#38bdf8" stroke-width="1.2" />
-    <text x="-50" y="-3" fill="#ffffff" font-family="monospace" font-size="10" font-weight="bold">DISTRIBUTION</text>
-    <text x="-50" y="13" fill="#94a3b8" font-family="monospace" font-size="9">REAL-TIME DISPATCH</text>
-  </g>
-
-  <!-- Node 4: Database & Verification (Bottom-Right) -->
-  <g transform="translate(620, 320)">
-    <rect x="-65" y="-30" width="130" height="60" rx="10" fill="#031f29" stroke="#10b981" stroke-width="1.2" />
-    <text x="-50" y="-3" fill="#ffffff" font-family="monospace" font-size="10" font-weight="bold">VERIFICATION</text>
-    <text x="-50" y="13" fill="#6ee7b7" font-family="monospace" font-size="9">TRANSPARENT LEDGER</text>
-  </g>
-
-  <!-- Flowing Pulse Dots on Connections -->
-  <circle cx="280" cy="165" r="4" fill="#00f0ff" />
-  <circle cx="520" cy="165" r="4" fill="#10b981" />
-  <circle cx="270" cy="280" r="4" fill="#38bdf8" />
-  <circle cx="530" cy="280" r="4" fill="#10b981" />
-
-  <!-- Bottom Overview Bar -->
-  <rect x="250" y="400" width="300" height="28" rx="6" fill="#031f29" stroke="#00f0ff" stroke-width="1" opacity="0.9" />
-  <text x="270" y="418" fill="#00f0ff" font-family="monospace" font-size="10" font-weight="bold">DONATION &amp; BENEFICIARY MATCHING PLATFORM</text>
 </svg>

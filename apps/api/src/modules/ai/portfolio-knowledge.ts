@@ -222,12 +222,12 @@ export const verifiedPortfolioData: PortfolioData = {
       technologies: ['React.js', 'Tailwind CSS', 'REST APIs', 'Postman', 'GitHub'],
     },
     {
-      company: 'Unstop Events',
-      role: 'React JS Developer Intern',
-      type: 'Part-time Internship (10 June 2025 – 15 December 2025)',
+      company: 'Navodita Infotech',
+      role: 'Machine Learning Intern',
+      type: 'Internship (5 June 2025 – 4 July 2025)',
       responsibilities:
-        'Worked on React.js-based frontend development and practical web development tasks.',
-      technologies: ['React.js', 'JavaScript'],
+        'Machine Learning internship focused on data preprocessing, feature engineering, exploratory data analysis (EDA), and training predictive machine learning models using Python and Scikit-learn.',
+      technologies: ['Python', 'Machine Learning', 'Scikit-learn', 'Pandas', 'NumPy', 'EDA'],
     },
   ],
   hackathons: [

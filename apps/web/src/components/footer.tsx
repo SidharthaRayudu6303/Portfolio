@@ -7,9 +7,7 @@ import {
   Linkedin,
   Mail,
   Lock,
-  Code,
   Github,
-  Terminal as TerminalIcon,
 } from 'lucide-react';
 import {
   DISPLAY_NAME,
@@ -27,7 +25,7 @@ export function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="border-t border-neutral-800/80 bg-neutral-950 py-12 text-neutral-400">
+    <footer className="relative z-10 border-t border-neutral-800/80 bg-neutral-950/90 py-12 text-neutral-400 backdrop-blur-md">
       <div className="mx-auto max-w-7xl px-6">
         <div className="flex flex-col gap-8 md:flex-row md:items-center md:justify-between">
           {/* Brand & Tagline with SR Logo */}

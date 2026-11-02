@@ -3,8 +3,6 @@ import React from 'react';
 import './globals.css';
 import { ViewTracker } from '@/components/effects/view-tracker';
 import { PortfolioAssistant } from '@/components/assistant/portfolio-assistant';
-import { CommandPalette } from '@/components/palette/command-palette';
-import { DeveloperTerminal } from '@/components/terminal/developer-terminal';
 import {
   DISPLAY_NAME,
   FULL_LEGAL_NAME,
@@ -60,6 +58,15 @@ export const metadata: Metadata = {
   publisher: DISPLAY_NAME,
   alternates: {
     canonical: '/',
+  },
+  icons: {
+    icon: [
+      { url: '/favicon.ico', sizes: '32x32' },
+      { url: '/icon', type: 'image/png', sizes: '32x32' },
+    ],
+    apple: [
+      { url: '/apple-icon', sizes: '180x180', type: 'image/png' },
+    ],
   },
   openGraph: {
     type: 'website',
@@ -170,8 +177,6 @@ export default function RootLayout({
         <ViewTracker />
         {children}
         <PortfolioAssistant />
-        <CommandPalette />
-        <DeveloperTerminal />
       </body>
     </html>
   );

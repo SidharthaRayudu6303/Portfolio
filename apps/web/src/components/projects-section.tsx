@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, useCallback, useRef } from 'react';
-import Image from 'next/image';
+import { ProjectArtwork } from './project-artwork';
 import {
   FolderGit2,
   ChevronLeft,
@@ -26,6 +26,7 @@ export const VERIFIED_DEFAULT_PROJECTS: Project[] = [
     id: 'proj-genvision',
     title: 'GenVision: A Cloud Severity-Aware Transformer-Diffusion Framework',
     slug: 'genvision',
+    imageUrl: '/projects/genvision.svg',
     description:
       'An AI/ML-based satellite image reconstruction framework designed to recover cloud-obscured regions in satellite imagery and support agricultural analysis.',
     problemSolved:
@@ -60,6 +61,7 @@ export const VERIFIED_DEFAULT_PROJECTS: Project[] = [
     id: 'proj-bhuyanthra',
     title: 'BhuYanthra — AI-Powered Agricultural Intelligence Platform',
     slug: 'bhuyanthra',
+    imageUrl: '/projects/bhuyanthra.svg',
     description:
       'An agricultural intelligence platform that uses satellite imagery and geospatial analysis to support agricultural monitoring and decision-making.',
     problemSolved:
@@ -92,6 +94,7 @@ export const VERIFIED_DEFAULT_PROJECTS: Project[] = [
     id: 'proj-robohatch',
     title: 'Robohatch — 3D Printed Products E-commerce Platform',
     slug: 'robohatch',
+    imageUrl: '/projects/robohatch.svg',
     description:
       'An e-commerce platform designed for showcasing and selling 3D-printed products through an intuitive online shopping experience.',
     myContribution:
@@ -114,6 +117,7 @@ export const VERIFIED_DEFAULT_PROJECTS: Project[] = [
     id: 'proj-smartdonum',
     title: 'SmartDonum — Donation Management Platform',
     slug: 'smartdonum',
+    imageUrl: '/projects/smartdonum.svg',
     description:
       'A donation management platform connecting donors and beneficiaries to make donations of food, clothing, and books more accessible and organized.',
     myContribution:
@@ -135,6 +139,7 @@ export const VERIFIED_DEFAULT_PROJECTS: Project[] = [
     id: 'proj-autism',
     title: 'Autism Screening Platform',
     slug: 'autism-screening-platform',
+    imageUrl: '/projects/autism-screening.svg',
     description:
       'A web-based autism screening platform designed to provide an accessible interface for screening-related assessments and media submissions.',
     problemSolved:
@@ -159,6 +164,7 @@ export const VERIFIED_DEFAULT_PROJECTS: Project[] = [
     id: 'proj-rental',
     title: 'Smart Rental Platform — Equipment & Fleet Management Dashboard',
     slug: 'smart-rental-platform',
+    imageUrl: '/projects/smart-rental.svg',
     description:
       'An equipment and fleet management platform designed to help monitor rental equipment, track operations, and visualize key business information.',
     problemSolved:
@@ -337,12 +343,12 @@ export function ProjectsSection({ projects }: ProjectsSectionProps) {
   };
 
   return (
-    <section id="projects" className="scroll-mt-24 py-20 border-b border-neutral-800/80 relative overflow-hidden">
+    <section id="projects" className="scroll-mt-16 min-h-screen flex flex-col justify-center py-20 border-b border-neutral-800/80 relative overflow-hidden">
       {/* Background ambient lighting */}
       <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-cyan-500/5 blur-[120px] pointer-events-none -z-10" />
       <div className="absolute bottom-10 left-1/4 w-[400px] h-[300px] bg-blue-600/5 blur-[100px] pointer-events-none -z-10" />
 
-      <div className="mx-auto max-w-7xl px-4 sm:px-6">
+      <div className="mx-auto max-w-7xl px-6">
         {/* ========================================================= */}
         {/* Section Header                                             */}
         {/* ========================================================= */}
@@ -441,21 +447,21 @@ export function ProjectsSection({ projects }: ProjectsSectionProps) {
                       zIndex = 30;
                       pointerEvents = 'auto';
                     } else if (isPrev) {
-                      transform = 'translateX(-58%) scale(0.85)';
-                      opacity = 0.4;
+                      transform = 'translateX(-52%) scale(0.86)';
+                      opacity = 0.45;
                       zIndex = 20;
                       pointerEvents = 'auto';
                     } else if (isNext) {
-                      transform = 'translateX(58%) scale(0.85)';
-                      opacity = 0.4;
+                      transform = 'translateX(52%) scale(0.86)';
+                      opacity = 0.45;
                       zIndex = 20;
                       pointerEvents = 'auto';
                     } else {
-                      transform = `translateX(${diff > 0 ? 110 : -110}%) scale(0.7)`;
+                      transform = `translateX(${diff > 0 ? 100 : -100}%) scale(0.7)`;
                       opacity = 0;
                     }
                   } else {
-                    // Full 3D perspective
+                    // Full 3D perspective - perfectly centered and balanced
                     if (isActive) {
                       transform =
                         'translateX(0%) scale(1) translateZ(0px) rotateY(0deg)';
@@ -464,21 +470,21 @@ export function ProjectsSection({ projects }: ProjectsSectionProps) {
                       pointerEvents = 'auto';
                     } else if (isPrev) {
                       transform =
-                        'translateX(-58%) scale(0.82) translateZ(-90px) rotateY(24deg)';
-                      opacity = 0.55;
+                        'translateX(-52%) scale(0.84) translateZ(-80px) rotateY(18deg)';
+                      opacity = 0.6;
                       zIndex = 20;
                       pointerEvents = 'auto';
                     } else if (isNext) {
                       transform =
-                        'translateX(58%) scale(0.82) translateZ(-90px) rotateY(-24deg)';
-                      opacity = 0.55;
+                        'translateX(52%) scale(0.84) translateZ(-80px) rotateY(-18deg)';
+                      opacity = 0.6;
                       zIndex = 20;
                       pointerEvents = 'auto';
                     } else {
                       transform = `translateX(${
-                        diff > 0 ? 115 : -115
-                      }%) scale(0.65) translateZ(-180px) rotateY(${
-                        diff > 0 ? -32 : 32
+                        diff > 0 ? 105 : -105
+                      }%) scale(0.68) translateZ(-160px) rotateY(${
+                        diff > 0 ? -28 : 28
                       }deg)`;
                       opacity = 0;
                     }
@@ -495,9 +501,10 @@ export function ProjectsSection({ projects }: ProjectsSectionProps) {
                           setActiveIndex(index);
                         }
                       }}
-                      className="absolute top-0 left-1/2 w-[92vw] max-w-[680px] -translate-x-1/2 transition-all duration-500 ease-out will-change-transform"
+                      className="absolute top-0 left-1/2 w-[90vw] max-w-[640px] transition-all duration-500 ease-out will-change-transform"
                       style={{
                         transform: `translateX(-50%) ${transform}`,
+                        transformOrigin: 'center center',
                         opacity,
                         zIndex,
                         pointerEvents,
@@ -519,17 +526,17 @@ export function ProjectsSection({ projects }: ProjectsSectionProps) {
 
                         {/* Top: 16:9 Artwork Preview Banner */}
                         <div className="relative w-full aspect-video sm:h-64 overflow-hidden border-b border-neutral-800 bg-neutral-950">
-                          <Image
+                          <ProjectArtwork
                             src={projectImage}
                             alt={project.title}
-                            fill
+                            title={project.title}
+                            priority={isActive}
                             sizes="(max-width: 768px) 92vw, 680px"
                             className="object-cover transition-transform duration-700 group-hover:scale-105"
-                            priority={isActive}
                           />
 
                           {/* Gradient Vignette */}
-                          <div className="absolute inset-0 bg-gradient-to-t from-neutral-900 via-neutral-900/30 to-transparent" />
+                          <div className="absolute inset-0 bg-gradient-to-t from-neutral-900 via-neutral-900/30 to-transparent pointer-events-none" />
 
                           {/* Floating Top Badges */}
                           <div className="absolute top-3.5 left-4 right-4 flex items-center justify-between z-10">

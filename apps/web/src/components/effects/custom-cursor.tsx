@@ -1,145 +1,178 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useSyncExternalStore } from 'react';
 
+function subscribePointer(callback: () => void) {
+  if (typeof window === 'undefined') return () => {};
+  const mqPointer = window.matchMedia('(hover: hover) and (pointer: fine)');
+  const mqMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  mqPointer.addEventListener('change', callback);
+  mqMotion.addEventListener('change', callback);
+  return () => {
+    mqPointer.removeEventListener('change', callback);
+    mqMotion.removeEventListener('change', callback);
+  };
+}
+
+function getPointerSnapshot() {
+  if (typeof window === 'undefined') return false;
+  const hasFinePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  return hasFinePointer && !prefersReducedMotion;
+}
+
+function getPointerServerSnapshot() {
+  return false;
+}
+
+/**
+ * High-performance, zero-lag custom cursor.
+ * - Updates DOM directly via requestAnimationFrame (0 React re-renders during mouse movement).
+ * - Instant precision dot with zero latency.
+ * - Responsive, snappy outer ring with GPU-accelerated lerp (no fighting CSS transitions).
+ * - Fully disabled on touch / coarse pointer devices and with prefers-reduced-motion.
+ * - Guaranteed pointer-events: none to avoid interference with clicks, selections, or scroll.
+ */
 export function CustomCursor() {
-  const [mounted, setMounted] = useState(false);
-  const [visible, setVisible] = useState(false);
-  const [hovered, setHovered] = useState(false);
-  const [cursorPos, setCursorPos] = useState({ x: -100, y: -100 });
-  const [ringPos, setRingPos] = useState({ x: -100, y: -100 });
+  const dotRef = useRef<HTMLDivElement>(null);
+  const ringRef = useRef<HTMLDivElement>(null);
+  const enabled = useSyncExternalStore(
+    subscribePointer,
+    getPointerSnapshot,
+    getPointerServerSnapshot
+  );
 
   useEffect(() => {
-    // 1. Verify Desktop Fine-Pointer & Reduced Motion
-    const isFinePointer = window.matchMedia('(pointer: fine)').matches;
-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-    if (!isFinePointer || prefersReducedMotion) {
-      return;
-    }
-
-    const timer = setTimeout(() => {
-      setMounted(true);
-    }, 0);
+    if (!enabled) return;
 
     let mouseX = -100;
     let mouseY = -100;
-    let currentRingX = -100;
-    let currentRingY = -100;
-    let animationFrameId: number;
+    let ringX = -100;
+    let ringY = -100;
+    let isVisible = false;
+    let isHoveringInteractive = false;
+    let rafId: number;
 
-    const onMouseMove = (e: MouseEvent) => {
+    const dotEl = dotRef.current;
+    const ringEl = ringRef.current;
+
+    // Single consolidated pointermove listener
+    const onPointerMove = (e: PointerEvent) => {
       mouseX = e.clientX;
       mouseY = e.clientY;
-      setCursorPos({ x: mouseX, y: mouseY });
-      if (!visible) setVisible(true);
+
+      if (!isVisible) {
+        isVisible = true;
+        if (dotEl) dotEl.style.opacity = '1';
+        if (ringEl) ringEl.style.opacity = '1';
+      }
+
+      // Direct instant translation for the precision dot
+      if (dotEl) {
+        dotEl.style.transform = `translate3d(${mouseX}px, ${mouseY}px, 0) translate(-50%, -50%) scale(${
+          isHoveringInteractive ? 0.6 : 1
+        })`;
+      }
     };
 
-    const onMouseEnter = () => setVisible(true);
-    const onMouseLeave = () => setVisible(false);
+    const onPointerDown = () => {
+      if (ringEl) {
+        ringEl.style.transform = `translate3d(${ringX}px, ${ringY}px, 0) translate(-50%, -50%) scale(0.85)`;
+      }
+    };
 
-    // Magnetic interaction listener for interactive targets
-    let activeMagneticElem: HTMLElement | null = null;
+    const onPointerUp = () => {
+      if (ringEl) {
+        ringEl.style.transform = `translate3d(${ringX}px, ${ringY}px, 0) translate(-50%, -50%) scale(${
+          isHoveringInteractive ? 1.4 : 1
+        })`;
+      }
+    };
 
-    const handleMouseOver = (e: MouseEvent) => {
-      const target = (e.target as HTMLElement)?.closest(
-        'a, button, input, textarea, select, [role="button"], [data-magnetic="true"]'
-      ) as HTMLElement | null;
+    const onMouseOver = (e: MouseEvent) => {
+      const target = (e.target as HTMLElement)?.closest?.(
+        'a, button, input, textarea, select, [role="button"], [data-magnetic="true"], [tabindex="0"]'
+      );
 
       if (target) {
-        setHovered(true);
-        if (target.dataset.magnetic === 'true' || target.tagName === 'BUTTON' || target.tagName === 'A') {
-          activeMagneticElem = target;
+        isHoveringInteractive = true;
+        if (ringEl) {
+          ringEl.classList.add('cursor-hovered');
         }
       } else {
-        setHovered(false);
-        if (activeMagneticElem) {
-          activeMagneticElem.style.transform = '';
-          activeMagneticElem = null;
+        isHoveringInteractive = false;
+        if (ringEl) {
+          ringEl.classList.remove('cursor-hovered');
         }
       }
     };
 
-    // Smooth Lerp loop for trailing outer ring and magnetic attraction
-    const updateRing = () => {
-      animationFrameId = requestAnimationFrame(updateRing);
-
-      let targetX = mouseX;
-      let targetY = mouseY;
-
-      // Magnetic attraction to button center if active
-      if (activeMagneticElem) {
-        const rect = activeMagneticElem.getBoundingClientRect();
-        const centerX = rect.left + rect.width / 2;
-        const centerY = rect.top + rect.height / 2;
-
-        const deltaX = mouseX - centerX;
-        const deltaY = mouseY - centerY;
-
-        // Pull magnetic element slightly toward mouse (max 8px displacement)
-        const pullFactor = 0.22;
-        const maxDisplacement = 8;
-        const elemMoveX = Math.max(-maxDisplacement, Math.min(maxDisplacement, deltaX * pullFactor));
-        const elemMoveY = Math.max(-maxDisplacement, Math.min(maxDisplacement, deltaY * pullFactor));
-        activeMagneticElem.style.transform = `translate(${elemMoveX}px, ${elemMoveY}px)`;
-        activeMagneticElem.style.transition = 'transform 0.1s ease-out';
-
-        // Snap ring closer to center of element
-        targetX = centerX + deltaX * 0.4;
-        targetY = centerY + deltaY * 0.4;
-      }
-
-      currentRingX += (targetX - currentRingX) * 0.18;
-      currentRingY += (targetY - currentRingY) * 0.18;
-
-      setRingPos({ x: currentRingX, y: currentRingY });
+    const onMouseLeaveDoc = () => {
+      isVisible = false;
+      if (dotEl) dotEl.style.opacity = '0';
+      if (ringEl) ringEl.style.opacity = '0';
     };
 
-    window.addEventListener('mousemove', onMouseMove, { passive: true });
-    window.addEventListener('mouseover', handleMouseOver, { passive: true });
-    document.addEventListener('mouseenter', onMouseEnter);
-    document.addEventListener('mouseleave', onMouseLeave);
+    const onMouseEnterDoc = () => {
+      isVisible = true;
+      if (dotEl) dotEl.style.opacity = '1';
+      if (ringEl) ringEl.style.opacity = '1';
+    };
 
-    animationFrameId = requestAnimationFrame(updateRing);
+    // Snappy, continuous 60-120fps lerp loop for the trailing ambient ring
+    const renderLoop = () => {
+      const lerpFactor = 0.32;
+      ringX += (mouseX - ringX) * lerpFactor;
+      ringY += (mouseY - ringY) * lerpFactor;
+
+      if (ringEl && isVisible) {
+        const scale = isHoveringInteractive ? 1.35 : 1;
+        ringEl.style.transform = `translate3d(${ringX}px, ${ringY}px, 0) translate(-50%, -50%) scale(${scale})`;
+      }
+
+      rafId = requestAnimationFrame(renderLoop);
+    };
+
+    window.addEventListener('pointermove', onPointerMove, { passive: true });
+    window.addEventListener('pointerdown', onPointerDown, { passive: true });
+    window.addEventListener('pointerup', onPointerUp, { passive: true });
+    window.addEventListener('mouseover', onMouseOver, { passive: true });
+    document.addEventListener('mouseleave', onMouseLeaveDoc);
+    document.addEventListener('mouseenter', onMouseEnterDoc);
+
+    rafId = requestAnimationFrame(renderLoop);
 
     return () => {
-      cancelAnimationFrame(animationFrameId);
-      window.removeEventListener('mousemove', onMouseMove);
-      window.removeEventListener('mouseover', handleMouseOver);
-      document.removeEventListener('mouseenter', onMouseEnter);
-      document.removeEventListener('mouseleave', onMouseLeave);
-      if (activeMagneticElem) {
-        activeMagneticElem.style.transform = '';
-      }
+      cancelAnimationFrame(rafId);
+      window.removeEventListener('pointermove', onPointerMove);
+      window.removeEventListener('pointerdown', onPointerDown);
+      window.removeEventListener('pointerup', onPointerUp);
+      window.removeEventListener('mouseover', onMouseOver);
+      document.removeEventListener('mouseleave', onMouseLeaveDoc);
+      document.removeEventListener('mouseenter', onMouseEnterDoc);
     };
-  }, [visible]);
+  }, [enabled]);
 
-  if (!mounted || !visible) return null;
+  if (!enabled) return null;
 
   return (
     <>
-      {/* Precision Inner Dot (follows mouse instantly) */}
+      {/* Precision Inner Dot (Follows mouse immediately with 0ms lag) */}
       <div
-        className="pointer-events-none fixed z-[9999] h-2 w-2 -translate-x-1/2 -translate-y-1/2 rounded-full bg-cyan-400 shadow-[0_0_10px_#00f0ff] transition-transform duration-75 ease-out"
+        ref={dotRef}
+        className="pointer-events-none fixed top-0 left-0 z-[9999] h-2 w-2 rounded-full bg-cyan-400 opacity-0 shadow-[0_0_8px_#00f0ff] will-change-transform"
         style={{
-          left: `${cursorPos.x}px`,
-          top: `${cursorPos.y}px`,
-          transform: `translate(-50%, -50%) scale(${hovered ? 0.6 : 1})`,
+          transition: 'opacity 0.15s ease-out',
         }}
         aria-hidden="true"
       />
 
-      {/* Trailing Ambient Ring / Glowing Aura */}
+      {/* Responsive Trailing Halo Ring (Snappy GPU-accelerated lerp) */}
       <div
-        className={`pointer-events-none fixed z-[9998] -translate-x-1/2 -translate-y-1/2 rounded-full border transition-all duration-300 ease-out ${
-          hovered
-            ? 'h-12 w-12 border-cyan-400 bg-cyan-400/10 shadow-[0_0_20px_rgba(0,240,255,0.35)]'
-            : 'h-8 w-8 border-cyan-500/40 bg-cyan-500/5 shadow-[0_0_12px_rgba(0,240,255,0.15)]'
-        }`}
+        ref={ringRef}
+        className="pointer-events-none fixed top-0 left-0 z-[9998] h-8 w-8 rounded-full border border-cyan-400/50 bg-cyan-500/10 opacity-0 shadow-[0_0_12px_rgba(0,240,255,0.2)] will-change-transform backdrop-blur-[0.5px]"
         style={{
-          left: `${ringPos.x}px`,
-          top: `${ringPos.y}px`,
-          transform: `translate(-50%, -50%) scale(${hovered ? 1.25 : 1})`,
+          transition: 'border-color 0.2s ease, background-color 0.2s ease, opacity 0.15s ease-out',
         }}
         aria-hidden="true"
       />

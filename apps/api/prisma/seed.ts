@@ -42,6 +42,7 @@ async function main() {
     {
       title: 'GenVision: A Cloud Severity-Aware Transformer-Diffusion Framework for Cloud-Free Satellite Image Reconstruction and Agricultural Analysis',
       slug: 'genvision',
+      imageUrl: '/projects/genvision.svg',
       description:
         'An AI/ML-based satellite image reconstruction framework designed to recover cloud-obscured regions in satellite imagery and support agricultural analysis.',
       problemSolved:
@@ -75,6 +76,7 @@ async function main() {
     {
       title: 'BhuYanthra — AI-Powered Agricultural Intelligence Platform',
       slug: 'bhuyanthra',
+      imageUrl: '/projects/bhuyanthra.svg',
       description:
         'An agricultural intelligence platform that uses satellite imagery and geospatial analysis to support agricultural monitoring and decision-making.',
       problemSolved:
@@ -106,6 +108,7 @@ async function main() {
     {
       title: 'Robohatch — 3D Printed Products E-commerce Platform',
       slug: 'robohatch',
+      imageUrl: '/projects/robohatch.svg',
       description:
         'An e-commerce platform designed for showcasing and selling 3D-printed products through an intuitive online shopping experience.',
       myContribution:
@@ -127,6 +130,7 @@ async function main() {
     {
       title: 'SmartDonum — Donation Management Platform',
       slug: 'smartdonum',
+      imageUrl: '/projects/smartdonum.svg',
       description:
         'A donation management platform connecting donors and beneficiaries to make donations of food, clothing, and books more accessible and organized.',
       myContribution:
@@ -147,6 +151,7 @@ async function main() {
     {
       title: 'Autism Screening Platform',
       slug: 'autism-screening-platform',
+      imageUrl: '/projects/autism-screening.svg',
       description:
         'A web-based autism screening platform designed to provide an accessible interface for screening-related assessments and media submissions.',
       problemSolved:
@@ -170,6 +175,7 @@ async function main() {
     {
       title: 'Smart Rental Platform — Equipment and Fleet Management Dashboard',
       slug: 'smart-rental-platform',
+      imageUrl: '/projects/smart-rental.svg',
       description:
         'An equipment and fleet management platform designed to help monitor rental equipment, track operations, and visualize important business information.',
       myContribution:
@@ -212,12 +218,12 @@ async function main() {
       order: 1,
     },
     {
-      company: 'Unstop Events',
-      role: 'React JS Developer Intern',
+      company: 'Navodita Infotech',
+      role: 'Machine Learning Intern',
       description:
-        'Worked on React.js-based frontend development and practical web development tasks.',
-      startDate: new Date('2025-06-10'),
-      endDate: new Date('2025-12-15'),
+        'Machine Learning internship focused on data preprocessing, feature engineering, exploratory data analysis (EDA), and training predictive machine learning models using Python and Scikit-learn.',
+      startDate: new Date('2025-06-05'),
+      endDate: new Date('2025-07-04'),
       current: false,
       order: 2,
     },
@@ -236,7 +242,7 @@ async function main() {
       await prisma.experience.create({ data: exp });
     }
   }
-  console.log(`✅ Seeded verified internships (Robohatch & Unstop Events).`);
+  console.log(`✅ Seeded verified internships (Robohatch & Navodita Infotech).`);
 
   // Seed Verified Certifications
   const verifiedCerts = [

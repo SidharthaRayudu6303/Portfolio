@@ -1,15 +1,21 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../../prisma/prisma.service';
+import { CreateBlogPostDto } from './dto/create-blog-post.dto';
+import { UpdateBlogPostDto } from './dto/update-blog-post.dto';
 
 @Injectable()
 export class BlogService {
   constructor(private readonly prisma: PrismaService) {}
 
   async findAll(publishedOnly = true) {
-    return this.prisma.blogPost.findMany({
-      where: publishedOnly ? { published: true } : undefined,
-      orderBy: [{ publishedAt: 'desc' }, { createdAt: 'desc' }],
-    });
+    try {
+      return await this.prisma.blogPost.findMany({
+        where: publishedOnly ? { published: true } : undefined,
+        orderBy: [{ publishedAt: 'desc' }, { createdAt: 'desc' }],
+      });
+    } catch {
+      return [];
+    }
   }
 
   async findOneBySlug(slug: string, publishedOnly = true) {
@@ -24,14 +30,22 @@ export class BlogService {
     return post;
   }
 
-  async create(data: any) {
-    return this.prisma.blogPost.create({ data });
+  async create(data: CreateBlogPostDto) {
+    return this.prisma.blogPost.create({
+      data: {
+        ...data,
+        publishedAt: data.publishedAt ? new Date(data.publishedAt) : undefined,
+      },
+    });
   }
 
-  async update(id: string, data: any) {
+  async update(id: string, data: UpdateBlogPostDto) {
     return this.prisma.blogPost.update({
       where: { id },
-      data,
+      data: {
+        ...data,
+        publishedAt: data.publishedAt ? new Date(data.publishedAt) : undefined,
+      },
     });
   }
 

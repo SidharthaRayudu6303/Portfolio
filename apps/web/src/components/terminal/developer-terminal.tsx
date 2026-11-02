@@ -284,10 +284,10 @@ export function DeveloperTerminal() {
                 <div>• Tech: React.js, Tailwind CSS, REST APIs, Postman, GitHub</div>
               </div>
               <div className="border-l border-cyan-500/40 pl-2 pt-1">
-                <div className="text-cyan-400 font-semibold">Unstop Events • React JS Developer Intern</div>
-                <div className="text-neutral-400">10 June 2025 – 15 Dec 2025 • Part-time Internship</div>
-                <div>• Worked on React.js-based frontend development and practical web development tasks.</div>
-                <div>• Tech: React.js, JavaScript, HTML5, CSS3</div>
+                <div className="text-cyan-400 font-semibold">Navodita Infotech • Machine Learning Intern</div>
+                <div className="text-neutral-400">5 June 2025 – 4 July 2025 • Remote Internship</div>
+                <div>• Machine Learning internship focused on data preprocessing, feature engineering, and predictive ML models.</div>
+                <div>• Tech: Python, Machine Learning, Scikit-learn, Pandas, NumPy, EDA</div>
               </div>
             </div>
           ),

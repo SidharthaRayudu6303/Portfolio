@@ -1,11 +1,25 @@
 'use client';
 
 import React, { useState, useMemo, useSyncExternalStore } from 'react';
-import {
-  Sparkles,
-  RotateCcw,
-} from 'lucide-react';
+import { Sparkles, CheckCircle2, ChevronRight, X } from 'lucide-react';
 import { SRLogo } from '@/components/brand/sr-logo';
+import {
+  PythonLogo,
+  ReactLogo,
+  TypeScriptLogo,
+  JavaScriptLogo,
+  NextjsLogo,
+  NodejsLogo,
+  NestjsLogo,
+  PostgreSQLLogo,
+  GitLogo,
+  DockerLogo,
+  MongoDBLogo,
+  TailwindLogo,
+  OpenCVLogo,
+  LinuxLogo,
+  RestApiLogo,
+} from './tech-logos';
 
 function subscribeReducedMotion(callback: () => void) {
   if (typeof window === 'undefined') return () => {};
@@ -31,22 +45,24 @@ export interface TechPlanet {
   angle: number; // in degrees (0 to 360)
   color: string;
   accentBg: string;
-  icon: string;
+  renderLogo: (className?: string) => React.ReactNode;
   description: string;
+  appliedIn: string;
 }
 
 export const ORBITAL_PLANETS: TechPlanet[] = [
-  // --- Orbit 1: Foundational Core (Radius ~82px, 5 planets) ---
+  // --- Orbit 1: Foundational Core (Radius 90px, 5 planets) ---
   {
     id: 'python',
     name: 'Python',
     category: 'Programming Languages',
     orbit: 1,
     angle: 0,
-    color: '#00f0ff',
-    accentBg: 'bg-cyan-500/20 text-cyan-300 border-cyan-500/40',
-    icon: 'Py',
-    description: 'Core language for machine learning pipelines, OpenCV vision models, and backend automation.',
+    color: '#38bdf8',
+    accentBg: 'bg-sky-500/20 text-sky-300 border-sky-500/40',
+    renderLogo: (cls) => <PythonLogo className={cls} />,
+    description: 'Core language for machine learning pipelines, OpenCV computer vision, and backend automation.',
+    appliedIn: 'GenVision inpainting framework, CodeTantra certified coursework, and NCAT assessment.',
   },
   {
     id: 'react',
@@ -54,10 +70,11 @@ export const ORBITAL_PLANETS: TechPlanet[] = [
     category: 'Frontend Development',
     orbit: 1,
     angle: 72,
-    color: '#38bdf8',
-    accentBg: 'bg-sky-500/20 text-sky-300 border-sky-500/40',
-    icon: 'Re',
+    color: '#00f0ff',
+    accentBg: 'bg-cyan-500/20 text-cyan-300 border-cyan-500/40',
+    renderLogo: (cls) => <ReactLogo className={cls} />,
     description: 'Declarative component architecture for high-performance interactive single-page applications.',
+    appliedIn: 'Robohatch e-commerce production platform (20+ pages), SmartDonum, and Smart Rental Platform.',
   },
   {
     id: 'typescript',
@@ -67,8 +84,9 @@ export const ORBITAL_PLANETS: TechPlanet[] = [
     angle: 144,
     color: '#3b82f6',
     accentBg: 'bg-blue-500/20 text-blue-300 border-blue-500/40',
-    icon: 'TS',
+    renderLogo: (cls) => <TypeScriptLogo className={cls} />,
     description: 'Strict type safety across frontend components, BFF contracts, and backend APIs.',
+    appliedIn: 'Full-stack monorepo contracts (@portfolio/types), Next.js App Router, and NestJS services.',
   },
   {
     id: 'nodejs',
@@ -76,10 +94,11 @@ export const ORBITAL_PLANETS: TechPlanet[] = [
     category: 'Backend & APIs',
     orbit: 1,
     angle: 216,
-    color: '#10b981',
+    color: '#22c55e',
     accentBg: 'bg-emerald-500/20 text-emerald-300 border-emerald-500/40',
-    icon: 'Node',
-    description: 'Event-driven, asynchronous JavaScript runtime for high-throughput backend services.',
+    renderLogo: (cls) => <NodejsLogo className={cls} />,
+    description: 'Event-driven, asynchronous JavaScript runtime for high-throughput backend services and APIs.',
+    appliedIn: 'SmartDonum REST backend, authentication handlers, and asynchronous data ingestion pipelines.',
   },
   {
     id: 'postgresql',
@@ -89,183 +108,139 @@ export const ORBITAL_PLANETS: TechPlanet[] = [
     angle: 288,
     color: '#60a5fa',
     accentBg: 'bg-blue-600/20 text-blue-300 border-blue-500/40',
-    icon: 'PG',
-    description: 'Advanced relational database powering Neon cloud persistence and transactional consistency.',
+    renderLogo: (cls) => <PostgreSQLLogo className={cls} />,
+    description: 'Enterprise relational database powering Neon cloud persistence and transactional consistency.',
+    appliedIn: 'Neon serverless cloud persistence, Prisma migrations, and relational data modeling.',
   },
 
-  // --- Orbit 2: Frameworks & Intelligent Systems (Radius ~144px, 7 planets) ---
+  // --- Orbit 2: Frameworks & Modern Stack (Radius 155px, 5 planets) ---
   {
     id: 'nextjs',
     name: 'Next.js',
     category: 'Frontend Development',
     orbit: 2,
-    angle: 25,
+    angle: 36,
     color: '#ffffff',
     accentBg: 'bg-neutral-800 text-white border-cyan-500/30',
-    icon: 'Next',
-    description: 'Full-stack React framework with App Router, server components, and BFF architecture.',
+    renderLogo: (cls) => <NextjsLogo className={cls} />,
+    description: 'Full-stack React framework with App Router, server-rendered components, and BFF architecture.',
+    appliedIn: 'Sidhartha Rayudu Portfolio, SSR optimizations, Turbopack, and Vercel edge deployment.',
   },
   {
     id: 'nestjs',
     name: 'NestJS',
     category: 'Backend & APIs',
     orbit: 2,
-    angle: 76,
+    angle: 108,
     color: '#e11d48',
     accentBg: 'bg-rose-500/20 text-rose-300 border-rose-500/40',
-    icon: 'Nest',
-    description: 'Enterprise modular backend architecture with dependency injection and TypeScript decorators.',
+    renderLogo: (cls) => <NestjsLogo className={cls} />,
+    description: 'Enterprise modular backend architecture with dependency injection, guards, and DTO validation.',
+    appliedIn: 'Portfolio backend on Render, rate limiting guards, and JWT authentication services.',
   },
   {
-    id: 'ml',
-    name: 'Machine Learning',
-    category: 'AI & Machine Learning',
+    id: 'javascript',
+    name: 'JavaScript (ES6+)',
+    category: 'Programming Languages',
     orbit: 2,
-    angle: 127,
-    color: '#a855f7',
-    accentBg: 'bg-purple-500/20 text-purple-300 border-purple-500/40',
-    icon: 'ML',
-    description: 'Applied statistical modeling, neural networks, predictive heuristics, and evaluation metrics.',
+    angle: 180,
+    color: '#facc15',
+    accentBg: 'bg-yellow-500/20 text-yellow-300 border-yellow-500/40',
+    renderLogo: (cls) => <JavaScriptLogo className={cls} />,
+    description: 'Modern asynchronous programming, DOM lifecycle manipulation, Closures, and Web APIs.',
+    appliedIn: 'Interactive portfolio canvas, Three.js custom render loops, and client-side state engines.',
   },
   {
     id: 'tailwind',
     name: 'Tailwind CSS',
     category: 'Frontend Development',
     orbit: 2,
-    angle: 178,
-    color: '#22d3ee',
-    accentBg: 'bg-cyan-500/20 text-cyan-300 border-cyan-500/40',
-    icon: 'TW',
-    description: 'Utility-first modern styling system for responsive cyber layouts and custom themes.',
-  },
-  {
-    id: 'aws',
-    name: 'AWS',
-    category: 'Cloud & Infrastructure',
-    orbit: 2,
-    angle: 230,
-    color: '#f59e0b',
-    accentBg: 'bg-amber-500/20 text-amber-300 border-amber-500/40',
-    icon: 'AWS',
-    description: 'Cloud infrastructure hosting EC2 instances, RDS databases, and Amplify web pipelines.',
-  },
-  {
-    id: 'cv',
-    name: 'Computer Vision',
-    category: 'AI & Machine Learning',
-    orbit: 2,
-    angle: 282,
-    color: '#c084fc',
-    accentBg: 'bg-purple-600/20 text-purple-300 border-purple-500/40',
-    icon: 'CV',
-    description: 'Image preprocessing, feature extraction, OpenCV pipelines, and multispectral analysis.',
-  },
-  {
-    id: 'mysql',
-    name: 'MySQL',
-    category: 'Databases & Storage',
-    orbit: 2,
-    angle: 333,
+    angle: 252,
     color: '#38bdf8',
-    accentBg: 'bg-sky-600/20 text-sky-300 border-sky-500/40',
-    icon: 'SQL',
-    description: 'Relational data modeling, ACID transactions, and optimized SQL index design.',
+    accentBg: 'bg-sky-500/20 text-sky-300 border-sky-500/40',
+    renderLogo: (cls) => <TailwindLogo className={cls} />,
+    description: 'Utility-first modern responsive CSS styling, micro-interactions, and cyber design systems.',
+    appliedIn: 'Robohatch e-commerce production UI, responsive mobile viewports, and dark theme palette.',
+  },
+  {
+    id: 'restapi',
+    name: 'RESTful APIs',
+    category: 'Backend & APIs',
+    orbit: 2,
+    angle: 324,
+    color: '#00f0ff',
+    accentBg: 'bg-cyan-500/20 text-cyan-300 border-cyan-500/40',
+    renderLogo: (cls) => <RestApiLogo className={cls} />,
+    description: 'Stateless API architecture, structured JSON schemas, HTTP status codes, and Postman testing.',
+    appliedIn: 'Robohatch API integrations, Smart Rental fleet telemetry, and Autism Screening ingestion.',
   },
 
-  // --- Orbit 3: Cloud, Tools & Engineering Infrastructure (Radius ~206px, 8 planets) ---
+  // --- Orbit 3: Cloud, AI & Infrastructure (Radius 225px, 5 planets) ---
   {
     id: 'git',
-    name: 'Git',
+    name: 'Git & GitHub',
     category: 'Developer Tools',
     orbit: 3,
-    angle: 15,
+    angle: 20,
     color: '#f97316',
     accentBg: 'bg-orange-500/20 text-orange-300 border-orange-500/40',
-    icon: 'Git',
-    description: 'Distributed version control, branch management, cherry-picking, and collaborative workflows.',
+    renderLogo: (cls) => <GitLogo className={cls} />,
+    description: 'Distributed version control, branch management, collaborative workflows, and GitHub Actions.',
+    appliedIn: 'Production monorepo versioning, team collaboration at Robohatch, and open-source projects.',
   },
   {
     id: 'docker',
     name: 'Docker',
     category: 'Cloud & Infrastructure',
     orbit: 3,
-    angle: 60,
+    angle: 92,
     color: '#0284c7',
     accentBg: 'bg-sky-600/20 text-sky-300 border-sky-500/40',
-    icon: 'Dock',
-    description: 'Containerization, reproducible multi-stage builds, and microservices orchestration.',
+    renderLogo: (cls) => <DockerLogo className={cls} />,
+    description: 'Containerization, reproducible multi-stage builds, and microservices runtime environments.',
+    appliedIn: 'Local development service isolation, backend containerization, and Render deployment.',
   },
   {
     id: 'opencv',
-    name: 'OpenCV',
+    name: 'OpenCV & Computer Vision',
     category: 'AI & Machine Learning',
     orbit: 3,
-    angle: 105,
+    angle: 164,
     color: '#ef4444',
     accentBg: 'bg-red-500/20 text-red-300 border-red-500/40',
-    icon: 'CV2',
-    description: 'Real-time image manipulation, spatial filtering, contour segmentation, and edge detection.',
+    renderLogo: (cls) => <OpenCVLogo className={cls} />,
+    description: 'Image processing, spatial filtering, facial landmark detection, and video stream analysis.',
+    appliedIn: 'Autism Screening video observational analysis and GenVision satellite spectral processing.',
   },
   {
     id: 'mongodb',
     name: 'MongoDB',
     category: 'Databases & Storage',
     orbit: 3,
-    angle: 150,
+    angle: 236,
     color: '#22c55e',
     accentBg: 'bg-emerald-600/20 text-emerald-300 border-emerald-500/40',
-    icon: 'MDB',
-    description: 'NoSQL document database, aggregation pipelines, flexible schemas, and indexing.',
-  },
-  {
-    id: 'prisma',
-    name: 'Prisma ORM',
-    category: 'Databases & Storage',
-    orbit: 3,
-    angle: 195,
-    color: '#06b6d4',
-    accentBg: 'bg-cyan-600/20 text-cyan-300 border-cyan-500/40',
-    icon: 'Pris',
-    description: 'Type-safe database ORM with automated schema migrations and connection pooling.',
-  },
-  {
-    id: 'restapi',
-    name: 'RESTful APIs',
-    category: 'Backend & APIs',
-    orbit: 3,
-    angle: 240,
-    color: '#38bdf8',
-    accentBg: 'bg-sky-500/20 text-sky-300 border-sky-500/40',
-    icon: 'REST',
-    description: 'Stateless API design, HTTP status codes, structured JSON contracts, and Swagger/OpenAPI docs.',
-  },
-  {
-    id: 'postman',
-    name: 'Postman',
-    category: 'Developer Tools',
-    orbit: 3,
-    angle: 285,
-    color: '#f97316',
-    accentBg: 'bg-orange-600/20 text-orange-300 border-orange-500/40',
-    icon: 'Post',
-    description: 'API endpoint validation, automated test collections, and integration workflow debugging.',
+    renderLogo: (cls) => <MongoDBLogo className={cls} />,
+    description: 'NoSQL document database, dynamic JSON schemas, indexing, and aggregation pipelines.',
+    appliedIn: 'MongoDB Basics certified credential and unstructured telemetry logging.',
   },
   {
     id: 'linux',
     name: 'Linux / Bash',
     category: 'Developer Tools',
     orbit: 3,
-    angle: 330,
+    angle: 308,
     color: '#eab308',
     accentBg: 'bg-yellow-500/20 text-yellow-300 border-yellow-500/40',
-    icon: 'Bash',
-    description: 'Unix shell scripting, process management, SSH remote server administration, and automation.',
+    renderLogo: (cls) => <LinuxLogo className={cls} />,
+    description: 'Unix shell scripting, process management, file permissions, and cloud server administration.',
+    appliedIn: 'Render cloud server operations, automation shell scripts, and terminal development.',
   },
 ];
 
 interface OrbitalSystemProps {
   selectedPlanet: TechPlanet | null;
-  onSelectPlanet: (planet: TechPlanet) => void;
+  onSelectPlanet: (planet: TechPlanet | null) => void;
   highlightedCategory?: string | null;
 }
 
@@ -281,99 +256,89 @@ export function OrbitalSystem({
     getReducedMotionServerSnapshot
   );
 
-  // Orbit radius definitions (in pixels for 480x480 container)
+  // Expansive, wide orbit radii (in pixels) for an open 500x500 stage
   const orbitRadii = {
-    1: 82,
-    2: 144,
-    3: 206,
+    1: 90,
+    2: 155,
+    3: 225,
   };
 
   const orbit1Planets = useMemo(() => ORBITAL_PLANETS.filter((p) => p.orbit === 1), []);
   const orbit2Planets = useMemo(() => ORBITAL_PLANETS.filter((p) => p.orbit === 2), []);
   const orbit3Planets = useMemo(() => ORBITAL_PLANETS.filter((p) => p.orbit === 3), []);
 
-  const isPaused = isHovering || selectedPlanet !== null;
+  const isPaused = isHovering;
 
   return (
-    <div className="relative flex flex-col items-center justify-center">
-      {/* Responsive Scaled Orbital Space Container */}
+    <div className="relative w-full flex flex-col items-center justify-center py-4 select-none">
+      {/* Expansive, Unboxed Orbital System Space */}
       <div
-        className="relative h-[340px] w-[340px] sm:h-[460px] sm:w-[460px] lg:h-[480px] lg:w-[480px] flex items-center justify-center select-none scale-[0.80] sm:scale-100 transition-transform origin-center"
+        className="relative h-[340px] w-[340px] sm:h-[450px] sm:w-[450px] lg:h-[510px] lg:w-[510px] flex items-center justify-center scale-[0.78] sm:scale-[0.92] lg:scale-100 transition-transform origin-center"
         onMouseEnter={() => setIsHovering(true)}
         onMouseLeave={() => setIsHovering(false)}
       >
-        {/* Background Ambient Cyber Glow Halos */}
-        <div className="absolute h-52 w-52 rounded-full bg-cyan-500/15 blur-3xl pointer-events-none" />
-        <div className="absolute h-72 w-72 rounded-full bg-blue-600/10 blur-[80px] pointer-events-none" />
+        {/* Soft Ambient Cyber Glow Bloom */}
+        <div className="absolute h-64 w-64 rounded-full bg-cyan-500/10 blur-[90px] pointer-events-none" />
+        <div className="absolute h-80 w-80 rounded-full bg-blue-600/10 blur-[100px] pointer-events-none" />
 
         {/* ============================================================== */}
-        {/* ORBITAL PATHS (Static dashed guidelines)                      */}
+        {/* ORBITAL PATHS (Continuous concentric guidelines)              */}
         {/* ============================================================== */}
-        {/* Orbit 1 Ring (Inner) */}
+        {/* Orbit 1 Ring (Inner ~90px radius) */}
         <div
           className={`absolute rounded-full border border-dashed transition-colors duration-300 pointer-events-none ${
             selectedPlanet?.orbit === 1
-              ? 'border-cyan-400/60 shadow-[0_0_15px_rgba(0,240,255,0.25)]'
+              ? 'border-cyan-400/70 shadow-[0_0_20px_rgba(0,240,255,0.3)]'
               : 'border-cyan-500/20'
           }`}
-          style={{
-            width: orbitRadii[1] * 2,
-            height: orbitRadii[1] * 2,
-          }}
+          style={{ width: orbitRadii[1] * 2, height: orbitRadii[1] * 2 }}
         />
 
-        {/* Orbit 2 Ring (Middle) */}
+        {/* Orbit 2 Ring (Middle ~155px radius) */}
         <div
           className={`absolute rounded-full border border-dashed transition-colors duration-300 pointer-events-none ${
             selectedPlanet?.orbit === 2
-              ? 'border-blue-400/60 shadow-[0_0_15px_rgba(59,130,246,0.25)]'
+              ? 'border-blue-400/70 shadow-[0_0_20px_rgba(59,130,246,0.3)]'
               : 'border-blue-500/20'
           }`}
-          style={{
-            width: orbitRadii[2] * 2,
-            height: orbitRadii[2] * 2,
-          }}
+          style={{ width: orbitRadii[2] * 2, height: orbitRadii[2] * 2 }}
         />
 
-        {/* Orbit 3 Ring (Outer) */}
+        {/* Orbit 3 Ring (Outer ~225px radius) */}
         <div
           className={`absolute rounded-full border border-dashed transition-colors duration-300 pointer-events-none ${
             selectedPlanet?.orbit === 3
-              ? 'border-purple-400/60 shadow-[0_0_15px_rgba(168,85,247,0.25)]'
+              ? 'border-purple-400/70 shadow-[0_0_20px_rgba(168,85,247,0.3)]'
               : 'border-purple-500/20'
           }`}
-          style={{
-            width: orbitRadii[3] * 2,
-            height: orbitRadii[3] * 2,
-          }}
+          style={{ width: orbitRadii[3] * 2, height: orbitRadii[3] * 2 }}
         />
 
         {/* ============================================================== */}
-        {/* CENTRAL SUN: REUSABLE SR LOGO WITH SOLAR CYBER AURA            */}
+        {/* CENTRAL SUN: REUSABLE SR LOGO CORE                             */}
         {/* ============================================================== */}
         <div className="relative z-20 flex flex-col items-center justify-center pointer-events-auto">
-          {/* Pulsing Solar Glow Aura */}
-          <div className="absolute h-24 w-24 rounded-full bg-gradient-to-tr from-cyan-400/25 to-blue-600/25 blur-xl animate-pulse-subtle pointer-events-none" />
+          {/* Solar Glow Aura */}
+          <div className="absolute h-28 w-28 rounded-full bg-gradient-to-tr from-cyan-400/30 to-purple-600/30 blur-xl animate-pulse-subtle pointer-events-none" />
 
           {/* Central Core Shield */}
-          <div className="relative flex h-20 w-20 items-center justify-center rounded-2xl border-2 border-cyan-400/60 bg-neutral-950/90 shadow-[0_0_30px_rgba(0,240,255,0.35)] backdrop-blur-xl">
-            {/* Corner Cyber Pips */}
+          <div className="relative flex h-20 w-20 items-center justify-center rounded-2xl border-2 border-cyan-400/70 bg-neutral-950/95 shadow-[0_0_35px_rgba(0,240,255,0.4)] backdrop-blur-xl">
+            {/* Corner Cyber Accents */}
             <div className="absolute top-1 left-1 h-1.5 w-1.5 border-t border-l border-cyan-300" />
-            <div className="absolute top-1 right-1 h-1.5 w-1.5 border-t border-r border-blue-400" />
+            <div className="absolute top-1 right-1 h-1.5 w-1.5 border-t border-r border-purple-400" />
             <div className="absolute bottom-1 left-1 h-1.5 w-1.5 border-b border-l border-cyan-300" />
-            <div className="absolute bottom-1 right-1 h-1.5 w-1.5 border-b border-r border-blue-400" />
+            <div className="absolute bottom-1 right-1 h-1.5 w-1.5 border-b border-r border-purple-400" />
 
-            {/* Vector SR Monogram */}
             <SRLogo size="md" showGlow={true} />
           </div>
 
-          <span className="mt-1 text-[9px] font-mono uppercase tracking-widest text-cyan-400 font-bold">
+          <span className="mt-1.5 text-[9px] font-mono uppercase tracking-widest text-cyan-400 font-bold">
             SR CORE
           </span>
         </div>
 
         {/* ============================================================== */}
-        {/* ROTATING ORBIT 1 (INNER): Radius ~82px                        */}
+        {/* ROTATING ORBIT 1 (INNER): Radius 90px                         */}
         {/* ============================================================== */}
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none z-30">
           <div
@@ -385,7 +350,6 @@ export function OrbitalSystem({
             {orbit1Planets.map((planet) => {
               const rad = (planet.angle * Math.PI) / 180;
               const radius = orbitRadii[1];
-              // Position relative to orbit box center (radius, radius)
               const x = radius + radius * Math.cos(rad);
               const y = radius + radius * Math.sin(rad);
 
@@ -398,27 +362,27 @@ export function OrbitalSystem({
                 <button
                   key={planet.id}
                   type="button"
-                  onClick={() => onSelectPlanet(planet)}
-                  aria-label={`Inspect ${planet.name} (${planet.category})`}
-                  className={`absolute pointer-events-auto -translate-x-1/2 -translate-y-1/2 flex items-center justify-center rounded-xl border text-[11px] font-mono font-bold transition-transform duration-300 group cursor-pointer focus:outline-none focus:ring-2 focus:ring-cyan-400 h-8 w-8 sm:h-9 sm:w-9 ${
+                  onClick={() => onSelectPlanet(isSelected ? null : planet)}
+                  aria-label={`Select ${planet.name}`}
+                  className={`absolute pointer-events-auto -translate-x-1/2 -translate-y-1/2 flex items-center justify-center rounded-xl border transition-all duration-300 group cursor-pointer focus:outline-none focus:ring-2 focus:ring-cyan-400 h-10 w-10 sm:h-11 sm:w-11 p-1.5 ${
                     isSelected
-                      ? 'scale-125 border-cyan-300 bg-cyan-500/30 text-white shadow-[0_0_20px_rgba(0,240,255,0.6)] ring-2 ring-cyan-400 z-50'
+                      ? 'scale-125 border-cyan-300 bg-cyan-950/90 text-white shadow-[0_0_25px_rgba(0,240,255,0.7)] ring-2 ring-cyan-400 z-50'
                       : isCategoryHighlighted
-                      ? 'scale-115 border-purple-400 bg-purple-500/25 text-white shadow-[0_0_15px_rgba(168,85,247,0.5)] z-40'
-                      : 'border-neutral-800 bg-neutral-950/90 text-neutral-300 hover:border-cyan-400/60 hover:bg-neutral-900 hover:text-white hover:scale-115 hover:shadow-[0_0_15px_rgba(0,240,255,0.3)]'
+                      ? 'scale-115 border-purple-400 bg-purple-950/80 text-white shadow-[0_0_15px_rgba(168,85,247,0.5)] z-40'
+                      : 'border-neutral-800/90 bg-neutral-950/90 text-neutral-300 hover:border-cyan-400/70 hover:bg-neutral-900 hover:scale-115 hover:shadow-[0_0_15px_rgba(0,240,255,0.35)]'
                   }`}
                   style={{ left: `${x}px`, top: `${y}px` }}
                 >
                   <span
-                    className={`inline-block ${
+                    className={`inline-flex items-center justify-center ${
                       !prefersReducedMotion ? 'animate-counter-orbit-1' : ''
                     } ${isPaused ? 'orbit-paused' : ''}`}
                   >
-                    {planet.icon}
+                    {planet.renderLogo('h-6 w-6')}
                   </span>
 
-                  {/* Tooltip on hover */}
-                  <div className="absolute -top-7 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-md border border-cyan-500/40 bg-neutral-950/95 px-2 py-0.5 text-[10px] font-mono text-cyan-300 opacity-0 shadow-lg pointer-events-none transition-opacity duration-200 group-hover:opacity-100 group-hover:pointer-events-auto">
+                  {/* Hover Tooltip */}
+                  <div className="absolute -top-8 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-md border border-cyan-500/40 bg-neutral-950/95 px-2.5 py-0.5 text-[10px] font-mono text-cyan-300 opacity-0 shadow-lg pointer-events-none transition-opacity duration-200 group-hover:opacity-100 group-hover:pointer-events-auto z-50">
                     {planet.name}
                   </div>
                 </button>
@@ -428,7 +392,7 @@ export function OrbitalSystem({
         </div>
 
         {/* ============================================================== */}
-        {/* ROTATING ORBIT 2 (MIDDLE): Radius ~144px                       */}
+        {/* ROTATING ORBIT 2 (MIDDLE): Radius 155px                        */}
         {/* ============================================================== */}
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none z-30">
           <div
@@ -452,26 +416,27 @@ export function OrbitalSystem({
                 <button
                   key={planet.id}
                   type="button"
-                  onClick={() => onSelectPlanet(planet)}
-                  aria-label={`Inspect ${planet.name} (${planet.category})`}
-                  className={`absolute pointer-events-auto -translate-x-1/2 -translate-y-1/2 flex items-center justify-center rounded-xl border text-[11px] font-mono font-bold transition-transform duration-300 group cursor-pointer focus:outline-none focus:ring-2 focus:ring-cyan-400 h-8 w-8 sm:h-9 sm:w-9 ${
+                  onClick={() => onSelectPlanet(isSelected ? null : planet)}
+                  aria-label={`Select ${planet.name}`}
+                  className={`absolute pointer-events-auto -translate-x-1/2 -translate-y-1/2 flex items-center justify-center rounded-xl border transition-all duration-300 group cursor-pointer focus:outline-none focus:ring-2 focus:ring-cyan-400 h-10 w-10 sm:h-11 sm:w-11 p-1.5 ${
                     isSelected
-                      ? 'scale-125 border-cyan-300 bg-cyan-500/30 text-white shadow-[0_0_20px_rgba(0,240,255,0.6)] ring-2 ring-cyan-400 z-50'
+                      ? 'scale-125 border-cyan-300 bg-cyan-950/90 text-white shadow-[0_0_25px_rgba(0,240,255,0.7)] ring-2 ring-cyan-400 z-50'
                       : isCategoryHighlighted
-                      ? 'scale-115 border-purple-400 bg-purple-500/25 text-white shadow-[0_0_15px_rgba(168,85,247,0.5)] z-40'
-                      : 'border-neutral-800 bg-neutral-950/90 text-neutral-300 hover:border-cyan-400/60 hover:bg-neutral-900 hover:text-white hover:scale-115 hover:shadow-[0_0_15px_rgba(0,240,255,0.3)]'
+                      ? 'scale-115 border-purple-400 bg-purple-950/80 text-white shadow-[0_0_15px_rgba(168,85,247,0.5)] z-40'
+                      : 'border-neutral-800/90 bg-neutral-950/90 text-neutral-300 hover:border-cyan-400/70 hover:bg-neutral-900 hover:scale-115 hover:shadow-[0_0_15px_rgba(0,240,255,0.35)]'
                   }`}
                   style={{ left: `${x}px`, top: `${y}px` }}
                 >
                   <span
-                    className={`inline-block ${
+                    className={`inline-flex items-center justify-center ${
                       !prefersReducedMotion ? 'animate-counter-orbit-2' : ''
                     } ${isPaused ? 'orbit-paused' : ''}`}
                   >
-                    {planet.icon}
+                    {planet.renderLogo('h-6 w-6')}
                   </span>
 
-                  <div className="absolute -top-7 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-md border border-cyan-500/40 bg-neutral-950/95 px-2 py-0.5 text-[10px] font-mono text-cyan-300 opacity-0 shadow-lg pointer-events-none transition-opacity duration-200 group-hover:opacity-100 group-hover:pointer-events-auto">
+                  {/* Hover Tooltip */}
+                  <div className="absolute -top-8 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-md border border-cyan-500/40 bg-neutral-950/95 px-2.5 py-0.5 text-[10px] font-mono text-cyan-300 opacity-0 shadow-lg pointer-events-none transition-opacity duration-200 group-hover:opacity-100 group-hover:pointer-events-auto z-50">
                     {planet.name}
                   </div>
                 </button>
@@ -481,7 +446,7 @@ export function OrbitalSystem({
         </div>
 
         {/* ============================================================== */}
-        {/* ROTATING ORBIT 3 (OUTER): Radius ~206px                        */}
+        {/* ROTATING ORBIT 3 (OUTER): Radius 225px                         */}
         {/* ============================================================== */}
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none z-30">
           <div
@@ -505,26 +470,27 @@ export function OrbitalSystem({
                 <button
                   key={planet.id}
                   type="button"
-                  onClick={() => onSelectPlanet(planet)}
-                  aria-label={`Inspect ${planet.name} (${planet.category})`}
-                  className={`absolute pointer-events-auto -translate-x-1/2 -translate-y-1/2 flex items-center justify-center rounded-xl border text-[10px] sm:text-[11px] font-mono font-bold transition-transform duration-300 group cursor-pointer focus:outline-none focus:ring-2 focus:ring-cyan-400 h-7 w-7 sm:h-8 sm:w-8 ${
+                  onClick={() => onSelectPlanet(isSelected ? null : planet)}
+                  aria-label={`Select ${planet.name}`}
+                  className={`absolute pointer-events-auto -translate-x-1/2 -translate-y-1/2 flex items-center justify-center rounded-xl border transition-all duration-300 group cursor-pointer focus:outline-none focus:ring-2 focus:ring-cyan-400 h-10 w-10 sm:h-11 sm:w-11 p-1.5 ${
                     isSelected
-                      ? 'scale-125 border-cyan-300 bg-cyan-500/30 text-white shadow-[0_0_20px_rgba(0,240,255,0.6)] ring-2 ring-cyan-400 z-50'
+                      ? 'scale-125 border-cyan-300 bg-cyan-950/90 text-white shadow-[0_0_25px_rgba(0,240,255,0.7)] ring-2 ring-cyan-400 z-50'
                       : isCategoryHighlighted
-                      ? 'scale-115 border-purple-400 bg-purple-500/25 text-white shadow-[0_0_15px_rgba(168,85,247,0.5)] z-40'
-                      : 'border-neutral-800 bg-neutral-950/90 text-neutral-300 hover:border-cyan-400/60 hover:bg-neutral-900 hover:text-white hover:scale-115 hover:shadow-[0_0_15px_rgba(0,240,255,0.3)]'
+                      ? 'scale-115 border-purple-400 bg-purple-950/80 text-white shadow-[0_0_15px_rgba(168,85,247,0.5)] z-40'
+                      : 'border-neutral-800/90 bg-neutral-950/90 text-neutral-300 hover:border-cyan-400/70 hover:bg-neutral-900 hover:scale-115 hover:shadow-[0_0_15px_rgba(0,240,255,0.35)]'
                   }`}
                   style={{ left: `${x}px`, top: `${y}px` }}
                 >
                   <span
-                    className={`inline-block ${
+                    className={`inline-flex items-center justify-center ${
                       !prefersReducedMotion ? 'animate-counter-orbit-3' : ''
                     } ${isPaused ? 'orbit-paused' : ''}`}
                   >
-                    {planet.icon}
+                    {planet.renderLogo('h-6 w-6')}
                   </span>
 
-                  <div className="absolute -top-7 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-md border border-cyan-500/40 bg-neutral-950/95 px-2 py-0.5 text-[10px] font-mono text-cyan-300 opacity-0 shadow-lg pointer-events-none transition-opacity duration-200 group-hover:opacity-100 group-hover:pointer-events-auto">
+                  {/* Hover Tooltip */}
+                  <div className="absolute -top-8 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-md border border-cyan-500/40 bg-neutral-950/95 px-2.5 py-0.5 text-[10px] font-mono text-cyan-300 opacity-0 shadow-lg pointer-events-none transition-opacity duration-200 group-hover:opacity-100 group-hover:pointer-events-auto z-50">
                     {planet.name}
                   </div>
                 </button>
@@ -534,47 +500,59 @@ export function OrbitalSystem({
         </div>
       </div>
 
-      {/* Selected Planet HUD Inspector Card (Directly beneath orbit) */}
-      <div className="w-full max-w-md mt-4 rounded-2xl border border-cyan-500/30 bg-neutral-900/60 p-4 backdrop-blur-md transition-all duration-300">
-        {selectedPlanet ? (
-          <div className="flex items-start gap-3.5">
-            <div className="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-xl border border-cyan-400/40 bg-cyan-500/15 font-mono text-sm font-extrabold text-cyan-300 shadow-[0_0_15px_rgba(0,240,255,0.2)]">
-              {selectedPlanet.icon}
-            </div>
-            <div className="space-y-1 min-w-0 flex-1">
-              <div className="flex items-center justify-between gap-2">
-                <div className="flex items-center gap-2 truncate">
-                  <h4 className="text-sm font-bold text-white tracking-wide truncate">
+      {/* ============================================================== */}
+      {/* SELECTED TECHNOLOGY DETAIL HUD CARD (Floats below cleanly)      */}
+      {/* ============================================================== */}
+      {selectedPlanet ? (
+        <div className="mt-4 w-full max-w-xl rounded-2xl border border-cyan-500/40 bg-neutral-950/90 p-4 sm:p-5 backdrop-blur-xl shadow-2xl shadow-cyan-950/40 animate-fade-in transition-all">
+          <div className="flex items-start justify-between gap-4">
+            <div className="flex items-center gap-3">
+              <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border border-cyan-500/40 bg-cyan-500/10 p-2 shadow-[0_0_15px_rgba(0,240,255,0.3)]">
+                {selectedPlanet.renderLogo('h-8 w-8')}
+              </div>
+              <div>
+                <div className="flex items-center gap-2">
+                  <h4 className="text-base sm:text-lg font-bold text-white tracking-tight">
                     {selectedPlanet.name}
                   </h4>
-                  <span className="rounded-full border border-neutral-800 bg-neutral-950/80 px-2 py-0.5 text-[10px] font-mono text-cyan-400 shrink-0">
-                    {selectedPlanet.category}
+                  <span className="rounded-full border border-cyan-500/30 bg-cyan-950/30 px-2 py-0.5 text-[10px] font-mono text-cyan-300">
+                    Orbit {selectedPlanet.orbit}
                   </span>
                 </div>
-                <button
-                  type="button"
-                  onClick={() => onSelectPlanet(null as any)}
-                  className="text-neutral-500 hover:text-neutral-300 transition text-xs font-mono"
-                  title="Close inspection"
-                >
-                  Clear
-                </button>
+                <p className="text-xs font-mono text-neutral-400 mt-0.5">
+                  {selectedPlanet.category}
+                </p>
               </div>
-              <p className="text-xs text-neutral-300 leading-relaxed">
-                {selectedPlanet.description}
-              </p>
+            </div>
+
+            <button
+              type="button"
+              onClick={() => onSelectPlanet(null)}
+              className="rounded-lg border border-neutral-800 p-1 text-neutral-400 hover:text-white hover:border-neutral-700 transition"
+              aria-label="Close technology inspection"
+            >
+              <X className="h-4 w-4" />
+            </button>
+          </div>
+
+          <p className="mt-3 text-xs sm:text-sm text-neutral-300 leading-relaxed">
+            {selectedPlanet.description}
+          </p>
+
+          <div className="mt-3 flex items-start gap-2 rounded-xl border border-neutral-800/80 bg-neutral-900/60 p-2.5 text-[11px] text-neutral-400">
+            <CheckCircle2 className="h-4 w-4 shrink-0 text-cyan-400 mt-0.5" />
+            <div>
+              <span className="font-semibold text-neutral-200">Verified Application: </span>
+              <span>{selectedPlanet.appliedIn}</span>
             </div>
           </div>
-        ) : (
-          <div className="flex items-center justify-between text-xs font-mono text-neutral-400 py-1">
-            <div className="flex items-center gap-2">
-              <Sparkles className="h-4 w-4 text-cyan-400 animate-pulse" />
-              <span>Click any planet to inspect • Hover to pause orbit</span>
-            </div>
-            <span className="text-[10px] text-cyan-400/80 font-semibold hidden sm:inline">20 Technologies</span>
-          </div>
-        )}
-      </div>
+        </div>
+      ) : (
+        <div className="mt-2 flex items-center gap-2 text-[11px] font-mono text-neutral-500">
+          <Sparkles className="h-3 w-3 text-cyan-400/80" />
+          <span>Click any revolving technology logo to inspect verified engineering details</span>
+        </div>
+      )}
     </div>
   );
 }

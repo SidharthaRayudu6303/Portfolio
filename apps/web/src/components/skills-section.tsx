@@ -58,7 +58,7 @@ export function SkillsSection({ skills }: SkillsSectionProps) {
   };
 
   return (
-    <section id="skills" className="scroll-mt-24 py-20 border-b border-neutral-800/80">
+    <section id="skills" className="scroll-mt-16 min-h-screen flex flex-col justify-center py-20 border-b border-neutral-800/80 relative">
       <div className="mx-auto max-w-7xl px-6">
         {/* Section Header */}
         <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between mb-12">
@@ -83,31 +83,19 @@ export function SkillsSection({ skills }: SkillsSectionProps) {
           </div>
         </div>
 
-        {/* Main Two-Column Layout: Left Orbital System, Right Accordion */}
-        <div className="grid grid-cols-1 gap-12 lg:grid-cols-12 lg:items-start">
-          {/* Left Column: Interactive Orbital Visual System */}
-          <div className="lg:col-span-6 flex flex-col items-center">
-            <div className="w-full rounded-3xl border border-neutral-800/80 bg-neutral-900/40 p-4 sm:p-8 backdrop-blur-md relative overflow-hidden flex flex-col items-center shadow-2xl shadow-cyan-950/10">
-              {/* Header Label inside Orbital Card */}
-              <div className="w-full flex items-center justify-between pb-3 border-b border-neutral-800/80 text-[11px] font-mono text-neutral-400">
-                <span className="flex items-center gap-1.5 text-cyan-400 font-bold uppercase tracking-wider">
-                  <span className="h-2 w-2 rounded-full bg-cyan-400 animate-ping" />
-                  <span>Interactive System</span>
-                </span>
-                <span>Tap or Click Planets</span>
-              </div>
-
-              {/* Orbital Space */}
-              <OrbitalSystem
-                selectedPlanet={selectedPlanet}
-                onSelectPlanet={setSelectedPlanet}
-                highlightedCategory={highlightedCategory}
-              />
-            </div>
+        {/* Main Two-Column Layout: Left Wide Orbital System (Unboxed), Right Accordion */}
+        <div className="grid grid-cols-1 gap-12 lg:grid-cols-12 lg:items-center">
+          {/* Left Column: Interactive Orbital Visual System (No restrictive box, wide breathing room) */}
+          <div className="lg:col-span-7 flex flex-col items-center justify-center">
+            <OrbitalSystem
+              selectedPlanet={selectedPlanet}
+              onSelectPlanet={setSelectedPlanet}
+              highlightedCategory={highlightedCategory}
+            />
           </div>
 
           {/* Right Column: Expandable Category Accordion */}
-          <div className="lg:col-span-6">
+          <div className="lg:col-span-5">
             <SkillsAccordion
               onHoverCategory={setHighlightedCategory}
               onSelectSkill={handleSelectSkillByName}

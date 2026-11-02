@@ -8,9 +8,13 @@ export class SkillsService {
   constructor(private readonly prisma: PrismaService) {}
 
   async findAll() {
-    return this.prisma.skill.findMany({
-      orderBy: [{ category: 'asc' }, { order: 'asc' }, { level: 'desc' }],
-    });
+    try {
+      return await this.prisma.skill.findMany({
+        orderBy: [{ category: 'asc' }, { order: 'asc' }, { level: 'desc' }],
+      });
+    } catch {
+      return [];
+    }
   }
 
   async findOneById(id: string) {

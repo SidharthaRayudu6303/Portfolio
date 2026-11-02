@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useEffect } from 'react';
-import Image from 'next/image';
+import { ProjectArtwork } from './project-artwork';
 import {
   X,
   Github,
@@ -85,15 +85,15 @@ export function ProjectModal({ project, onClose }: ProjectModalProps) {
       >
         {/* Project Visual Artwork Banner (16:9 Aspect Ratio) */}
         <div className="relative w-full h-56 sm:h-72 overflow-hidden rounded-t-3xl border-b border-neutral-800 bg-neutral-950">
-          <Image
+          <ProjectArtwork
             src={projectImage}
             alt={project.title}
-            fill
+            title={project.title}
+            priority
             sizes="(max-width: 768px) 100vw, 800px"
             className="object-cover transition-transform duration-500 hover:scale-105"
-            priority
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-neutral-900 via-neutral-900/40 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-neutral-900 via-neutral-900/40 to-transparent pointer-events-none" />
 
           {/* Close Button Top Right */}
           <button
@@ -152,6 +152,21 @@ export function ProjectModal({ project, onClose }: ProjectModalProps) {
               <p className="text-xs sm:text-sm text-neutral-300 leading-relaxed">
                 {project.problemSolved}
               </p>
+            </div>
+          )}
+
+          {/* Autism Non-Diagnostic Disclaimer */}
+          {project.slug.includes('autism') && (
+            <div className="rounded-2xl border border-amber-500/30 bg-amber-950/20 p-4 flex items-start gap-3 text-xs text-amber-300 leading-relaxed">
+              <AlertCircle className="h-4 w-4 text-amber-400 flex-shrink-0 mt-0.5" />
+              <div>
+                <strong className="font-semibold block text-amber-200 uppercase font-mono text-[10px] tracking-wider mb-0.5">
+                  Non-Diagnostic Advisory Notice
+                </strong>
+                <span>
+                  This platform is designed solely as an observational pre-screening and media submission interface for research and preliminary informational support. It does not provide medical diagnosis, clinical evaluation, or formal psychiatric validation.
+                </span>
+              </div>
             </div>
           )}
 

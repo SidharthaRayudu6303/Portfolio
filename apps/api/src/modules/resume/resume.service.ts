@@ -6,21 +6,25 @@ export class ResumeService {
   constructor(private readonly prisma: PrismaService) {}
 
   async getActiveResumeMeta() {
-    const active = await this.prisma.resumeDocument.findFirst({
-      where: { isActive: true },
-      orderBy: { createdAt: 'desc' },
-      select: {
-        id: true,
-        filename: true,
-        label: true,
-        mimeType: true,
-        fileSize: true,
-        isActive: true,
-        createdAt: true,
-        updatedAt: true,
-      },
-    });
-    return active || null;
+    try {
+      const active = await this.prisma.resumeDocument.findFirst({
+        where: { isActive: true },
+        orderBy: { createdAt: 'desc' },
+        select: {
+          id: true,
+          filename: true,
+          label: true,
+          mimeType: true,
+          fileSize: true,
+          isActive: true,
+          createdAt: true,
+          updatedAt: true,
+        },
+      });
+      return active || null;
+    } catch {
+      return null;
+    }
   }
 
   async getActiveResumeData() {
@@ -45,19 +49,23 @@ export class ResumeService {
   }
 
   async listAll() {
-    return this.prisma.resumeDocument.findMany({
-      orderBy: { createdAt: 'desc' },
-      select: {
-        id: true,
-        filename: true,
-        label: true,
-        mimeType: true,
-        fileSize: true,
-        isActive: true,
-        createdAt: true,
-        updatedAt: true,
-      },
-    });
+    try {
+      return await this.prisma.resumeDocument.findMany({
+        orderBy: { createdAt: 'desc' },
+        select: {
+          id: true,
+          filename: true,
+          label: true,
+          mimeType: true,
+          fileSize: true,
+          isActive: true,
+          createdAt: true,
+          updatedAt: true,
+        },
+      });
+    } catch {
+      return [];
+    }
   }
 
   async uploadResume(filename: string, label: string, buffer: Buffer) {

@@ -21,7 +21,6 @@ import {
   Play,
   Sparkles,
   FileCheck,
-  Search,
 } from 'lucide-react';
 
 export type CertificateCategory = 'All' | 'Programming' | 'AI / Machine Learning' | 'Professional Skills';
@@ -492,7 +491,7 @@ export function CertificationsSection({ certifications }: CertificationsSectionP
   return (
     <section
       id="certifications"
-      className="scroll-mt-24 py-24 border-b border-neutral-800/80 relative overflow-hidden bg-[#050505]"
+      className="scroll-mt-16 min-h-screen flex flex-col justify-center py-20 border-b border-neutral-800/80 relative overflow-hidden"
     >
       {/* Ambient Cyber Lighting Gradients */}
       <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[350px] bg-cyan-500/5 blur-[140px] pointer-events-none rounded-full" />

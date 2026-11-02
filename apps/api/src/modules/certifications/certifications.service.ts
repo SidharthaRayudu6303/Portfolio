@@ -8,9 +8,13 @@ export class CertificationsService {
   constructor(private readonly prisma: PrismaService) {}
 
   async findAll() {
-    return this.prisma.certification.findMany({
-      orderBy: [{ order: 'asc' }, { issueDate: 'desc' }],
-    });
+    try {
+      return await this.prisma.certification.findMany({
+        orderBy: [{ order: 'asc' }, { issueDate: 'desc' }],
+      });
+    } catch {
+      return [];
+    }
   }
 
   async findOneById(id: string) {

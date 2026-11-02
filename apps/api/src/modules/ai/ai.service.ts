@@ -148,6 +148,7 @@ export class AiService implements OnModuleInit {
     // 7. Experience / Internship
     if (
       q.includes('internship') ||
+      q.includes('navodita') ||
       q.includes('unstop') ||
       q.includes('robohatch') ||
       q.includes('employment') ||

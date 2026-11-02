@@ -128,6 +128,13 @@ body {
   animation-play-state: paused !important;
 }
 
+/* Snappy Custom Cursor Ring States */
+.cursor-hovered {
+  border-color: rgba(0, 240, 255, 0.85) !important;
+  background-color: rgba(0, 240, 255, 0.15) !important;
+  box-shadow: 0 0 20px rgba(0, 240, 255, 0.45) !important;
+}
+
 /* Reduced Motion Override */
 @media (prefers-reduced-motion: reduce) {
   *,

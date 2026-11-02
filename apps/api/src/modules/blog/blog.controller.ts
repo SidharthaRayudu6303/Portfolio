@@ -12,6 +12,8 @@ import {
 } from '@nestjs/common';
 import { BlogService } from './blog.service';
 import { JwtAuthGuard } from '../../common/guards/jwt-auth.guard';
+import { CreateBlogPostDto } from './dto/create-blog-post.dto';
+import { UpdateBlogPostDto } from './dto/update-blog-post.dto';
 
 @Controller('blog')
 export class BlogController {
@@ -36,13 +38,13 @@ export class BlogController {
   @Post()
   @UseGuards(JwtAuthGuard)
   @HttpCode(HttpStatus.CREATED)
-  async create(@Body() body: any) {
+  async create(@Body() body: CreateBlogPostDto) {
     return this.blogService.create(body);
   }
 
   @Put(':id')
   @UseGuards(JwtAuthGuard)
-  async update(@Param('id') id: string, @Body() body: any) {
+  async update(@Param('id') id: string, @Body() body: UpdateBlogPostDto) {
     return this.blogService.update(id, body);
   }
 

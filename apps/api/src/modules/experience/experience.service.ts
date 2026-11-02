@@ -8,9 +8,36 @@ export class ExperienceService {
   constructor(private readonly prisma: PrismaService) {}
 
   async findAll() {
-    return this.prisma.experience.findMany({
-      orderBy: [{ order: 'asc' }, { startDate: 'desc' }],
-    });
+    try {
+      return await this.prisma.experience.findMany({
+        orderBy: [{ order: 'asc' }, { startDate: 'desc' }],
+      });
+    } catch {
+      return [
+        {
+          id: 'exp-robohatch',
+          company: 'Robohatch',
+          role: 'Software Developer Intern',
+          description:
+            'Developed and maintained 20+ responsive web pages for a production e-commerce platform using React.js and Tailwind CSS. Implemented core e-commerce workflows (catalogue, custom design upload, shopping cart, checkout) and integrated REST APIs.',
+          startDate: new Date('2026-01-01'),
+          endDate: new Date('2026-05-31'),
+          current: false,
+          order: 1,
+        },
+        {
+          id: 'exp-navodita',
+          company: 'Navodita Infotech',
+          role: 'Machine Learning Intern',
+          description:
+            'Worked on Machine Learning models, data preprocessing pipelines, and practical implementation tasks during a 1-month internship.',
+          startDate: new Date('2025-06-05'),
+          endDate: new Date('2025-07-04'),
+          current: false,
+          order: 2,
+        },
+      ];
+    }
   }
 
   async findOneById(id: string) {

@@ -10,17 +10,15 @@ import {
   AlertCircle,
   Loader2,
   MessageSquare,
-  Phone,
+  Copy,
+  Check,
+  Github,
   FileText,
-  Code,
 } from 'lucide-react';
 import {
   CONTACT_EMAIL,
-  CONTACT_PHONE,
-  CONTACT_LOCATION,
   LINKEDIN_URL,
-  LEETCODE_URL,
-  HACKERRANK_URL,
+  GITHUB_URL,
 } from '@/lib/constants';
 
 export function ContactSection() {
@@ -31,7 +29,13 @@ export function ContactSection() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const [lastSubmitted, setLastSubmitted] = useState<{ name: string; email: string; message: string } | null>(null);
+  const [isCopied, setIsCopied] = useState(false);
+
+  const copyEmailToClipboard = () => {
+    navigator.clipboard.writeText(CONTACT_EMAIL);
+    setIsCopied(true);
+    setTimeout(() => setIsCopied(false), 2200);
+  };
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -70,28 +74,30 @@ export function ContactSection() {
         throw new Error(data.message || data.error || 'Failed to deliver message.');
       }
 
-      setLastSubmitted({ name: name.trim(), email: email.trim(), message: message.trim() });
       setSuccessMessage('Thank you! Your message has been safely saved and sent to Sidhartha.');
       setName('');
       setEmail('');
       setMessage('');
     } catch (err: any) {
-      setErrorMessage(err.message || 'An error occurred while sending your message. Please reach out via email directly.');
+      setErrorMessage(
+        err.message ||
+          'An error occurred while sending your message. Please reach out via email directly.'
+      );
     } finally {
       setIsSubmitting(false);
     }
   }
 
   return (
-    <section id="contact" className="scroll-mt-24 py-20">
-      <div className="mx-auto max-w-7xl px-6">
+    <section id="contact" className="scroll-mt-16 min-h-screen flex flex-col justify-center py-20 relative">
+      <div className="mx-auto max-w-7xl px-6 w-full">
         {/* Section Header */}
         <div className="max-w-2xl mb-12">
           <div className="flex items-center gap-2 text-cyan-400 text-xs font-bold font-mono uppercase tracking-widest">
             <Mail className="h-4 w-4" />
             <span>Get in Touch</span>
           </div>
-          <h2 className="mt-2 text-3xl font-extrabold tracking-tight text-white sm:text-4xl">
+          <h2 className="mt-2 text-3xl sm:text-4xl font-extrabold tracking-tight text-white">
             Let&apos;s Connect &amp; Collaborate
           </h2>
           <p className="mt-3 text-sm text-neutral-400 leading-relaxed">
@@ -100,89 +106,132 @@ export function ContactSection() {
         </div>
 
         <div className="grid grid-cols-1 gap-8 lg:grid-cols-12 lg:items-start">
-          {/* Left Column: Direct Info Cards */}
-          <div className="lg:col-span-5 space-y-4">
-            {/* Email Card */}
-            <div className="rounded-2xl border border-neutral-800/80 bg-neutral-900/40 p-5 backdrop-blur-sm">
-              <div className="flex items-center gap-3">
-                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-cyan-500/10 text-cyan-400 ring-1 ring-cyan-500/20">
-                  <Mail className="h-5 w-5" />
+          {/* Left Column: Direct Info Cards (5 Cols) */}
+          <div className="lg:col-span-5 space-y-3.5">
+            {/* Email Card with 1-Click Copy Interaction */}
+            <div className="rounded-2xl border border-neutral-800/80 bg-neutral-900/40 p-4 sm:p-5 backdrop-blur-sm transition hover:border-cyan-500/40">
+              <div className="flex items-center justify-between gap-3">
+                <div className="flex items-center gap-3 min-w-0">
+                  <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl bg-cyan-500/10 text-cyan-400 ring-1 ring-cyan-500/20">
+                    <Mail className="h-5 w-5" />
+                  </div>
+                  <div className="min-w-0">
+                    <span className="block text-[11px] font-mono uppercase text-neutral-500">
+                      Direct Email
+                    </span>
+                    <a
+                      href={`mailto:${CONTACT_EMAIL}`}
+                      className="text-xs sm:text-sm font-semibold text-white hover:text-cyan-400 transition truncate block"
+                      title={CONTACT_EMAIL}
+                    >
+                      {CONTACT_EMAIL}
+                    </a>
+                  </div>
                 </div>
-                <div>
-                  <span className="block text-xs font-mono uppercase text-neutral-500">Email</span>
-                  <a
-                    href={`mailto:${CONTACT_EMAIL}`}
-                    className="text-xs sm:text-sm font-semibold text-white hover:text-cyan-400 transition break-all"
-                  >
-                    {CONTACT_EMAIL}
-                  </a>
-                </div>
-              </div>
-            </div>
 
-            {/* Phone Card */}
-            <div className="rounded-2xl border border-neutral-800/80 bg-neutral-900/40 p-5 backdrop-blur-sm">
-              <div className="flex items-center gap-3">
-                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-500/10 text-emerald-400 ring-1 ring-emerald-500/20">
-                  <Phone className="h-5 w-5" />
-                </div>
-                <div>
-                  <span className="block text-xs font-mono uppercase text-neutral-500">Phone</span>
-                  <a
-                    href={`tel:${CONTACT_PHONE.replace(/\s+/g, '')}`}
-                    className="text-sm font-semibold text-white hover:text-emerald-400 transition"
-                  >
-                    {CONTACT_PHONE}
-                  </a>
-                </div>
+                {/* 1-Click Copy Button */}
+                <button
+                  type="button"
+                  onClick={copyEmailToClipboard}
+                  className={`flex items-center gap-1.5 rounded-xl border px-3 py-1.5 text-xs font-mono transition-all ${
+                    isCopied
+                      ? 'border-emerald-500/40 bg-emerald-500/10 text-emerald-400'
+                      : 'border-neutral-800 bg-neutral-950/80 text-neutral-400 hover:border-cyan-500/40 hover:text-cyan-300'
+                  }`}
+                  title="Copy email address"
+                >
+                  {isCopied ? (
+                    <>
+                      <Check className="h-3.5 w-3.5" />
+                      <span>Copied</span>
+                    </>
+                  ) : (
+                    <>
+                      <Copy className="h-3.5 w-3.5" />
+                      <span>Copy</span>
+                    </>
+                  )}
+                </button>
               </div>
             </div>
 
             {/* LinkedIn Card */}
-            <div className="rounded-2xl border border-neutral-800/80 bg-neutral-900/40 p-5 backdrop-blur-sm">
+            <div className="rounded-2xl border border-neutral-800/80 bg-neutral-900/40 p-4 sm:p-5 backdrop-blur-sm transition hover:border-blue-500/40">
               <div className="flex items-center gap-3">
-                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-500/10 text-blue-400 ring-1 ring-blue-500/20">
+                <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl bg-blue-500/10 text-blue-400 ring-1 ring-blue-500/20">
                   <Linkedin className="h-5 w-5" />
                 </div>
-                <div>
-                  <span className="block text-xs font-mono uppercase text-neutral-500">LinkedIn</span>
+                <div className="min-w-0 flex-1">
+                  <span className="block text-[11px] font-mono uppercase text-neutral-500">
+                    LinkedIn Profile
+                  </span>
                   <a
                     href={LINKEDIN_URL}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-sm font-semibold text-white hover:text-blue-400 transition"
+                    className="text-xs sm:text-sm font-semibold text-white hover:text-blue-400 transition truncate block"
                   >
-                    sidhartha-rayudu-madhavarapu
+                    linkedin.com/in/sidhartha-rayudu-madhavarapu-039b84318
                   </a>
                 </div>
               </div>
             </div>
 
+            {/* GitHub Card */}
+            {GITHUB_URL && (
+              <div className="rounded-2xl border border-neutral-800/80 bg-neutral-900/40 p-4 sm:p-5 backdrop-blur-sm transition hover:border-purple-500/40">
+                <div className="flex items-center gap-3">
+                  <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl bg-purple-500/10 text-purple-400 ring-1 ring-purple-500/20">
+                    <Github className="h-5 w-5" />
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <span className="block text-[11px] font-mono uppercase text-neutral-500">
+                      GitHub Profile
+                    </span>
+                    <a
+                      href={GITHUB_URL}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-xs sm:text-sm font-semibold text-white hover:text-purple-400 transition truncate block"
+                    >
+                      github.com/SidharthaRayudu6303
+                    </a>
+                  </div>
+                </div>
+              </div>
+            )}
+
             {/* Location Card */}
-            <div className="rounded-2xl border border-neutral-800/80 bg-neutral-900/40 p-5 backdrop-blur-sm">
+            <div className="rounded-2xl border border-neutral-800/80 bg-neutral-900/40 p-4 sm:p-5 backdrop-blur-sm">
               <div className="flex items-center gap-3">
-                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-purple-500/10 text-purple-400 ring-1 ring-purple-500/20">
+                <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl bg-emerald-500/10 text-emerald-400 ring-1 ring-emerald-500/20">
                   <MapPin className="h-5 w-5" />
                 </div>
                 <div>
-                  <span className="block text-xs font-mono uppercase text-neutral-500">Location</span>
+                  <span className="block text-[11px] font-mono uppercase text-neutral-500">
+                    Location
+                  </span>
                   <span className="text-xs sm:text-sm font-semibold text-white">
-                    {CONTACT_LOCATION}
+                    Kakinada, Andhra Pradesh, India
                   </span>
                 </div>
               </div>
             </div>
 
             {/* Resume Download Card */}
-            <div className="rounded-2xl border border-cyan-500/30 bg-cyan-950/20 p-5 backdrop-blur-sm">
+            <div id="resume" className="rounded-2xl border border-cyan-500/30 bg-cyan-950/20 p-4 sm:p-5 backdrop-blur-sm scroll-mt-24">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-cyan-500/20 text-cyan-300 ring-1 ring-cyan-500/40">
+                  <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl bg-cyan-500/20 text-cyan-300 ring-1 ring-cyan-500/40">
                     <FileText className="h-5 w-5" />
                   </div>
                   <div>
-                    <span className="block text-xs font-mono uppercase text-cyan-400">Curriculum Vitae</span>
-                    <span className="text-sm font-semibold text-white">Verified Resume PDF</span>
+                    <span className="block text-[11px] font-mono uppercase text-cyan-400">
+                      Verified Resume
+                    </span>
+                    <span className="text-xs sm:text-sm font-semibold text-white">
+                      Sidhartha_Rayudu_Resume.pdf
+                    </span>
                   </div>
                 </div>
                 <a
@@ -197,7 +246,7 @@ export function ContactSection() {
             </div>
           </div>
 
-          {/* Right Column: Working Contact Form */}
+          {/* Right Column: Working Contact Form (7 Cols) */}
           <div className="lg:col-span-7">
             <div className="rounded-2xl border border-neutral-800/80 bg-neutral-900/60 p-6 sm:p-8 backdrop-blur-xl">
               <div className="flex items-center gap-2 mb-6">
@@ -255,52 +304,32 @@ export function ContactSection() {
                   <textarea
                     id="contact-message"
                     required
-                    rows={5}
+                    rows={4}
                     value={message}
                     onChange={(e) => setMessage(e.target.value)}
-                    placeholder="Tell me about your role, project, or collaboration..."
+                    placeholder="Discuss opportunities, technical collaborations, or engineering queries..."
                     className="w-full rounded-xl border border-neutral-800 bg-neutral-950/80 px-4 py-2.5 text-sm text-white placeholder-neutral-500 focus:border-cyan-500 focus:outline-none focus:ring-1 focus:ring-cyan-500 transition resize-none"
                   />
                 </div>
 
-                {successMessage && (
-                  <div className="rounded-xl border border-emerald-500/30 bg-emerald-500/10 p-4 text-xs text-emerald-400 space-y-2">
-                    <div className="flex items-center gap-2">
-                      <CheckCircle2 className="h-4 w-4 shrink-0 text-emerald-400" />
-                      <span className="font-semibold">{successMessage}</span>
-                    </div>
-                    {lastSubmitted && (
-                      <div className="pt-2 border-t border-emerald-500/20 text-neutral-300">
-                        <p className="text-[11px] text-neutral-400">
-                          Need an instant reply? You can also dispatch a copy straight to my inbox:
-                        </p>
-                        <a
-                          href={`mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(
-                            `Portfolio Inquiry from ${lastSubmitted.name}`,
-                          )}&body=${encodeURIComponent(
-                            `Hi Sidhartha,\n\n${lastSubmitted.message}\n\nFrom: ${lastSubmitted.name} (${lastSubmitted.email})`,
-                          )}`}
-                          className="mt-1.5 inline-flex items-center gap-1.5 rounded-lg bg-emerald-500/20 border border-emerald-500/40 px-3 py-1.5 text-xs font-bold text-emerald-300 hover:bg-emerald-500/30 transition"
-                        >
-                          <Mail className="h-3.5 w-3.5" />
-                          <span>Open in Email App ({CONTACT_EMAIL})</span>
-                        </a>
-                      </div>
-                    )}
+                {errorMessage && (
+                  <div className="flex items-center gap-2 rounded-xl border border-red-500/40 bg-red-950/20 p-3 text-xs text-red-400">
+                    <AlertCircle className="h-4 w-4 flex-shrink-0" />
+                    <span>{errorMessage}</span>
                   </div>
                 )}
 
-                {errorMessage && (
-                  <div className="flex items-center gap-2 rounded-xl border border-red-500/30 bg-red-500/10 p-3 text-xs text-red-400">
-                    <AlertCircle className="h-4 w-4 shrink-0" />
-                    <span>{errorMessage}</span>
+                {successMessage && (
+                  <div className="flex items-center gap-2 rounded-xl border border-emerald-500/40 bg-emerald-950/20 p-3 text-xs text-emerald-400">
+                    <CheckCircle2 className="h-4 w-4 flex-shrink-0" />
+                    <span>{successMessage}</span>
                   </div>
                 )}
 
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="w-full flex items-center justify-center gap-2 rounded-xl bg-cyan-500 px-6 py-3 text-xs font-bold text-neutral-950 hover:bg-cyan-400 disabled:opacity-50 transition shadow-lg shadow-cyan-500/20"
+                  className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-cyan-500 px-6 py-3 text-xs font-bold text-neutral-950 transition hover:bg-cyan-400 disabled:opacity-50 hover:shadow-lg hover:shadow-cyan-500/25 cursor-pointer"
                 >
                   {isSubmitting ? (
                     <>
@@ -310,7 +339,7 @@ export function ContactSection() {
                   ) : (
                     <>
                       <Send className="h-4 w-4" />
-                      <span>Send Message</span>
+                      <span>Transmit Message</span>
                     </>
                   )}
                 </button>

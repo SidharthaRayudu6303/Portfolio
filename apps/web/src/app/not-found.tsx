@@ -2,7 +2,7 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { Home, Mail, Search, AlertCircle } from 'lucide-react';
+import { Home, Mail, AlertCircle } from 'lucide-react';
 
 export default function NotFound() {
   return (
@@ -51,13 +51,7 @@ export default function NotFound() {
             <span>Contact Me</span>
           </Link>
 
-          <button
-            onClick={() => window.dispatchEvent(new CustomEvent('open-command-palette'))}
-            className="inline-flex items-center gap-2 rounded-xl border border-neutral-800 bg-neutral-900/80 px-4 py-2.5 text-xs font-mono text-neutral-400 transition hover:border-cyan-500/40 hover:text-cyan-300"
-          >
-            <Search className="h-3.5 w-3.5 text-cyan-400" />
-            <span>QuickNav (⌘K)</span>
-          </button>
+          
         </div>
       </div>
     </div>
