@@ -4,14 +4,29 @@ import { BACKEND_API_URL } from '@/lib/constants';
 import { BlogPostDto } from '@portfolio/types';
 import { ArticleView } from './article-view';
 
+export const revalidate = 60;
+
 interface PageProps {
   params: Promise<{ slug: string }>;
+}
+
+export async function generateStaticParams() {
+  try {
+    const res = await fetch(`${BACKEND_API_URL}/blog`, {
+      next: { revalidate: 60 },
+    });
+    if (!res.ok) return [];
+    const posts: BlogPostDto[] = await res.json();
+    return posts.map((post) => ({ slug: post.slug }));
+  } catch {
+    return [];
+  }
 }
 
 async function getPost(slug: string): Promise<BlogPostDto | null> {
   try {
     const res = await fetch(`${BACKEND_API_URL}/blog/${slug}`, {
-      cache: 'no-store',
+      next: { revalidate: 60 },
     });
     if (!res.ok) return null;
     return await res.json();

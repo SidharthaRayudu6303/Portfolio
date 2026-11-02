@@ -15,7 +15,7 @@ import { InteractiveUniverse } from '@/components/effects/interactive-universe';
 import { ScreenDots } from '@/components/navigation/screen-dots';
 import { BackToTop } from '@/components/navigation/back-to-top';
 
-export const dynamic = 'force-dynamic';
+export const revalidate = 60;
 
 interface Project {
   id: string;
@@ -72,10 +72,10 @@ async function fetchPortfolioData(): Promise<{
 }> {
   try {
     const [projRes, skillRes, expRes, certRes] = await Promise.all([
-      fetch(`${BACKEND_API_URL}/projects`, { cache: 'no-store' }),
-      fetch(`${BACKEND_API_URL}/skills`, { cache: 'no-store' }),
-      fetch(`${BACKEND_API_URL}/experience`, { cache: 'no-store' }),
-      fetch(`${BACKEND_API_URL}/certifications`, { cache: 'no-store' }),
+      fetch(`${BACKEND_API_URL}/projects`, { next: { revalidate: 60 } }),
+      fetch(`${BACKEND_API_URL}/skills`, { next: { revalidate: 60 } }),
+      fetch(`${BACKEND_API_URL}/experience`, { next: { revalidate: 60 } }),
+      fetch(`${BACKEND_API_URL}/certifications`, { next: { revalidate: 60 } }),
     ]);
 
     const projects: Project[] = projRes.ok ? await projRes.json() : [];

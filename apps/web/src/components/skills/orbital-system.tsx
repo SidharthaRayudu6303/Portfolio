@@ -350,8 +350,8 @@ export function OrbitalSystem({
             {orbit1Planets.map((planet) => {
               const rad = (planet.angle * Math.PI) / 180;
               const radius = orbitRadii[1];
-              const x = radius + radius * Math.cos(rad);
-              const y = radius + radius * Math.sin(rad);
+              const x = Math.round((radius + radius * Math.cos(rad)) * 100) / 100;
+              const y = Math.round((radius + radius * Math.sin(rad)) * 100) / 100;
 
               const isSelected = selectedPlanet?.id === planet.id;
               const isCategoryHighlighted = highlightedCategory
@@ -362,6 +362,7 @@ export function OrbitalSystem({
                 <button
                   key={planet.id}
                   type="button"
+                  suppressHydrationWarning
                   onClick={() => onSelectPlanet(isSelected ? null : planet)}
                   aria-label={`Select ${planet.name}`}
                   className={`absolute pointer-events-auto -translate-x-1/2 -translate-y-1/2 flex items-center justify-center rounded-xl border transition-all duration-300 group cursor-pointer focus:outline-none focus:ring-2 focus:ring-cyan-400 h-10 w-10 sm:h-11 sm:w-11 p-1.5 ${
@@ -404,8 +405,8 @@ export function OrbitalSystem({
             {orbit2Planets.map((planet) => {
               const rad = (planet.angle * Math.PI) / 180;
               const radius = orbitRadii[2];
-              const x = radius + radius * Math.cos(rad);
-              const y = radius + radius * Math.sin(rad);
+              const x = Math.round((radius + radius * Math.cos(rad)) * 100) / 100;
+              const y = Math.round((radius + radius * Math.sin(rad)) * 100) / 100;
 
               const isSelected = selectedPlanet?.id === planet.id;
               const isCategoryHighlighted = highlightedCategory
@@ -416,6 +417,7 @@ export function OrbitalSystem({
                 <button
                   key={planet.id}
                   type="button"
+                  suppressHydrationWarning
                   onClick={() => onSelectPlanet(isSelected ? null : planet)}
                   aria-label={`Select ${planet.name}`}
                   className={`absolute pointer-events-auto -translate-x-1/2 -translate-y-1/2 flex items-center justify-center rounded-xl border transition-all duration-300 group cursor-pointer focus:outline-none focus:ring-2 focus:ring-cyan-400 h-10 w-10 sm:h-11 sm:w-11 p-1.5 ${
@@ -458,8 +460,8 @@ export function OrbitalSystem({
             {orbit3Planets.map((planet) => {
               const rad = (planet.angle * Math.PI) / 180;
               const radius = orbitRadii[3];
-              const x = radius + radius * Math.cos(rad);
-              const y = radius + radius * Math.sin(rad);
+              const x = Math.round((radius + radius * Math.cos(rad)) * 100) / 100;
+              const y = Math.round((radius + radius * Math.sin(rad)) * 100) / 100;
 
               const isSelected = selectedPlanet?.id === planet.id;
               const isCategoryHighlighted = highlightedCategory
@@ -470,6 +472,7 @@ export function OrbitalSystem({
                 <button
                   key={planet.id}
                   type="button"
+                  suppressHydrationWarning
                   onClick={() => onSelectPlanet(isSelected ? null : planet)}
                   aria-label={`Select ${planet.name}`}
                   className={`absolute pointer-events-auto -translate-x-1/2 -translate-y-1/2 flex items-center justify-center rounded-xl border transition-all duration-300 group cursor-pointer focus:outline-none focus:ring-2 focus:ring-cyan-400 h-10 w-10 sm:h-11 sm:w-11 p-1.5 ${

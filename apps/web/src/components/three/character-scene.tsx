@@ -101,15 +101,17 @@ export function CharacterScene({ className = '' }: CharacterSceneProps) {
     const cyanGlowMat = new THREE.MeshStandardMaterial({
       color: 0x00f0ff,
       emissive: 0x00f0ff,
-      emissiveIntensity: 2.8,
+      emissiveIntensity: 3.2,
       roughness: 0.08,
+      toneMapped: false,
     });
 
     const pupilCoreMat = new THREE.MeshStandardMaterial({
       color: 0xffffff,
       emissive: 0x38bdf8,
-      emissiveIntensity: 3.5,
+      emissiveIntensity: 3.8,
       roughness: 0.05,
+      toneMapped: false,
     });
 
     const violetGlowMat = new THREE.MeshStandardMaterial({
@@ -459,16 +461,20 @@ export function CharacterScene({ className = '' }: CharacterSceneProps) {
     interface EyeUnit {
       socketGroup: THREE.Group;
       pupilGroup: THREE.Group;
-      happyMesh: THREE.Mesh;
       normalMeshGroup: THREE.Group;
+      browGroup: THREE.Group;
+      browMesh: THREE.Mesh;
+      isRight: boolean;
     }
 
     function build3DEye(isRight: boolean): EyeUnit {
       const sign = isRight ? 1 : -1;
       const socketGroup = new THREE.Group();
-      socketGroup.position.set(sign * 0.118, 0.045, 0.272);
-      socketGroup.rotation.y = sign * 0.14;
-      socketGroup.rotation.x = -0.08;
+      // Positioned directly on the outer front surface of the visor (Z = 0.380)
+      socketGroup.position.set(sign * 0.118, 0.045, 0.380);
+      socketGroup.rotation.y = sign * 0.18;
+      socketGroup.rotation.x = -0.09;
+      socketGroup.renderOrder = 10;
 
       // Dark recessed socket frame
       const socketBacking = new THREE.Mesh(
@@ -484,11 +490,24 @@ export function CharacterScene({ className = '' }: CharacterSceneProps) {
         cyanGlowMat
       );
       socketRing.position.z = 0.006;
+      socketRing.renderOrder = 11;
       socketGroup.add(socketRing);
+
+      // Expressive digital holographic brow/eyelid accent
+      const browGroup = new THREE.Group();
+      browGroup.position.set(0, 0.082, 0.012);
+      socketGroup.add(browGroup);
+
+      const browGeo = new THREE.TorusGeometry(0.050, 0.0050, 12, 24, Math.PI * 0.58);
+      const browMesh = new THREE.Mesh(browGeo, cyanGlowMat);
+      // Center arch at 90 deg (facing upwards over eye)
+      browMesh.rotation.z = Math.PI * 0.5 - (Math.PI * 0.58) / 2;
+      browMesh.renderOrder = 12;
+      browGroup.add(browMesh);
 
       // Normal / Focused Eye Assembly (Independent Pupil Group)
       const normalMeshGroup = new THREE.Group();
-      normalMeshGroup.position.z = 0.008;
+      normalMeshGroup.position.z = 0.010;
       socketGroup.add(normalMeshGroup);
 
       const pupilGroup = new THREE.Group();
@@ -496,49 +515,55 @@ export function CharacterScene({ className = '' }: CharacterSceneProps) {
 
       // Outer cyan glowing iris capsule
       const irisCapsule = new THREE.Mesh(
-        new THREE.CylinderGeometry(0.038, 0.038, 0.010, 24),
+        new THREE.CylinderGeometry(0.040, 0.040, 0.012, 24),
         cyanGlowMat
       );
       irisCapsule.rotation.x = Math.PI / 2;
+      irisCapsule.renderOrder = 11;
       pupilGroup.add(irisCapsule);
 
       const irisAccentRing = new THREE.Mesh(
-        new THREE.TorusGeometry(0.036, 0.004, 12, 24),
+        new THREE.TorusGeometry(0.038, 0.0045, 12, 24),
         blueAccentMat
       );
-      irisAccentRing.position.z = 0.005;
+      irisAccentRing.position.z = 0.006;
+      irisAccentRing.renderOrder = 12;
       pupilGroup.add(irisAccentRing);
 
       // Bright glowing white pupil core
       const pupilCore = new THREE.Mesh(
-        new THREE.SphereGeometry(0.022, 24, 20),
+        new THREE.SphereGeometry(0.024, 24, 20),
         pupilCoreMat
       );
       pupilCore.scale.set(0.9, 1.25, 0.4);
-      pupilCore.position.z = 0.007;
+      pupilCore.position.z = 0.008;
+      pupilCore.renderOrder = 13;
       pupilGroup.add(pupilCore);
 
-      // Specular catchlight reflection
-      const catchlight = new THREE.Mesh(
-        new THREE.SphereGeometry(0.006, 12, 12),
+      // Dual Anime Specular Catchlights (Crisp White Glow)
+      const catchlight1 = new THREE.Mesh(
+        new THREE.SphereGeometry(0.007, 12, 12),
         new THREE.MeshBasicMaterial({ color: 0xffffff })
       );
-      catchlight.position.set(-0.010, 0.010, 0.016);
-      pupilGroup.add(catchlight);
+      catchlight1.position.set(-0.012, 0.012, 0.018);
+      catchlight1.renderOrder = 14;
+      pupilGroup.add(catchlight1);
 
-      // Happy Expression Curved Crescent Arc (^ ^)
-      const happyGeo = new THREE.TorusGeometry(0.046, 0.007, 16, 32, Math.PI * 0.72);
-      const happyMesh = new THREE.Mesh(happyGeo, cyanGlowMat);
-      happyMesh.rotation.z = Math.PI * 0.14;
-      happyMesh.position.set(0, 0.005, 0.012);
-      happyMesh.visible = false;
-      socketGroup.add(happyMesh);
+      const catchlight2 = new THREE.Mesh(
+        new THREE.SphereGeometry(0.004, 10, 10),
+        new THREE.MeshBasicMaterial({ color: 0xffffff })
+      );
+      catchlight2.position.set(0.012, -0.010, 0.018);
+      catchlight2.renderOrder = 14;
+      pupilGroup.add(catchlight2);
 
       return {
         socketGroup,
         pupilGroup,
-        happyMesh,
         normalMeshGroup,
+        browGroup,
+        browMesh,
+        isRight,
       };
     }
 
@@ -548,61 +573,80 @@ export function CharacterScene({ className = '' }: CharacterSceneProps) {
     headGroup.add(rightEye.socketGroup);
 
     // =========================================================================
-    // 5. Expressive Animated Digital Mouth (Supports 5 Expressive Geometries)
+    // 5. Expressive Animated Digital Mouth (Supports 6 Expressive Geometries)
     // =========================================================================
     const mouthGroup = new THREE.Group();
-    mouthGroup.position.set(0, -0.095, 0.285);
+    // Positioned directly on the front surface of the visor (Z = 0.392, angled flush with visor curve)
+    mouthGroup.position.set(0, -0.095, 0.392);
+    mouthGroup.rotation.x = -0.26;
+    mouthGroup.renderOrder = 15;
     headGroup.add(mouthGroup);
 
     // 1. Gentle Smile (Idle / Happy, Resume)
+    const smileArc = Math.PI * 0.70;
     const mouthSmileMesh = new THREE.Mesh(
-      new THREE.TorusGeometry(0.035, 0.0045, 12, 24, Math.PI * 0.65),
+      new THREE.TorusGeometry(0.042, 0.0055, 12, 28, smileArc),
       cyanGlowMat
     );
-    mouthSmileMesh.rotation.z = Math.PI * 0.175;
+    // Center arc at bottom (-PI/2), so both ends curve upwards in a happy smile ∪
+    mouthSmileMesh.rotation.z = -Math.PI * 0.5 - smileArc / 2;
+    mouthSmileMesh.renderOrder = 15;
     mouthGroup.add(mouthSmileMesh);
 
     // 2. Excited Smile (Projects)
+    const excitedArc = Math.PI * 0.88;
     const mouthExcitedMesh = new THREE.Mesh(
-      new THREE.TorusGeometry(0.046, 0.0055, 12, 24, Math.PI * 0.85),
+      new THREE.TorusGeometry(0.052, 0.0065, 12, 32, excitedArc),
       cyanGlowMat
     );
-    mouthExcitedMesh.rotation.z = Math.PI * 0.075;
+    mouthExcitedMesh.rotation.z = -Math.PI * 0.5 - excitedArc / 2;
+    mouthExcitedMesh.renderOrder = 15;
     mouthExcitedMesh.visible = false;
     mouthGroup.add(mouthExcitedMesh);
 
     // 3. Curious Mouth (About - cute small inquisitive circular dot)
-    const mouthCuriousMesh = new THREE.Mesh(
-      new THREE.TorusGeometry(0.016, 0.0045, 12, 20),
+    const mouthCuriousMesh = new THREE.Group();
+    const curiousRing = new THREE.Mesh(
+      new THREE.TorusGeometry(0.018, 0.005, 12, 24),
       cyanGlowMat
     );
-    mouthCuriousMesh.position.set(0.012, 0, 0);
+    curiousRing.renderOrder = 15;
+    mouthCuriousMesh.add(curiousRing);
+    mouthCuriousMesh.position.set(0.014, -0.004, 0);
     mouthCuriousMesh.visible = false;
     mouthGroup.add(mouthCuriousMesh);
 
     // 4. Thinking Mouth (Experience, Skills - subtle thoughtful dash)
-    const mouthThinkingMesh = new THREE.Mesh(
-      new THREE.CapsuleGeometry(0.004, 0.036, 8, 12),
+    const mouthThinkingMesh = new THREE.Group();
+    const thinkingDash = new THREE.Mesh(
+      new THREE.CapsuleGeometry(0.0045, 0.042, 8, 12),
       cyanGlowMat
     );
-    mouthThinkingMesh.rotation.z = Math.PI * 0.46;
+    thinkingDash.rotation.z = Math.PI * 0.46;
+    thinkingDash.renderOrder = 15;
+    mouthThinkingMesh.add(thinkingDash);
+    mouthThinkingMesh.position.set(-0.012, -0.004, 0);
     mouthThinkingMesh.visible = false;
     mouthGroup.add(mouthThinkingMesh);
 
     // 5. Surprised Mouth (Small circular "O")
     const mouthSurprisedMesh = new THREE.Mesh(
-      new THREE.TorusGeometry(0.024, 0.005, 12, 24),
+      new THREE.TorusGeometry(0.028, 0.0055, 12, 24),
       cyanGlowMat
     );
+    mouthSurprisedMesh.renderOrder = 15;
+    mouthSurprisedMesh.position.set(0, -0.004, 0);
     mouthSurprisedMesh.visible = false;
     mouthGroup.add(mouthSurprisedMesh);
 
     // 6. Sleepy Mouth (Soft resting horizontal line)
     const mouthSleepyMesh = new THREE.Mesh(
-      new THREE.CapsuleGeometry(0.0035, 0.028, 8, 12),
+      new THREE.CapsuleGeometry(0.004, 0.034, 8, 12),
       cyanGlowMat
     );
     mouthSleepyMesh.rotation.z = Math.PI / 2;
+    mouthSleepyMesh.renderOrder = 15;
+    mouthSleepyMesh.position.set(0, -0.004, 0);
     mouthSleepyMesh.visible = false;
     mouthGroup.add(mouthSleepyMesh);
 
@@ -838,6 +882,7 @@ export function CharacterScene({ className = '' }: CharacterSceneProps) {
     // 7. Interaction State & Facial Expression Coordinator
     // =========================================================================
     let currentReaction: CharacterReaction = 'idle';
+    let currentSection = 'home';
     let reactionTimer = 0;
     let timeSinceLastCursorMove = 0;
     let surpriseTimer = 0;
@@ -847,6 +892,14 @@ export function CharacterScene({ className = '' }: CharacterSceneProps) {
       currentReaction = reaction;
       reactionTimer = 0;
     });
+
+    const handleActiveSection = (e: Event) => {
+      const customEvent = e as CustomEvent<{ id: string }>;
+      if (customEvent.detail?.id) {
+        currentSection = customEvent.detail.id;
+      }
+    };
+    window.addEventListener('active-section-change', handleActiveSection);
 
     const handleSurpriseClick = () => {
       surpriseTimer = 1.2;
@@ -874,7 +927,12 @@ export function CharacterScene({ className = '' }: CharacterSceneProps) {
     // Facial expression interpolation targets
     let currentEyeScaleX = 1.0;
     let currentEyeScaleY = 1.0;
-    let currentGlowIntensity = 2.8;
+    let currentEyeSlant = 0.0;
+    let currentLeftBrowY = 0.082;
+    let currentRightBrowY = 0.082;
+    let currentLeftBrowRotZ = 0.0;
+    let currentRightBrowRotZ = 0.0;
+    let currentGlowIntensity = 3.0;
 
     const handleMouseMove = (e: MouseEvent) => {
       timeSinceLastCursorMove = 0;
@@ -927,22 +985,27 @@ export function CharacterScene({ className = '' }: CharacterSceneProps) {
         targetExpression = 'surprised';
       } else if (currentReaction === 'surprised') {
         targetExpression = 'surprised';
-      } else if (currentReaction === 'projects') {
-        targetExpression = 'excited';
-      } else if (currentReaction === 'about') {
-        targetExpression = 'curious';
-      } else if (currentReaction === 'skills' || currentReaction === 'experience') {
-        targetExpression = 'thinking';
-      } else if (currentReaction === 'resume') {
-        targetExpression = 'happy';
-      } else if (currentReaction === 'contact') {
-        targetExpression = 'excited';
-      } else if (currentReaction === 'home') {
-        targetExpression = 'happy';
+      } else if (currentReaction !== 'idle') {
+        // Priority 1: User is hovering an interactive button or nav link
+        if (currentReaction === 'projects') targetExpression = 'excited';
+        else if (currentReaction === 'about') targetExpression = 'curious';
+        else if (currentReaction === 'skills' || currentReaction === 'experience') targetExpression = 'thinking';
+        else if (currentReaction === 'resume' || currentReaction === 'home') targetExpression = 'happy';
+        else if (currentReaction === 'contact') targetExpression = 'excited';
       } else {
-        // Idle state: if stationary for > 20 seconds, robot becomes sleepy
+        // Priority 2: Use current scrolled section or idle timer
         if (timeSinceLastCursorMove > 20.0) {
           targetExpression = 'sleepy';
+        } else if (currentSection === 'projects' || currentSection === 'hackathons') {
+          targetExpression = 'excited';
+        } else if (currentSection === 'about') {
+          targetExpression = 'curious';
+        } else if (currentSection === 'skills' || currentSection === 'experience' || currentSection === 'certifications') {
+          targetExpression = 'thinking';
+        } else if (currentSection === 'contact') {
+          targetExpression = 'excited';
+        } else if (currentSection === 'home') {
+          targetExpression = 'happy';
         } else if (Math.abs(currentCursorX) > 0.85 || Math.abs(currentCursorY) > 0.85) {
           targetExpression = 'curious';
         } else {
@@ -955,60 +1018,93 @@ export function CharacterScene({ className = '' }: CharacterSceneProps) {
       // Expression parameters
       let targetEyeScaleX = 1.0;
       let targetEyeScaleY = 1.0;
-      let targetGlow = 2.8;
+      let targetEyeSlant = 0.0;
+      let targetLeftBrowY = 0.082;
+      let targetRightBrowY = 0.082;
+      let targetLeftBrowRotZ = 0.0;
+      let targetRightBrowRotZ = 0.0;
+      let targetGlow = 3.0;
       let targetHeadRollAdd = 0;
       let targetHeadPitchAdd = 0;
-      let isHappyCrescent = false;
       let activeMouthKey: keyof typeof mouthVariants = 'smile';
 
       switch (currentExpression) {
         case 'excited':
-          targetEyeScaleX = 1.20;
+          targetEyeScaleX = 1.22;
           targetEyeScaleY = 1.25;
+          targetEyeSlant = 0.08;
           targetGlow = 3.8;
+          targetLeftBrowY = 0.096;
+          targetRightBrowY = 0.096;
+          targetLeftBrowRotZ = -0.14;
+          targetRightBrowRotZ = 0.14;
           targetHeadPitchAdd = -0.10;
-          isHappyCrescent = true;
           activeMouthKey = 'excited';
           break;
 
         case 'curious':
           targetEyeScaleX = 1.15;
-          targetEyeScaleY = 1.12;
-          targetGlow = 3.0;
-          targetHeadRollAdd = 0.16; // Cute inquisitive head tilt
-          targetHeadPitchAdd = -0.04;
+          targetEyeScaleY = 1.14;
+          targetEyeSlant = 0.04;
+          targetGlow = 3.2;
+          targetLeftBrowY = 0.100;
+          targetLeftBrowRotZ = -0.18;
+          targetRightBrowY = 0.072;
+          targetRightBrowRotZ = 0.08;
+          targetHeadRollAdd = 0.18;
+          targetHeadPitchAdd = -0.05;
           activeMouthKey = 'curious';
           break;
 
         case 'thinking':
           targetEyeScaleX = 0.94;
-          targetEyeScaleY = 0.65; // Thoughtful narrowed eyes
+          targetEyeScaleY = 0.62;
+          targetEyeSlant = -0.06;
           targetGlow = 2.6;
-          targetHeadRollAdd = -0.14; // Thoughtful tilt in other direction
-          targetHeadPitchAdd = 0.08;
+          targetLeftBrowY = 0.068;
+          targetRightBrowY = 0.068;
+          targetLeftBrowRotZ = 0.22;
+          targetRightBrowRotZ = -0.22;
+          targetHeadRollAdd = -0.15;
+          targetHeadPitchAdd = 0.09;
           activeMouthKey = 'thinking';
           break;
 
         case 'surprised':
-          targetEyeScaleX = 1.30;
-          targetEyeScaleY = 1.35; // Wide rounded eyes
-          targetGlow = 3.4;
+          targetEyeScaleX = 1.34;
+          targetEyeScaleY = 1.35;
+          targetEyeSlant = 0.0;
+          targetGlow = 3.6;
+          targetLeftBrowY = 0.106;
+          targetRightBrowY = 0.106;
+          targetLeftBrowRotZ = 0.0;
+          targetRightBrowRotZ = 0.0;
+          targetHeadPitchAdd = -0.10;
           activeMouthKey = 'surprised';
           break;
 
         case 'sleepy':
           targetEyeScaleX = 1.05;
-          targetEyeScaleY = 0.35; // Half-closed relaxed eyes
-          targetGlow = 1.8;
-          targetHeadPitchAdd = 0.12;
+          targetEyeScaleY = 0.32;
+          targetEyeSlant = 0.02;
+          targetGlow = 1.6;
+          targetLeftBrowY = 0.060;
+          targetRightBrowY = 0.060;
+          targetLeftBrowRotZ = 0.0;
+          targetRightBrowRotZ = 0.0;
+          targetHeadPitchAdd = 0.13;
           activeMouthKey = 'sleepy';
           break;
 
         case 'happy':
           targetEyeScaleX = 1.08;
-          targetEyeScaleY = 1.08;
-          targetGlow = 3.2;
-          isHappyCrescent = true;
+          targetEyeScaleY = 1.02;
+          targetEyeSlant = 0.05;
+          targetGlow = 3.4;
+          targetLeftBrowY = 0.088;
+          targetRightBrowY = 0.088;
+          targetLeftBrowRotZ = -0.08;
+          targetRightBrowRotZ = 0.08;
           activeMouthKey = 'smile';
           break;
 
@@ -1016,7 +1112,12 @@ export function CharacterScene({ className = '' }: CharacterSceneProps) {
         default:
           targetEyeScaleX = 1.0;
           targetEyeScaleY = 1.0;
-          targetGlow = 2.8;
+          targetEyeSlant = 0.03;
+          targetGlow = 3.0;
+          targetLeftBrowY = 0.082;
+          targetRightBrowY = 0.082;
+          targetLeftBrowRotZ = -0.05;
+          targetRightBrowRotZ = 0.05;
           activeMouthKey = 'smile';
           break;
       }
@@ -1025,10 +1126,23 @@ export function CharacterScene({ className = '' }: CharacterSceneProps) {
       const exprLerpSpeed = Math.min(delta * 7.5, 1.0);
       currentEyeScaleX += (targetEyeScaleX - currentEyeScaleX) * exprLerpSpeed;
       currentEyeScaleY += (targetEyeScaleY - currentEyeScaleY) * exprLerpSpeed;
+      currentEyeSlant += (targetEyeSlant - currentEyeSlant) * exprLerpSpeed;
+      currentLeftBrowY += (targetLeftBrowY - currentLeftBrowY) * exprLerpSpeed;
+      currentRightBrowY += (targetRightBrowY - currentRightBrowY) * exprLerpSpeed;
+      currentLeftBrowRotZ += (targetLeftBrowRotZ - currentLeftBrowRotZ) * exprLerpSpeed;
+      currentRightBrowRotZ += (targetRightBrowRotZ - currentRightBrowRotZ) * exprLerpSpeed;
       currentGlowIntensity += (targetGlow - currentGlowIntensity) * exprLerpSpeed;
 
       cyanGlowMat.emissiveIntensity = currentGlowIntensity;
       setActiveMouth(activeMouthKey);
+
+      leftEye.browGroup.position.y = currentLeftBrowY;
+      leftEye.browGroup.rotation.z = currentLeftBrowRotZ;
+      rightEye.browGroup.position.y = currentRightBrowY;
+      rightEye.browGroup.rotation.z = currentRightBrowRotZ;
+
+      leftEye.socketGroup.rotation.z = -currentEyeSlant;
+      rightEye.socketGroup.rotation.z = currentEyeSlant;
 
       // --- B. Smooth Cursor & Eye Interpolation ---
       currentCursorX += (targetCursorX - currentCursorX) * Math.min(delta * 4.5, 1.0);
@@ -1057,17 +1171,23 @@ export function CharacterScene({ className = '' }: CharacterSceneProps) {
         }
       }
 
-      // --- D. Apply Eye Tracking to Actual 3D Pupil Objects ---
-      const maxPupilX = 0.026 * currentEyeScaleX;
-      const maxPupilY = 0.020 * currentEyeScaleY;
+      // --- D. Apply Eye Tracking to Actual 3D Pupil Objects with Inverse Head Roll ---
+      const headRoll = headGroup.rotation.z;
+      const cosR = Math.cos(-headRoll);
+      const sinR = Math.sin(-headRoll);
+      const localGazeX = gazeX * cosR - gazeY * sinR;
+      const localGazeY = gazeX * sinR + gazeY * cosR;
 
-      leftEye.pupilGroup.position.x = gazeX * maxPupilX;
-      leftEye.pupilGroup.position.y = gazeY * maxPupilY;
-      rightEye.pupilGroup.position.x = gazeX * maxPupilX;
-      rightEye.pupilGroup.position.y = gazeY * maxPupilY;
+      const maxPupilX = 0.028 * currentEyeScaleX;
+      const maxPupilY = 0.022 * currentEyeScaleY;
 
-      const pupilTiltY = gazeX * 0.24;
-      const pupilTiltX = -gazeY * 0.20;
+      leftEye.pupilGroup.position.x = localGazeX * maxPupilX;
+      leftEye.pupilGroup.position.y = localGazeY * maxPupilY;
+      rightEye.pupilGroup.position.x = localGazeX * maxPupilX;
+      rightEye.pupilGroup.position.y = localGazeY * maxPupilY;
+
+      const pupilTiltY = localGazeX * 0.24;
+      const pupilTiltX = -localGazeY * 0.20;
       leftEye.pupilGroup.rotation.y = pupilTiltY;
       leftEye.pupilGroup.rotation.x = pupilTiltX;
       rightEye.pupilGroup.rotation.y = pupilTiltY;
@@ -1078,11 +1198,6 @@ export function CharacterScene({ className = '' }: CharacterSceneProps) {
       leftEye.socketGroup.scale.y = currentEyeScaleY * eyeBlinkScale;
       rightEye.socketGroup.scale.x = currentEyeScaleX;
       rightEye.socketGroup.scale.y = currentEyeScaleY * eyeBlinkScale;
-
-      leftEye.normalMeshGroup.visible = !isHappyCrescent;
-      rightEye.normalMeshGroup.visible = !isHappyCrescent;
-      leftEye.happyMesh.visible = isHappyCrescent;
-      rightEye.happyMesh.visible = isHappyCrescent;
 
       // --- E. Continuous Floating Animation ---
       const floatY = Math.sin(elapsedTime * 2.2) * (currentExpression === 'excited' ? 0.09 : 0.07);
@@ -1236,6 +1351,7 @@ export function CharacterScene({ className = '' }: CharacterSceneProps) {
     return () => {
       cancelAnimationFrame(animationFrameId);
       unsubscribe();
+      window.removeEventListener('active-section-change', handleActiveSection);
       heroArea.removeEventListener('click', handleSurpriseClick);
       window.removeEventListener('mousemove', handleMouseMove);
       document.removeEventListener('mouseleave', handleMouseLeave);

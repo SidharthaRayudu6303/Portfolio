@@ -41,21 +41,38 @@ export async function POST(req: NextRequest) {
       req.headers.get('x-real-ip') ||
       '127.0.0.1';
 
-    const backendRes = await fetch(`${BACKEND_API_URL}/contact`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-forwarded-for': clientIp,
-      },
-      body: JSON.stringify({
-        name: body.name.trim(),
-        email: body.email.trim(),
-        message: body.message.trim(),
-      }),
-    });
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 12000);
 
-    const data = await backendRes.json();
-    return NextResponse.json(data, { status: backendRes.status });
+    try {
+      const backendRes = await fetch(`${BACKEND_API_URL}/contact`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-forwarded-for': clientIp,
+        },
+        body: JSON.stringify({
+          name: body.name.trim(),
+          email: body.email.trim(),
+          message: body.message.trim(),
+        }),
+        signal: controller.signal,
+      });
+
+      clearTimeout(timeoutId);
+      const data = await backendRes.json().catch(() => ({}));
+      return NextResponse.json(data, { status: backendRes.status });
+    } catch (fetchErr: any) {
+      clearTimeout(timeoutId);
+      console.error('Failed to forward to backend API:', fetchErr?.message || fetchErr);
+      return NextResponse.json(
+        {
+          error:
+            'Contact service temporarily unreachable. Please reach out directly to madhavarapusidhartharayudu@gmail.com.',
+        },
+        { status: 503 },
+      );
+    }
   } catch (err: any) {
     console.error('Contact BFF error:', err?.message || err);
     return NextResponse.json(
