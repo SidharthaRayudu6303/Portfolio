@@ -7,8 +7,8 @@ import { CustomCursor } from './custom-cursor';
 import { ScrollProgress } from './scroll-progress';
 import { ScrollAnimator } from './scroll-animator';
 
-const ParticleUniverse = dynamic(
-  () => import('@/components/three/particle-universe').then((m) => m.ParticleUniverse),
+const AuroraWaves = dynamic(
+  () => import('@/components/three/particle-universe').then((m) => m.AuroraWaves),
   { ssr: false }
 );
 
@@ -19,7 +19,7 @@ export function InteractiveUniverse() {
       <CustomCursor />
       <ScrollProgress />
       <ScrollAnimator />
-      <ParticleUniverse />
+      <AuroraWaves />
     </>
   );
 }

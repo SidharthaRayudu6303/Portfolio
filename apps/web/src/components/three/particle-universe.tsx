@@ -195,122 +195,7 @@ export function ParticleUniverse() {
     auroraMesh.renderOrder = 0;
     scene.add(auroraMesh);
 
-    // =========================================================================
-    // 5. Floating Glowing Particle Constellation Network
-    // =========================================================================
-    const particleCount = isMobile ? 65 : 140;
-    interface FloatingParticle {
-      x: number;
-      y: number;
-      vx: number;
-      vy: number;
-      baseSize: number;
-      phase: number;
-      r: number;
-      g: number;
-      b: number;
-    }
-
-    const particles: FloatingParticle[] = [];
-    const particlePositions = new Float32Array(particleCount * 3);
-    const particleColors = new Float32Array(particleCount * 3);
-
-    // Palette: Electric Cyan (#00f0ff), Sapphire Blue (#2563eb), Soft Violet (#8b5cf6)
-    const colorChoices = [
-      { r: 0.00, g: 0.94, b: 1.00 }, // Electric Cyan
-      { r: 0.15, g: 0.45, b: 0.98 }, // Sapphire Blue
-      { r: 0.45, g: 0.75, b: 1.00 }, // Ice Blue
-      { r: 0.58, g: 0.30, b: 0.95 }, // Soft Violet
-    ];
-
-    for (let i = 0; i < particleCount; i++) {
-      const col = colorChoices[Math.floor(Math.random() * colorChoices.length)];
-      const p: FloatingParticle = {
-        x: (Math.random() * 2 - 1) * aspect,
-        y: Math.random() * 2 - 1,
-        vx: (Math.random() - 0.5) * 0.04,
-        vy: (Math.random() - 0.5) * 0.04,
-        baseSize: 1.2 + Math.random() * 2.4,
-        phase: Math.random() * Math.PI * 2,
-        r: col.r,
-        g: col.g,
-        b: col.b,
-      };
-      particles.push(p);
-
-      const i3 = i * 3;
-      particlePositions[i3] = p.x;
-      particlePositions[i3 + 1] = p.y;
-      particlePositions[i3 + 2] = 0.5;
-
-      particleColors[i3] = p.r;
-      particleColors[i3 + 1] = p.g;
-      particleColors[i3 + 2] = p.b;
-    }
-
-    // Circular glowing particle texture generated programmatically
-    const pCanvas = document.createElement('canvas');
-    pCanvas.width = 32;
-    pCanvas.height = 32;
-    const pctx = pCanvas.getContext('2d');
-    if (pctx) {
-      const grad = pctx.createRadialGradient(16, 16, 0, 16, 16, 16);
-      grad.addColorStop(0, 'rgba(255, 255, 255, 1)');
-      grad.addColorStop(0.3, 'rgba(0, 240, 255, 0.85)');
-      grad.addColorStop(0.7, 'rgba(37, 99, 235, 0.3)');
-      grad.addColorStop(1, 'rgba(0, 0, 0, 0)');
-      pctx.fillStyle = grad;
-      pctx.fillRect(0, 0, 32, 32);
-    }
-    const particleTexture = new THREE.CanvasTexture(pCanvas);
-
-    const pointsGeometry = new THREE.BufferGeometry();
-    const pointsPosAttr = new THREE.BufferAttribute(particlePositions, 3);
-    const pointsColAttr = new THREE.BufferAttribute(particleColors, 3);
-    pointsGeometry.setAttribute('position', pointsPosAttr);
-    pointsGeometry.setAttribute('color', pointsColAttr);
-
-    const pointsMaterial = new THREE.PointsMaterial({
-      size: isMobile ? 8 : 11,
-      map: particleTexture,
-      transparent: true,
-      opacity: 0.85,
-      vertexColors: true,
-      blending: THREE.AdditiveBlending,
-      depthWrite: false,
-      depthTest: false,
-    });
-
-    const pointsMesh = new THREE.Points(pointsGeometry, pointsMaterial);
-    pointsMesh.renderOrder = 2;
-    scene.add(pointsMesh);
-
-    // Subtle Connecting Constellation Lines
-    const maxLines = isMobile ? 100 : 260;
-    const linePositions = new Float32Array(maxLines * 2 * 3);
-    const lineColors = new Float32Array(maxLines * 2 * 3);
-
-    const lineGeometry = new THREE.BufferGeometry();
-    const linePosAttr = new THREE.BufferAttribute(linePositions, 3);
-    const lineColAttr = new THREE.BufferAttribute(lineColors, 3);
-    lineGeometry.setAttribute('position', linePosAttr);
-    lineGeometry.setAttribute('color', lineColAttr);
-    lineGeometry.setDrawRange(0, 0);
-
-    const lineMaterial = new THREE.LineBasicMaterial({
-      vertexColors: true,
-      transparent: true,
-      opacity: 0.35,
-      blending: THREE.AdditiveBlending,
-      depthWrite: false,
-      depthTest: false,
-    });
-
-    const lineMesh = new THREE.LineSegments(lineGeometry, lineMaterial);
-    lineMesh.renderOrder = 1;
-    scene.add(lineMesh);
-
-    // 6. Cursor Tracking with Smooth Lerp
+    // 5. Cursor Tracking with Smooth Lerp
     let targetMouseX = 0.5;
     let targetMouseY = 0.5;
     let currentMouseX = 0.5;
@@ -329,7 +214,7 @@ export function ParticleUniverse() {
     window.addEventListener('mousemove', handleMouseMove, { passive: true });
     document.addEventListener('mouseleave', handleMouseLeave);
 
-    // 7. Scroll Parallax Tracking
+    // 6. Scroll Parallax Tracking
     let targetScroll = 0;
     let currentScroll = 0;
 
@@ -341,7 +226,7 @@ export function ParticleUniverse() {
     window.addEventListener('scroll', handleScroll, { passive: true });
     handleScroll();
 
-    // 8. Kinetic 60fps Animation Loop
+    // 7. Kinetic 60fps Animation Loop (Dedicated solely to Aurora Waves)
     let animationFrameId: number;
     const clock = new THREE.Clock();
 
@@ -352,7 +237,6 @@ export function ParticleUniverse() {
 
       const delta = Math.min(clock.getDelta(), 0.1);
       const elapsedTime = clock.getElapsedTime();
-      const motionMultiplier = prefersReducedMotion ? 0.2 : 1.0;
 
       // Smooth cursor lerping
       currentMouseX += (targetMouseX - currentMouseX) * Math.min(delta * 4.0, 1.0);
@@ -366,96 +250,12 @@ export function ParticleUniverse() {
       uniforms.uMouse.value.set(currentMouseX, currentMouseY);
       uniforms.uScroll.value = currentScroll;
 
-      // Mouse position in scene orthographic coordinates
-      const currentAspect = camera.right;
-      const mouseSceneX = (currentMouseX - 0.5) * 2 * currentAspect;
-      const mouseSceneY = (currentMouseY - 0.5) * 2;
-
-      // --- Update Floating Particles ---
-      const posArr = pointsGeometry.attributes.position.array as Float32Array;
-      const boundX = currentAspect + 0.15;
-      const boundY = 1.15;
-
-      for (let i = 0; i < particleCount; i++) {
-        const p = particles[i];
-
-        // Organic sinusoidal wandering
-        p.x += (p.vx + Math.sin(elapsedTime * 0.8 + p.phase) * 0.015) * delta * 8.0 * motionMultiplier;
-        p.y += (p.vy + Math.cos(elapsedTime * 0.6 + p.phase) * 0.015) * delta * 8.0 * motionMultiplier;
-
-        // Gentle cursor interaction deflection
-        const dx = p.x - mouseSceneX;
-        const dy = p.y - mouseSceneY;
-        const dSq = dx * dx + dy * dy;
-        if (dSq < 0.09 && dSq > 0.0001) {
-          const d = Math.sqrt(dSq);
-          const force = (1.0 - d / 0.3) * 0.25 * delta;
-          p.x += (dx / d) * force;
-          p.y += (dy / d) * force;
-        }
-
-        // Screen boundary wrapping
-        if (p.x < -boundX) p.x = boundX;
-        if (p.x > boundX) p.x = -boundX;
-        if (p.y < -boundY) p.y = boundY;
-        if (p.y > boundY) p.y = -boundY;
-
-        const i3 = i * 3;
-        posArr[i3] = p.x;
-        posArr[i3 + 1] = p.y;
-      }
-      pointsPosAttr.needsUpdate = true;
-
-      // --- Compute Subtle Connecting Constellation Lines ---
-      let lineCount = 0;
-      const maxConnectDist = isMobile ? 0.22 : 0.26;
-      const maxConnectDistSq = maxConnectDist * maxConnectDist;
-      const linePosArr = lineGeometry.attributes.position.array as Float32Array;
-      const lineColArr = lineGeometry.attributes.color.array as Float32Array;
-
-      for (let i = 0; i < particleCount; i++) {
-        const p1 = particles[i];
-        for (let j = i + 1; j < particleCount; j++) {
-          const p2 = particles[j];
-          const ldx = p1.x - p2.x;
-          const ldy = p1.y - p2.y;
-          const distSq = ldx * ldx + ldy * ldy;
-
-          if (distSq < maxConnectDistSq && lineCount < maxLines) {
-            const dist = Math.sqrt(distSq);
-            const lineAlpha = (1.0 - dist / maxConnectDist) * 0.32;
-
-            const pIdx = lineCount * 6;
-            linePosArr[pIdx] = p1.x;
-            linePosArr[pIdx + 1] = p1.y;
-            linePosArr[pIdx + 2] = 0.45;
-            linePosArr[pIdx + 3] = p2.x;
-            linePosArr[pIdx + 4] = p2.y;
-            linePosArr[pIdx + 5] = 0.45;
-
-            const cIdx = lineCount * 6;
-            // Cyan to blue gradient on connecting filaments
-            lineColArr[cIdx] = p1.r * lineAlpha;
-            lineColArr[cIdx + 1] = p1.g * lineAlpha;
-            lineColArr[cIdx + 2] = p1.b * lineAlpha;
-            lineColArr[cIdx + 3] = p2.r * lineAlpha;
-            lineColArr[cIdx + 4] = p2.g * lineAlpha;
-            lineColArr[cIdx + 5] = p2.b * lineAlpha;
-
-            lineCount++;
-          }
-        }
-      }
-      lineGeometry.setDrawRange(0, lineCount * 2);
-      linePosAttr.needsUpdate = true;
-      lineColAttr.needsUpdate = true;
-
       renderer?.render(scene, camera);
     };
 
     animationFrameId = requestAnimationFrame(animate);
 
-    // 9. Responsive Resize Handler
+    // 8. Responsive Resize Handler
     const handleResize = () => {
       if (!renderer) return;
       const w = window.innerWidth;
@@ -478,7 +278,7 @@ export function ParticleUniverse() {
 
     window.addEventListener('resize', handleResize);
 
-    // 10. Proper Cleanup of All Resources
+    // 9. Clean up all resources
     return () => {
       cancelAnimationFrame(animationFrameId);
       window.removeEventListener('mousemove', handleMouseMove);
@@ -488,11 +288,6 @@ export function ParticleUniverse() {
 
       auroraGeometry.dispose();
       auroraMaterial.dispose();
-      pointsGeometry.dispose();
-      pointsMaterial.dispose();
-      particleTexture.dispose();
-      lineGeometry.dispose();
-      lineMaterial.dispose();
       renderer?.dispose();
     };
   }, []);

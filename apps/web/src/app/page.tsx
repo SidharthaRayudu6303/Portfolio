@@ -104,7 +104,7 @@ export default async function HomePage() {
 
   return (
     <div className="relative min-h-screen bg-[#050505] text-neutral-100 selection:bg-cyan-500 selection:text-neutral-950 overflow-x-hidden">
-      {/* 3D Particle Universe, Cinematic Loader, Custom Cursor & Scroll Effects */}
+      {/* Animated Aurora Waves, Cinematic Loader, Custom Cursor & Scroll Effects */}
       <InteractiveUniverse />
 
       {/* Navigation & Section Indicator */}
